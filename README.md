@@ -1,1 +1,3 @@
-# jyrs
+# jyrsa
+
+wechat miniprogram repository
