@@ -1,9 +1,11 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/register"
   ],
   "window": {
+    "backgroundColor": "#f6f6f6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#ffffff",
     "navigationBarTitleText": "江阴市无线电协会",

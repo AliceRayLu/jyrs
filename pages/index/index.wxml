@@ -4,11 +4,11 @@
     <image src="/images/logo.jpg" class="logo"/>
   </view>
 
-  <view class="inputs">
-    <input class="inputOfUser" placeholder="请输入用户名"/>
-    <input class="inputOfPswd" placeholder="请输入密码" />
-  </view> 
+  <input class="inputOfUser" placeholder="请输入用户名"/>
+  <input class="inputOfPswd" placeholder="请输入密码" />
   
-  
+  <button class="btnOfLogin" bindtap="login">登录</button>
+  <button class="btnOfSignUp" bindtap="login">注册</button>
+
   
 </view>
