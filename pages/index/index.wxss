@@ -1,19 +1,33 @@
 /**index.wxss**/
-.userinfo {
+.head{
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #aaa;
+  margin-top: 100rpx;
+  justify-content: center;
 }
 
-.userinfo-avatar {
-  overflow: hidden;
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
+.logo{
+  height: 15vh;
+  width: 25vh;
 }
 
-.usermotto {
-  margin-top: 200px;
+.inputOfUser{
+  position: relative;
+  top: 80rpx;
+  width: 530rpx;
+  height: 90rpx;
+  border-radius: 98rpx;
+  background-color: #F3F9FF;
+  box-sizing: border-box;
+  padding-left: 50rpx;
+}
+
+.inputOfPswd{
+  position: relative;
+  top: 120rpx;
+  width: 530rpx;
+  height: 90rpx;
+  border-radius: 98rpx;
+  background-color: #F3F9FF;
+  box-sizing: border-box;
+  padding-left: 50rpx;
 }
