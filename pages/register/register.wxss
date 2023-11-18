@@ -1,1 +1,29 @@
 /* pages/register.wxss */
+.input-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 75% !important;
+  margin-top: 1.5vh;
+}
+.input {
+  width: 100%;
+  height: 90rpx;
+  border-radius: 30rpx;
+  background-color: #F3F9FF;
+  box-sizing: border-box;
+  padding-left: 30rpx;
+}
+.label {
+  width: 35%;
+  padding-left: 1.5vw;
+}
+
+.button {
+  width: 75% !important;
+  height: 80rpx;
+  border-radius: 30rpx;
+  color: #ffffff;
+  background-color: #347CAF;
+  margin-top: 5vh;
+}
