@@ -2,7 +2,9 @@
   "pages": [
     "pages/index/index",
     "pages/logs/logs",
-    "pages/register/register"
+    "pages/register/register",
+    "pages/news/news",
+    "pages/user/user"
   ],
   "window": {
     "backgroundColor": "#f6f6f6",
