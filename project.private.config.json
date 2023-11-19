@@ -9,6 +9,13 @@
       "list": [
         {
           "name": "",
+          "pathName": "pages/news/news",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
           "pathName": "pages/register/register",
           "query": "",
           "launchMode": "default",
