@@ -1,4 +1,4 @@
-/* pages/activities.wxss */
+/* pages/activityPost/activityPost.wxss */
 .add {
   display: flex;
   align-items: center;
@@ -15,4 +15,16 @@
   background-size: contain;
   margin-left: 1vw;
   margin-right: 2vw;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 85% !important;
+  height: 6vh;
+  border-radius: 30px;
+  color: #ffffff;
+  background-color: #347CAF;
+  margin-top: 5vh;
 }

@@ -8,5 +8,10 @@
     </view>
   </view>
 
+  <button class="add">
+    <image class="add-icon" src="/images/ic-add.jpg"></image>
+    点击上传电台执照图片
+  </button>
 
+  <button class="button">更新</button>
 </view>
