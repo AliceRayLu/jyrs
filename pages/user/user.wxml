@@ -1,11 +1,10 @@
 <!--pages/user/user.wxml-->
 <view class="container">
   <view class="head">
-    <image src="/images/logo.jpg" class="logo"/>
+    <image class="logo" src="/images/logo.jpg" mode="aspectFit" />
     <view class="split"></view>
     <view class="head_text">
       <view class="welcome">欢迎您</view>
-      
     </view>
   </view>
 </view>
