@@ -4,15 +4,57 @@
   align-items: center;
   width: 80%;
 }
-
 .logo {
   height: 13vh;
-  width: 40%;
+  width: 33%;
 }
-
 .split {
   width: 1px;
   height: 13vh;
   background: black;
   margin: 0 5vw;
+}
+
+.expiration {
+  display: flex;
+  align-items: center;
+  width: 85% !important;
+  height: 7vh;
+  border-radius: 30px;
+  background-color: #F3F9FF;
+  padding-left: 5vw;
+  margin-top: 3vh;
+}
+.expiration-date {
+  margin-left: 5vw;
+  color: red;
+}
+
+.text-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80% !important;
+  height: 6vh;
+  margin-top: 1vh;
+}
+.label {
+  width: 35%;
+  padding-left: 1.5vw;
+}
+.content {
+  width: 100%;
+  padding-left: 5vw;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 85% !important;
+  height: 6vh;
+  border-radius: 30px;
+  color: #ffffff;
+  background-color: #347CAF;
+  margin-top: 5vh;
 }

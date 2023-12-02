@@ -7,4 +7,36 @@
       <view class="welcome">欢迎您</view>
     </view>
   </view>
+
+  <view class="expiration">
+    <text>电台执照到期时间：xxxx-xx-xx</text>
+    <text class="expiration-date">xxx天后</text>
+  </view>
+
+  <view class="text-container">
+    <label class="label">设台人员</label>
+    <text class="content">xxxxxx</text>
+  </view>
+  <view class="text-container">
+    <label class="label">证件号码</label>
+    <text class="content">xxxx-xx-xxxx</text>
+  </view>
+  <view class="text-container">
+    <label class="label">电台呼号</label>
+    <text class="content">xxxxxx</text>
+  </view>
+  <view class="text-container">
+    <label class="label">电台类型</label>
+    <text class="content">X类</text>
+  </view>
+  <view class="text-container">
+    <label class="label">台站地址</label>
+    <text class="content">xxxxxx</text>
+  </view>
+  <view class="text-container">
+    <label class="label">电台执照</label>
+    <text class="content"></text>
+  </view>
+
+  <button class="button">更新</button>
 </view>
