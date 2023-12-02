@@ -4,11 +4,11 @@
   align-items: center;
   width: 80%;
 }
-.logo {
+.head-logo {
   height: 13vh;
   width: 33%;
 }
-.split {
+.head-split {
   width: 1px;
   height: 13vh;
   background: black;

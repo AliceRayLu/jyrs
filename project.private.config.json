@@ -9,6 +9,13 @@
       "list": [
         {
           "name": "",
+          "pathName": "pages/userInfoUpdate/userInfoUpdate",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
           "pathName": "pages/index/index",
           "query": "",
           "launchMode": "default",

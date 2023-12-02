@@ -1,0 +1,20 @@
+/* pages/userInfoUpdate/userInfoUpdate.wxss */
+.head {
+  display: flex;
+  align-items: center;
+  width: 80%;
+}
+.head-logo {
+  height: 13vh;
+  width: 33%;
+}
+.head-split {
+  width: 1px;
+  height: 13vh;
+  background: black;
+  margin: 0 5vw;
+}
+.head-text text {
+  font-size: 3vh;
+  letter-spacing: 3vw;
+}

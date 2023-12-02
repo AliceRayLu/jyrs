@@ -1,0 +1,12 @@
+<!--pages/userInfoUpdate/userInfoUpdate.wxml-->
+<view class="container">
+  <view class="head">
+    <image class="head-logo" src="/images/logo.jpg" mode="aspectFit" />
+    <view class="head-split"></view>
+    <view class="head-text">
+      <text>更新</text>
+    </view>
+  </view>
+
+
+</view>
