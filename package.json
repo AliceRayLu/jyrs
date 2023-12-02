@@ -1,0 +1,22 @@
+{
+  "name": "jyrsa",
+  "version": "1.0.0",
+  "description": "wechat miniprogram repository",
+  "main": ".eslintrc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AliceRayLu/jyrsa.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AliceRayLu/jyrsa/issues"
+  },
+  "homepage": "https://github.com/AliceRayLu/jyrsa#readme",
+  "dependencies": {
+    "lin-ui": "^0.9.13"
+  }
+}

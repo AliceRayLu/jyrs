@@ -5,7 +5,9 @@
   </view>
 
   <input class="inputOfUser" placeholder="请输入用户名" bind:input="getName"></input>
-  <input class="inputOfPswd" placeholder="请输入密码" bind:input="getPassword"></input>
+  <input class="inputOfPswd" placeholder="请输入密码" 
+  bind:input="getPassword" password="true">
+  </input>
   
   <button class="btnOfLogin" bindtap="login">登录</button>
   <button class="btnOfSignUp" bindtap="toRegister">注册</button>
