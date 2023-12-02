@@ -10,7 +10,7 @@
     <input class="input" placeholder="再次输入密码" />
   </view>
   <view class="input-container">
-    <input class="input" placeholder="点击上传电台执照图片" />
+    <button class="button_pic">点击上传电台执照图片</button>
   </view>
   <view class="input-container">
     <label class="label">设台人员</label>
