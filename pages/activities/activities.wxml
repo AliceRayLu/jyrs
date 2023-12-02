@@ -1,2 +1,7 @@
 <!--pages/activities.wxml-->
-<text>pages/activities.wxml</text>
+<view class="container">
+  <button class="add">
+    <image class="add-icon" src="/images/ic-add.jpg"></image>
+    点击发起活动
+  </button>
+</view>

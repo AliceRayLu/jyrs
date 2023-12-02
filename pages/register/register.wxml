@@ -4,7 +4,7 @@
     <image class="head-logo" src="/images/logo.jpg" mode="aspectFit" />
     <view class="head-split"></view>
     <view class="head-text">
-      <text>更新</text>
+      <text>注册</text>
     </view>
   </view>
 
