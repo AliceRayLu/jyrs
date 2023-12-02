@@ -18,8 +18,8 @@
   "tabBar": {
     "list": [
       {
-        "pagePath": "pages/news/news",
-        "text": "新闻"
+        "pagePath": "pages/activities/activities",
+        "text": "活动"
       },
       {
         "pagePath": "pages/user/user",
