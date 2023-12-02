@@ -1,1 +1,26 @@
 /* pages/user/user.wxss */
+.logo{
+  height:10vh;
+  width:20vw;
+  display: inline-flex;
+  margin:10px;
+  position:absolute;
+  left:10vw;
+}
+
+.split{
+  display: inline-flex;
+  margin: 10px;
+  float: left;
+  width: 1px;
+  height: 10vh;
+  background: black;
+  position:absolute;
+  left:35vw;
+}
+
+.head_text{
+  display: inline-flex;
+  margin: 10px;
+  float: left;
+}

@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/logs/logs",
     "pages/register/register",
     "pages/user/user",
     "pages/activities/activities"
@@ -19,11 +18,15 @@
     "list": [
       {
         "pagePath": "pages/activities/activities",
-        "text": "活动"
+        "text": "活动",
+        "iconPath": "images/activity-line.png",
+        "selectedIconPath": "images/activity-s.png"
       },
       {
         "pagePath": "pages/user/user",
-        "text": "用户中心"
+        "text": "用户中心",
+        "iconPath": "images/geren.png",
+        "selectedIconPath": "images/geren2.png"
       }
     ]
   }
