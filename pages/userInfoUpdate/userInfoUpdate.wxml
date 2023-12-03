@@ -16,6 +16,7 @@
     <l-album urls='{{pic}}'></l-album>
   </view>
 
+  <view class="texts">请根据上传的电台执照核对并修改以下信息</view>
   <view class="input-container">
     <label class="label">设台人员</label>
     <input class="input" placeholder="{{man}}" bind:input="getman"/>

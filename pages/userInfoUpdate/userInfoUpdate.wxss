@@ -67,3 +67,7 @@
   background-color: #347CAF;
   margin-top: 5vh;
 }
+
+.texts{
+  margin:1vh;
+}
