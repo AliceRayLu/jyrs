@@ -1,0 +1,9 @@
+<!--pages/activityPost/activityPost.wxml-->
+<view class="container">
+  <button class="add">
+    <image class="add-icon" src="/images/ic-add.jpg"></image>
+    点击上传活动宣传图(可选)
+  </button>
+
+  <button class="button">发布活动</button>
+</view>

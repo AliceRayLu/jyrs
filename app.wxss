@@ -22,4 +22,6 @@ page{
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+
+  --light-blue: #F3F9FF;
 }

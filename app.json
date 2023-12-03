@@ -3,7 +3,10 @@
     "pages/index/index",
     "pages/register/register",
     "pages/user/user",
-    "pages/activities/activities"
+    "pages/activities/activities",
+    "pages/userInfoUpdate/userInfoUpdate",
+    "pages/activityDetail/activityDetail",
+    "pages/activityPost/activityPost"
   ],
   "window": {
     "backgroundColor": "#f6f6f6",

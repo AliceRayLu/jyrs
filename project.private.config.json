@@ -9,6 +9,27 @@
       "list": [
         {
           "name": "",
+          "pathName": "pages/activityDetail/activityDetail",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/activityPost/activityPost",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/userInfoUpdate/userInfoUpdate",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
           "pathName": "pages/index/index",
           "query": "",
           "launchMode": "default",

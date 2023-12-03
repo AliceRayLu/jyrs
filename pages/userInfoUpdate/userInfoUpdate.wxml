@@ -1,29 +1,18 @@
-<!--pages/register.wxml-->
+<!--pages/userInfoUpdate/userInfoUpdate.wxml-->
 <view class="container">
   <view class="head">
     <image class="head-logo" src="/images/logo.jpg" mode="aspectFit" />
     <view class="head-split"></view>
     <view class="head-text">
-      <text>注册</text>
+      <text>更新</text>
     </view>
   </view>
 
-  <view class="input-container">
-    <input class="input" placeholder="设置用户名" bind:input="getUName"/>
-  </view>
-  <view class="input-container">
-    <input class="input" placeholder="设置密码" bind:input="getPasswd" password="true"/>
-  </view>
-  <view class="input-container">
-    <input class="input" placeholder="再次输入密码" bind:tap="getPasswdAgain"/>
-  </view>
-  <view class="input-container">
-    <button class="button_pic" bind:tap="loadPic">点击上传电台执照图片</button>
-  </view>
-  <view class="pics">
-    <l-album urls='{{pic}}'></l-album>
-  </view>
-  <view class="texts">请根据上传的电台执照核对并修改以下信息</view>
+  <button class="add">
+    <image class="add-icon" src="/images/ic-add.jpg"></image>
+    点击上传电台执照图片
+  </button>
+
   <view class="input-container">
     <label class="label">设台人员</label>
     <input class="input" placeholder="" />
@@ -49,5 +38,5 @@
     <input class="input" placeholder="" />
   </view>
 
-  <button class="button" bind:tap="register">注册</button>
+  <button class="button">更新</button>
 </view>
