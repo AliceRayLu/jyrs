@@ -26,6 +26,6 @@ App({
     }
   },
   globalData: {
-    uid:-1,
+    uname:"",
   }
 })

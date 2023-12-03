@@ -39,6 +39,36 @@ Page({
     })
   },
 
+  getman(event){
+    this.setData({
+      man: event.detail.value
+    })
+  },
+
+  getcert(event){
+    this.setData({
+      cert: event.detail.value
+    })
+  },
+
+  getcall(event){
+    this.setData({
+      call: event.detail.value
+    })
+  },
+
+  gettype(event){
+    this.setData({
+      type: event.detail.value
+    })
+  },
+
+  getloca(event){
+    this.setData({
+      location: event.detail.value
+    })
+  },
+
   loadPic(){
     let _this = this
     wx.showActionSheet({
@@ -171,7 +201,19 @@ Page({
       })
       return
     }
-    
+    db.collection('members').add({
+      data:{
+        uname:uname,
+        passwd: this.data.passwd,
+        到期时间: this.data.due,
+        台站地址: this.data.location,
+        电台呼号: this.data.call,
+        电台执照: this.data.picPath,
+        电台类型: this.data.type,
+        设台人员: this.data.man,
+        证件号码: this.data.cert
+      }
+    })
   },
 
   /**

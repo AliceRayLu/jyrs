@@ -26,23 +26,23 @@
   <view class="texts">请根据上传的电台执照核对并修改以下信息</view>
   <view class="input-container">
     <label class="label">设台人员</label>
-    <input class="input" placeholder="" />
+    <input class="input" placeholder="{{man}}" bind:input="getman"/>
   </view>
   <view class="input-container">
     <label class="label">证件号码</label>
-    <input class="input" placeholder="" />
+    <input class="input" placeholder="{{cert}}" bind:input="getcert" />
   </view>
   <view class="input-container">
     <label class="label">电台呼号</label>
-    <input class="input" placeholder="" />
+    <input class="input" placeholder="{{call}}" bind:input="getcall" />
   </view>
   <view class="input-container">
     <label class="label">电台类型</label>
-    <input class="input" placeholder="" />
+    <input class="input" placeholder="{{type}}" bind:input="gettype" />
   </view>
   <view class="input-container">
     <label class="label">台站地址</label>
-    <input class="input" placeholder="" />
+    <input class="input" placeholder="{{location}}" bind:input="getloca" />
   </view>
   <view class="input-container">
     <label class="label">到期时间</label>
