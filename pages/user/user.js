@@ -21,10 +21,30 @@ Page({
     date:-1,
   },
 
+  update(){
+    wx.navigateTo({
+      url: '/pages/userInfoUpdate/userInfoUpdate',
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow() {
     this.data.uname = app.globalData.uname
     let uname = this.data.uname
     let _this = this
@@ -49,20 +69,6 @@ Page({
         
       }
     })
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-    
   },
 
   /**

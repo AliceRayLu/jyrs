@@ -42,5 +42,5 @@
       <l-album urls="{{picPath}}" ></l-album>
     </view>
 
-  <button class="button">更新</button>
+  <button class="button" bind:tap="update">更新</button>
 </view>
