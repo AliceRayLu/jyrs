@@ -58,3 +58,12 @@
   background-color: #347CAF;
   margin-top: 5vh;
 }
+
+.uname{
+  font-size: larger;
+  margin:1.5vh;
+}
+
+.welcome{
+  margin:1.5vh;
+}

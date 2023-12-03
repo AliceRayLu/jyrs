@@ -205,13 +205,13 @@ Page({
       data:{
         uname:uname,
         passwd: this.data.passwd,
-        到期时间: this.data.due,
-        台站地址: this.data.location,
-        电台呼号: this.data.call,
-        电台执照: this.data.picPath,
-        电台类型: this.data.type,
-        设台人员: this.data.man,
-        证件号码: this.data.cert
+        due: this.data.due,
+        location: this.data.location,
+        call: this.data.call,
+        license: this.data.picPath,
+        type: this.data.type,
+        man: this.data.man,
+        certificate: this.data.cert
       }
     })
   },

@@ -5,38 +5,42 @@
     <view class="head-split"></view>
     <view class="head-text">
       <view class="welcome">欢迎您</view>
+      <view class="uname">用户  {{uname}}</view>
     </view>
   </view>
 
   <view class="expiration">
-    <text>电台执照到期时间：xxxx-xx-xx</text>
-    <text class="expiration-date">xxx天后</text>
+    <text>电台执照到期时间：{{year}}-{{month}}-{{date}}</text>
+    <text class="expiration-date">{{beforedue}}天后</text>
   </view>
 
   <view class="text-container">
     <label class="label">设台人员</label>
-    <text class="content">xxxxxx</text>
+    <text class="content">{{man}}</text>
   </view>
   <view class="text-container">
     <label class="label">证件号码</label>
-    <text class="content">xxxx-xx-xxxx</text>
+    <text class="content">{{cert}}</text>
   </view>
   <view class="text-container">
     <label class="label">电台呼号</label>
-    <text class="content">xxxxxx</text>
+    <text class="content">{{call}}</text>
   </view>
   <view class="text-container">
     <label class="label">电台类型</label>
-    <text class="content">X类</text>
+    <text class="content">{{type}}</text>
   </view>
   <view class="text-container">
     <label class="label">台站地址</label>
-    <text class="content">xxxxxx</text>
+    <text class="content">{{location}}</text>
   </view>
   <view class="text-container">
     <label class="label">电台执照</label>
     <text class="content"></text>
   </view>
+  <view>
+      <l-album urls="{{picPath}}" ></l-album>
+    </view>
 
   <button class="button">更新</button>
 </view>

@@ -48,7 +48,7 @@ Page({
               title: '登陆成功',
             })
             app.globalData.uname = uname
-            console.log(user.uid)
+            console.log(user.uname)
             wx.switchTab({
               url: '/pages/user/user',
             })
