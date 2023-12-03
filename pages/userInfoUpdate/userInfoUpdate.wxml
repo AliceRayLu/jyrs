@@ -37,10 +37,17 @@
     <label class="label">台站地址</label>
     <input class="input" placeholder="{{location}}" bind:input="getloca" />
   </view>
-  <view class="input-container">
+  <!-- <view class="input-container">
     <label class="label">到期时间</label>
     <input class="input" placeholder="" />
-  </view>
+  </view> -->
+  <picker mode="date" header-text="到期时间"  value="{{due}}" bindchange="bindDateChange">
+    <view class="time-container">
+      <text class="time-label">到期时间</text>
+      <text class="time-label">{{due}}</text>
+      <text class="time-label">▼</text>
+    </view>
+  </picker>
 
   <button class="button" bind:tap="update">更新</button>
 </view>

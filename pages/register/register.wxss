@@ -39,6 +39,18 @@
   padding-left: 1.5vw;
 }
 
+.time-container{
+  display: flex;
+  justify-content: left;
+  margin-top: 1.5vh;
+}
+
+.time-label{
+  float: left;
+  display: inline;
+  padding:1vh;
+}
+
 .button_pic{
   width: 75% !important;
   height: 80rpx;
@@ -61,4 +73,11 @@
 
 .pics{
   margin: 1vh;
+}
+
+.time-btn{
+  border-radius: 30rpx;
+  background-color: #F3F9FF;
+  box-sizing: border-box;
+  padding-left: 30rpx;
 }

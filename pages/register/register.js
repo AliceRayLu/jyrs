@@ -18,7 +18,14 @@ Page({
     call:"", //电台呼号
     type:"", //电台类型
     location:"", //电台地址
-    due:Date(), //到期时间
+    due:"", //到期时间
+  },
+  
+  bindDateChange(event){
+    console.log( new Date(event.detail.value))
+    this.setData({
+      due:event.detail.value
+    })
   },
 
   getUName(event){
@@ -194,7 +201,7 @@ Page({
       })
       return
     }
-    if(this.data.due == null){
+    if(this.data.due == ""){
       wx.showToast({
         title: '请选择到期时间',
         icon:"error"
@@ -205,7 +212,7 @@ Page({
       data:{
         uname:uname,
         passwd: this.data.passwd,
-        due: this.data.due,
+        due: new Date(this.data.due),
         location: this.data.location,
         call: this.data.call,
         license: this.data.picPath,

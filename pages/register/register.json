@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "l-album":"../../miniprogram_npm/lin-ui/album/index"
+    "l-album":"../../miniprogram_npm/lin-ui/album/index",
+    "l-calendar":"../../miniprogram_npm/lin-ui/calendar/index"
   }
 }

@@ -71,3 +71,9 @@
 .texts{
   margin:1vh;
 }
+
+.time-label{
+  float: left;
+  display: inline;
+  padding:1.5vh;
+}
