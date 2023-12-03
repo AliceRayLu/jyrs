@@ -10,8 +10,12 @@
     <input class="input" placeholder="再次输入密码" bind:tap="getPasswdAgain"/>
   </view>
   <view class="input-container">
-    <button class="button_pic">点击上传电台执照图片</button>
+    <button class="button_pic" bind:tap="loadPic">点击上传电台执照图片</button>
   </view>
+  <view class="pics">
+    <l-album urls='{{pic}}'></l-album>
+  </view>
+  <view class="texts">请根据上传的电台执照核对并修改以下信息</view>
   <view class="input-container">
     <label class="label">设台人员</label>
     <input class="input" placeholder="" />

@@ -47,7 +47,7 @@ Page({
             wx.showToast({
               title: '登陆成功',
             })
-            app.globalData.userId = user.uid
+            app.globalData.uid = user.uid
             console.log(user.uid)
             wx.switchTab({
               url: '/pages/user/user',

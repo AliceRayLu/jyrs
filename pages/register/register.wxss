@@ -26,6 +26,7 @@
   background-color: #F3F9FF;
   box-sizing: border-box;
   padding-left: 30rpx;
+  margin-top:1.5vh;
 }
 
 .button {
@@ -35,4 +36,9 @@
   color: #ffffff;
   background-color: #347CAF;
   margin-top: 5vh;
+  margin-bottom: 2vh;
+}
+
+.pics{
+  margin: 1vh;
 }

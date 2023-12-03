@@ -1,5 +1,6 @@
 // pages/register.js
 const db = wx.cloud.database()
+const app = getApp()
 
 Page({
 
@@ -10,7 +11,8 @@ Page({
     uname:"",
     passwd:"",
     passwd2:"",
-    pic:"",
+    pic:[],
+    picPath:"",
     man:"", //设台人员
     cert:"", //证件号码
     call:"", //电台呼号
@@ -37,6 +39,64 @@ Page({
     })
   },
 
+  loadPic(){
+    let _this = this
+    wx.showActionSheet({
+      itemList: ['拍照', '选择本地文件'],
+      success (res) {
+        if(res.tapIndex == 0){
+          wx.chooseImage({
+            sizeType: ['original', 'compressed'],
+            sourceType: ['camera'],
+            success(res) {
+              _this.setData({
+                pic: res.tempFilePaths,
+              })
+              let list = []
+              for(let i = 0;i < _this.data.pic.length;i++){
+                wx.cloud.uploadFile({
+                  filePath: res.tempFilePaths[i],
+                  cloudPath:"license/"+Date.now()+".jpg",
+                }).then(res=>{
+                  list.push(res.fileID)
+                  console.log(list)
+                  _this.setData({
+                    picPath:list[0]
+                  })
+                })
+              }
+            }
+          })
+        }
+        if(res.tapIndex == 1){
+          wx.chooseImage({
+            sizeType: ['original', 'compressed'],
+            sourceType: ['album'],
+            success(res) {
+              _this.setData({
+                pic: res.tempFilePaths,
+              })
+              let list = []
+              for(let i = 0;i < _this.data.pic.length;i++){
+                wx.cloud.uploadFile({
+                  filePath: res.tempFilePaths[i],
+                  cloudPath:"license/"+Date.now()+".jpg",
+                })
+                .then(res=>{
+                  list.push(res.fileID)
+                  console.log(list)
+                  _this.setData({
+                    picPath:list[0]
+                  })
+                })
+              }
+            }
+          })
+        }
+      }
+    })
+  },
+
   register(){
     let uname = this.data.uname
     db.collection('members').where({
@@ -58,6 +118,55 @@ Page({
     if(p1 != p2){
       wx.showToast({
         title: '两次输入密码不同',
+        icon:"error"
+      })
+      return
+    }
+    if(this.data.pic.length == 0){
+      wx.showToast({
+        title: '请上传电台执照',
+        icon:"error"
+      })
+      return
+    }
+    if(this.data.man == ""){
+      wx.showToast({
+        title: '请填写设台人员',
+        icon:"error"
+      })
+      return
+    }
+    if(this.data.cert == ""){
+      wx.showToast({
+        title: '请填写证件号码',
+        icon:"error"
+      })
+      return
+    }
+    if(this.data.call == ""){
+      wx.showToast({
+        title: '请填写电台呼号',
+        icon:"error"
+      })
+      return
+    }
+    if(this.data.type == ""){
+      wx.showToast({
+        title: '请填写电台类型',
+        icon:"error"
+      })
+      return
+    }
+    if(this.data.location == ""){
+      wx.showToast({
+        title: '请填写台站地址',
+        icon:"error"
+      })
+      return
+    }
+    if(this.data.due == null){
+      wx.showToast({
+        title: '请选择到期时间',
         icon:"error"
       })
       return
