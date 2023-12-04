@@ -5,5 +5,22 @@
     点击上传活动宣传图(可选)
   </button>
 
+  <view class="input-container">
+    <label class="label">活动名称</label>
+    <input class="input" />
+  </view>
+  <view class="input-container">
+    <label class="label">活动时间</label>
+    <input class="input" />
+  </view>
+  <view class="input-container">
+    <label class="label">活动地点</label>
+    <input class="input" />
+  </view>
+  <view class="input-container">
+    <label class="label">活动详情</label>
+    <textarea class="textarea"></textarea>
+  </view>
+
   <button class="button">发布活动</button>
 </view>
