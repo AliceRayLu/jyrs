@@ -76,6 +76,73 @@ Page({
     })
   },
 
+  recognize:function(pic_path){
+    console.log("Start recognize...")
+    let img_url = ""
+    let _this = this
+    wx.cloud.getTempFileURL({
+      fileList:[pic_path],
+      success(res){
+        console.log("urlll"+res.fileList[0].tempFileURL)
+        img_url = res.fileList[0].tempFileURL
+        wx.serviceMarket.invokeService({
+          service: 'wx79ac3de8be320b71', // '固定为服务商OCR的appid，非小程序appid',
+          api: 'OcrAllInOne',
+          data: {
+            img_url: img_url,
+            data_type: 3,
+            ocr_type: 8,
+          },
+        }).then(res => {
+          console.log('invokeService success', res)
+          let data = res.data.ocr_comm_res.items
+          console.log(data[8].text)
+          for(var i = 0;i < data.length;i++){
+            let s = data[i].text
+            if(s.substring(0,4) == "设台人员"){
+              _this.setData({
+                man:s.substring(5)
+              })
+            }
+            if(s.substring(0,4) == "电台类型"){
+              _this.setData({
+                type:s.substring(5)
+              })
+            }
+            if(s.substring(0,4) == "电台呼号"){
+              _this.setData({
+                call:s.substring(5)
+              })
+            }
+            if(s.substring(0,4) == "证件号码"){
+              _this.setData({
+                cert:s.substring(5)
+              })
+            }
+            if(s.substring(0,4) == "台站地址"){
+              _this.setData({
+                location:s.substring(5)
+              })
+            }
+            if(s.substring(0,3) == "有效期"){
+              _this.setData({
+                due:s.substring(4)
+              })
+            }
+          }
+
+        }).catch(err => {
+          console.error('invokeService fail', err)
+          wx.showModal({
+            title: 'fail',
+            content: err + '',
+          })
+        })
+      }
+    })
+    
+  },
+
   loadPic(){
     let _this = this
     wx.showActionSheet({
@@ -100,6 +167,8 @@ Page({
                   _this.setData({
                     picPath:list[0]
                   })
+                }).then(res => {
+                  _this.recognize(_this.data.picPath)
                 })
               }
             }
@@ -125,6 +194,8 @@ Page({
                   _this.setData({
                     picPath:list[0]
                   })
+                }).then(res => {
+                  _this.recognize(_this.data.picPath)
                 })
               }
             }
