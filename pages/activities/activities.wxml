@@ -4,4 +4,31 @@
     <image class="add-icon" src="/images/ic-add.jpg"></image>
     点击发起活动
   </button>
+
+  <block wx:for="{{activities}}" wx:key="id">
+    <view class="card">
+      <view class="body">
+        <view class="image-container" wx:if="{{item.image}}">
+          <image class="image" src="{{item.image}}" mode="aspectFit"></image>
+        </view>
+        <view class="detail-container">
+          <view class="name"><text>{{item.name}}</text></view>
+          <view class="text">
+            <image class="icon" src="/images/ic_time.png"></image>
+            <text>{{item.time}}</text>
+          </view>
+          <view class="text">
+            <image class="icon" src="/images/ic_site.png"></image>
+            <text>{{item.location}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="button-container">
+        <view class="spacer" />
+        <button class="button" style="width: 30%;" wx:if="{{item.status === 0}}">立即报名</button>
+        <button class="button cancel" style="width: 30%;" wx:if="{{item.status === 1}}">取消报名</button>
+        <button class="button detail" style="width: 30%;" wx:if="{{item.status === 2}}">查看详情</button>
+      </view>
+    </view>
+  </block>
 </view>

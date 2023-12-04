@@ -5,7 +5,32 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    activities: [
+      {
+        id: 1,
+        name: "2023年年会",
+        time: "2023.12.15 周五",
+        location: "永利大酒店",
+        image: "/images/logo.jpg",
+        status: 0
+      },
+      {
+        id: 2,
+        name: "2023年年会",
+        time: "2023.12.15 周五",
+        location: "永利大酒店",
+        image: null,
+        status: 1
+      },
+      {
+        id: 2,
+        name: "2023年年会",
+        time: "2023.12.15 周五",
+        location: "永利大酒店",
+        image: null,
+        status: 2
+      }
+    ]
   },
 
   /**
