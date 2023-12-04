@@ -1,1 +1,51 @@
 /* pages/activityDetail/activityDetail.wxss */
+.image {
+  width: 100%;
+  height: 20vh;
+  margin-bottom: 5vh;
+}
+
+.sub-container {
+  width: 85%;
+}
+.name {
+  font-size: 2.5vh;
+  margin-bottom: 1.5vh;
+}
+.text {
+  display: flex;
+  align-items: center;
+  line-height: 4vh;
+}
+.icon {
+  width: 2.5vh;
+  height: 2.5vh;
+  margin-right: 2vw;
+}
+
+.divider {
+  width: 85%;
+  height: 1px;
+  background: black;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 85% !important;
+  height: 6vh;
+  border-radius: 30px;
+}
+.cancel {
+  color: black;
+  background-color: #CECECE;
+  margin-top: 7vh;
+}
+.confirm {
+  color: #ffffff;
+  background-color: #347CAF;
+  margin-top: 3vh;
+}
