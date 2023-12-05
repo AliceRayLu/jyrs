@@ -8,12 +8,14 @@ Page({
    * 页面的初始数据
    */
   data: {
+    id: -1,
     title:"",
     time:"",
     place:"",
     detail:"",
     pic:"/images/logo.jpg",
-    participants:[]
+    participants:[],
+    status:true,
   },
 
   /**
@@ -34,7 +36,70 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
+    
+    let idx = app.globalData.current_act
+    this.setData({
+      id:idx
+    })
+    let _this = this
+    let day = ["日","一","二","三","四","五","六"]
+    db.collection('activities').where({
+      aid:idx
+    }).get({
+      success(res){
+        let act = res.data[0]
+        _this.setData({
+          title:act.title,
+          time: act.time.getFullYear()+"-"+(act.time.getMonth()+1)+"-"+act.time.getDate()+"  周"+day[act.time.getDay()],
+          place: act.location,
+          detail: act.detail,
+          participants: act.participants,
+        })
+        if(act.pic != ""){
+          _this.setData({
+            pic:act.pic
+          })
+        }
+        if(_this.data.participants.includes(app.globalData.uname)){
+          _this.setData({
+            status:true
+          })
+        }else{
+          _this.setData({
+            status:false
+          })
+        }
+      }
+    })
+  },
 
+  sign(event){
+    let _this = this
+    this.data.participants.push(app.globalData.uname)
+    console.log(this.data.participants)
+    db.collection('activities').where({
+      aid: _this.data.id
+    }).update({
+      data:{
+        participants: _this.data.participants
+      }
+    }).then(res=>{
+      _this.onShow()
+    })
+  },
+
+  cancel(event){
+    let _this = this
+    this.data.participants = this.data.participants.filter(item => item != app.globalData.uname)
+    db.collection('activities').where({
+      aid:_this.data.id
+    }).update({
+      data:{
+        participants: _this.data.participants
+      }
+    }).then(res => {
+      _this.onShow()
+    })
   },
 
   /**

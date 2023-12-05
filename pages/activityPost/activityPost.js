@@ -36,7 +36,6 @@ Page({
   },
 
   getDes(event){
-    console.log(event.detail.value)
     this.setData({
       detail: event.detail.value
     })
@@ -137,6 +136,10 @@ Page({
     }).then(res => {
       index += 1
       app.globalData.act_num = index
+    }).then(res => {
+      wx.switchTab({
+        url: '/pages/activities/activities',
+      })
     })
   },
 

@@ -15,7 +15,7 @@
     <input class="input" placeholder="设置密码" bind:input="getPasswd" password="true"/>
   </view>
   <view class="input-container">
-    <input class="input" placeholder="再次输入密码" bind:tap="getPasswdAgain"/>
+    <input class="input" placeholder="再次输入密码" bind:input="getPasswdAgain" password="true"/>
   </view>
   <view class="input-container">
     <button class="button_pic" bind:tap="loadPic">点击上传电台执照图片</button>

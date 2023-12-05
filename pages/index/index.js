@@ -35,6 +35,9 @@ Page({
     let uname = this.data.uname;
     let passwd = this.data.passwd;
 
+    console.log(uname)
+    console.log(passwd)
+
     //登陆
     db.collection('members').where({
       uname:uname

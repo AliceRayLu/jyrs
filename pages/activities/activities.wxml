@@ -1,18 +1,18 @@
 <!--pages/activities.wxml-->
 <view class="container">
-  <button class="add">
+  <button class="add" bind:tap="addAct" wx:if="{{isAdmin}}">
     <image class="add-icon" src="/images/ic-add.jpg"></image>
     点击发起活动
   </button>
 
   <block wx:for="{{activities}}" wx:key="id">
     <view class="card">
-      <view class="body">
-        <view class="image-container" wx:if="{{item.image}}">
-          <image class="image" src="{{item.image}}" mode="aspectFit"></image>
+      <view class="body" catchtap="toDetail" data-index="{{index}}">
+        <view class="image-container" wx:if="{{item.pic}}">
+          <image class="image" src="{{item.pic}}" mode="aspectFit"></image>
         </view>
         <view class="detail-container">
-          <view class="name"><text>{{item.name}}</text></view>
+          <view class="name"><text>{{item.title}}</text></view>
           <view class="text">
             <image class="icon" src="/images/ic_time.png"></image>
             <text>{{item.time}}</text>
@@ -25,9 +25,9 @@
       </view>
       <view class="button-container">
         <view class="spacer" />
-        <button class="button" style="width: 30%;" wx:if="{{item.status === 0}}">立即报名</button>
-        <button class="button cancel" style="width: 30%;" wx:if="{{item.status === 1}}">取消报名</button>
-        <button class="button detail" style="width: 30%;" wx:if="{{item.status === 2}}">查看详情</button>
+        <button class="button" style="width: 30%;" wx:if="{{item.status === 0}}" catchtap="sign" data-index="{{index}}">立即报名</button>
+        <button class="button cancel" style="width: 30%;" wx:if="{{item.status === 1}}" catchtap="cancel" data-index="{{index}}">取消报名</button>
+        <button class="button detail" style="width: 30%;" wx:if="{{item.status === 2}}" catchtap="toDetail" data-index="{{index}}">查看详情</button>
       </view>
     </view>
   </block>

@@ -251,7 +251,7 @@ Page({
         certificate: this.data.cert
       })
     })
-    wx.navigateTo({
+    wx.switchTab({
       url: '/pages/user/user',
     })
   },

@@ -56,7 +56,7 @@ Page({
         _this.setData({
           uname:uname,
           year:user.due.getFullYear(),
-          month: user.due.getMonth(),
+          month: user.due.getMonth()+1,
           date: user.due.getDate(),
           picPath: [user.license],
           man:user.man,

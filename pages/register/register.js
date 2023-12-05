@@ -212,7 +212,6 @@ Page({
     }).get({
       success(res){
         if (res.data.length != 0){
-          verified = false
           wx.showToast({
             title: '该用户名已存在',
             icon:"error"
@@ -223,9 +222,11 @@ Page({
     })
     let p1 = this.data.passwd
     let p2 = this.data.passwd2
+    console.log(p1)
+    console.log(p2)
     if(p1 != p2){
       wx.showToast({
-        title: '两次输入密码不同',
+        title: '两次密码不同',
         icon:"error"
       })
       return
@@ -291,6 +292,10 @@ Page({
         man: this.data.man,
         certificate: this.data.cert
       }
+    }).then(res =>{
+      wx.navigateTo({
+        url: '/pages/index/index',
+      })
     })
   },
 

@@ -1,4 +1,7 @@
 // pages/activities.js
+const app = getApp()
+const db = wx.cloud.database()
+
 Page({
 
   /**
@@ -30,7 +33,24 @@ Page({
         image: null,
         status: 2
       }
-    ]
+    ],
+    isAdmin: false,
+  },
+
+  addAct(){
+    wx.navigateTo({
+      url: '/pages/activityPost/activityPost',
+    })
+  },
+
+  toDetail(event){
+    let index=event.currentTarget.dataset.index
+    console.log(index)
+    app.globalData.current_act = this.data.activities[index].aid
+    console.log(app.globalData.current_act)
+    wx.navigateTo({
+      url: '/pages/activityDetail/activityDetail',
+    })
   },
 
   /**
@@ -51,7 +71,68 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
+    if(app.globalData.uname === "bi4ssb"){
+      this.setData({
+        isAdmin:true
+      })
+    }
+    let _this = this
+    db.collection('activities').orderBy('aid','desc').get().then(res => {
+      _this.setData({
+        activities: res.data
+      })
+      app.globalData.act_num = _this.data.activities.length
+    }).then(res => {
+      let copy = _this.data.activities
+      let day = ["日","一","二","三","四","五","六"]
+      for(var i = 0;i < copy.length;i++){
+        if(copy[i].time < (new Date()) || app.globalData.uname === "bi4ssb"){
+          copy[i].status = 2
+        }else{
+          if(copy[i].participants.includes(app.globalData.uname)){
+            copy[i].status = 1
+          }else{
+            copy[i].status = 0
+          }
+        }
+        copy[i].time = copy[i].time.getFullYear()+"-"+(copy[i].time.getMonth()+1)+"-"+copy[i].time.getDate()+"  周"+day[copy[i].time.getDay()]
+        
+      }
+      _this.setData({
+        activities:copy
+      })
+    })
+  },
 
+  sign(event){
+    let index = event.currentTarget.dataset.index
+    let _this = this
+    this.data.activities[index].participants.push(app.globalData.uname)
+    console.log(this.data.activities[index])
+    db.collection('activities').where({
+      aid: _this.data.activities[index].aid
+    }).update({
+      data:{
+        participants: _this.data.activities[index].participants
+      }
+    }).then(res=>{
+      _this.onShow()
+    })
+  },
+
+  cancel(event){
+    let index = event.currentTarget.dataset.index
+    let _this = this
+    this.data.activities[index].participants = this.data.activities[index].participants.filter(item => item != app.globalData.uname)
+    db.collection('activities').where({
+      aid:_this.data.activities[index].aid
+    }).update({
+      data:{
+        participants: _this.data.activities[index].participants
+      }
+    }).then(res => {
+      _this.onShow()
+    })
   },
 
   /**

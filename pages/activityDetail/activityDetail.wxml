@@ -2,32 +2,29 @@
 <view class="container">
   <image class="image" src="{{pic}}" mode="aspectFit"></image>
   <view class="sub-container">
-    <view class="name"><text>2023年年会</text></view>
+    <view class="name"><text>{{title}}</text></view>
     <view class="text">
       <image class="icon" src="/images/ic_time.png"></image>
-      <text>2023.12.15 周五</text>
+      <text>{{time}}</text>
     </view>
     <view class="text">
       <image class="icon" src="/images/ic_site.png"></image>
-      <text>永利大酒店</text>
+      <text>{{place}}</text>
     </view>
     <view class="text">
-    这里是活动的具体信息啦啦啦啦啦啦啦啦啦啦
+    {{detail}}
     </view>
   </view>
   <view class="divider"></view>
   <view class="sub-container">
     <view class="text"><text>已报名的用户：</text></view>
     <view style="padding-left: 2vw;">
-      <view class="text">
-        <text>用户1234567890</text>
-      </view>
-      <view class="text">
-        <text>用户1234567890</text>
+      <view class="text" wx:for="{{participants}}" wx:key="id">
+        <text>{{item}}</text>
       </view>
     </view>
   </view>
 
-  <button class="button cancel">取消报名</button>
-  <button class="button confirm">立即报名</button>
+  <button class="button cancel" wx:if="{{status}}" bind:tap="cancel">取消报名</button>
+  <button class="button confirm" wx:else bind:tap="sign">立即报名</button>
 </view>
