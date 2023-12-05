@@ -1,11 +1,143 @@
 // pages/activityPost/activityPost.js
+const app = getApp()
+const db = wx.cloud.database()
+
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    pic:[],
+    picPath:"",
+    title:"",
+    time:"",
+    location:"",
+    detail:"",
+  },
 
+  getName(event){
+    this.setData({
+      title:event.detail.value
+    })
+  },
+
+  bindDateChange(event){
+    this.setData({
+      time:event.detail.value
+    })
+  },
+
+  getLocal(event){
+    this.setData({
+      location: event.detail.value
+    })
+  },
+
+  getDes(event){
+    console.log(event.detail.value)
+    this.setData({
+      detail: event.detail.value
+    })
+  },
+
+  loadPic(){
+    let _this = this
+    wx.showActionSheet({
+      itemList: ['拍照', '选择本地文件'],
+      success (res) {
+        if(res.tapIndex == 0){
+          wx.chooseImage({
+            sizeType: ['original', 'compressed'],
+            sourceType: ['camera'],
+            success(res) {
+              _this.setData({
+                pic: res.tempFilePaths,
+              })
+              let list = []
+              for(let i = 0;i < _this.data.pic.length;i++){
+                wx.cloud.uploadFile({
+                  filePath: res.tempFilePaths[i],
+                  cloudPath:"activity/"+Date.now()+".jpg",
+                }).then(res=>{
+                  list.push(res.fileID)
+                  console.log(list)
+                  _this.setData({
+                    picPath:list[0]
+                  })
+                })
+              }
+            }
+          })
+        }
+        if(res.tapIndex == 1){
+          wx.chooseImage({
+            sizeType: ['original', 'compressed'],
+            sourceType: ['album'],
+            success(res) {
+              _this.setData({
+                pic: res.tempFilePaths,
+              })
+              let list = []
+              for(let i = 0;i < _this.data.pic.length;i++){
+                wx.cloud.uploadFile({
+                  filePath: res.tempFilePaths[i],
+                  cloudPath:"activity/"+Date.now()+".jpg",
+                })
+                .then(res=>{
+                  list.push(res.fileID)
+                  console.log(list)
+                  _this.setData({
+                    picPath:list[0]
+                  })
+                })
+              }
+            }
+          })
+        }
+      }
+    })
+  },
+
+  post(){
+    let index = app.globalData.act_num
+    if(this.data.title == ""){
+      wx.showToast({
+        title: '请填写活动名称',
+        icon:'error'
+      })
+      return
+    }
+    if(this.data.time == ""){
+      wx.showToast({
+        title: '请选择活动时间',
+        icon:'error'
+      })
+      return 
+    }
+    if(this.data.location == ""){
+      wx.showToast({
+        title: '请填写活动地点',
+        icon:'error'
+      })
+      return 
+    }
+    let _this = this
+    db.collection('activities').add({
+      data:{
+        aid:index,
+        detail:_this.data.detail,
+        location: _this.data.location,
+        time: new Date(_this.data.time),
+        pic: _this.data.picPath,
+        title: _this.data.title,
+        participants:[]
+      }
+    }).then(res => {
+      index += 1
+      app.globalData.act_num = index
+    })
   },
 
   /**

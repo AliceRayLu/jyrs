@@ -1,26 +1,30 @@
 <!--pages/activityPost/activityPost.wxml-->
 <view class="container">
-  <button class="add">
+  <button class="add" bind:tap="loadPic">
     <image class="add-icon" src="/images/ic-add.jpg"></image>
     点击上传活动宣传图(可选)
   </button>
+  <l-album urls="{{pic}}"></l-album>
 
   <view class="input-container">
     <label class="label">活动名称</label>
-    <input class="input" />
+    <input class="input" bind:input="getName" />
   </view>
-  <view class="input-container">
-    <label class="label">活动时间</label>
-    <input class="input" />
-  </view>
+  <picker mode="date" header-text="活动时间"  value="{{time}}" bindchange="bindDateChange">
+    <view class="time-container">
+      <text class="time-label">活动时间</text>
+      <text class="time-label">{{time}}</text>
+      <text class="time-label">▼</text>
+    </view>
+  </picker>
   <view class="input-container">
     <label class="label">活动地点</label>
-    <input class="input" />
+    <input class="input" bind:input="getLocal"/>
   </view>
   <view class="input-container">
     <label class="label">活动详情</label>
-    <textarea class="textarea"></textarea>
+    <textarea class="textarea" bind:input="getDes"></textarea>
   </view>
 
-  <button class="button">发布活动</button>
+  <button class="button" bind:tap="post">发布活动</button>
 </view>

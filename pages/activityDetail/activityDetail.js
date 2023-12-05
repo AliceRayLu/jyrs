@@ -1,11 +1,19 @@
 // pages/activityDetail/activityDetail.js
+const app = getApp()
+const db = wx.cloud.database()
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    title:"",
+    time:"",
+    place:"",
+    detail:"",
+    pic:"/images/logo.jpg",
+    participants:[]
   },
 
   /**

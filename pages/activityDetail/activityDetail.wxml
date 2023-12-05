@@ -1,6 +1,6 @@
 <!--pages/activityDetail/activityDetail.wxml-->
 <view class="container">
-  <image class="image" src="/images/logo.jpg" mode="aspectFit"></image>
+  <image class="image" src="{{pic}}" mode="aspectFit"></image>
   <view class="sub-container">
     <view class="name"><text>2023年年会</text></view>
     <view class="text">
@@ -10,6 +10,9 @@
     <view class="text">
       <image class="icon" src="/images/ic_site.png"></image>
       <text>永利大酒店</text>
+    </view>
+    <view class="text">
+    这里是活动的具体信息啦啦啦啦啦啦啦啦啦啦
     </view>
   </view>
   <view class="divider"></view>

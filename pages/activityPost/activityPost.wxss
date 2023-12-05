@@ -17,6 +17,18 @@
   margin-right: 2vw;
 }
 
+.time-container{
+  display: flex;
+  justify-content: left;
+  margin-top: 1.5vh;
+}
+
+.time-label{
+  float: left;
+  display: inline;
+  padding:1vh;
+}
+
 .input-container {
   display: flex;
   align-items: center;
