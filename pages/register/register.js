@@ -19,6 +19,7 @@ Page({
     type:"", //电台类型
     location:"", //电台地址
     due:"", //到期时间
+    phone:"",
   },
   
   bindDateChange(event){
@@ -73,6 +74,12 @@ Page({
   getloca(event){
     this.setData({
       location: event.detail.value
+    })
+  },
+
+  getPhone(event){
+    this.setData({
+      phone: event.detail.value
     })
   },
 
@@ -142,6 +149,7 @@ Page({
     })
     
   },
+
 
   loadPic(){
     let _this = this
@@ -231,54 +239,55 @@ Page({
       })
       return
     }
-    if(this.data.pic.length == 0){
+    if(this.data.phone == ""){
       wx.showToast({
-        title: '请上传电台执照',
+        title: '请填写电话',
         icon:"error"
       })
-      return
     }
-    if(this.data.man == ""){
-      wx.showToast({
-        title: '请填写设台人员',
-        icon:"error"
-      })
-      return
-    }
-    if(this.data.cert == ""){
-      wx.showToast({
-        title: '请填写证件号码',
-        icon:"error"
-      })
-      return
-    }
-    if(this.data.call == ""){
-      wx.showToast({
-        title: '请填写电台呼号',
-        icon:"error"
-      })
-      return
-    }
-    if(this.data.type == ""){
-      wx.showToast({
-        title: '请填写电台类型',
-        icon:"error"
-      })
-      return
-    }
-    if(this.data.location == ""){
-      wx.showToast({
-        title: '请填写台站地址',
-        icon:"error"
-      })
-      return
-    }
-    if(this.data.due == ""){
-      wx.showToast({
-        title: '请选择到期时间',
-        icon:"error"
-      })
-      return
+    if(this.data.pic.length != 0){
+      if(this.data.man == ""){
+        wx.showToast({
+          title: '请填写设台人员',
+          icon:"error"
+        })
+        return
+      }
+      if(this.data.cert == ""){
+        wx.showToast({
+          title: '请填写证件号码',
+          icon:"error"
+        })
+        return
+      }
+      if(this.data.call == ""){
+        wx.showToast({
+          title: '请填写电台呼号',
+          icon:"error"
+        })
+        return
+      }
+      if(this.data.type == ""){
+        wx.showToast({
+          title: '请填写电台类型',
+          icon:"error"
+        })
+        return
+      }
+      if(this.data.location == ""){
+        wx.showToast({
+          title: '请填写台站地址',
+          icon:"error"
+        })
+        return
+      }
+      if(this.data.due == ""){
+        wx.showToast({
+          title: '请选择到期时间',
+          icon:"error"
+        })
+        return
+      }
     }
     db.collection('members').add({
       data:{
@@ -290,7 +299,8 @@ Page({
         license: this.data.picPath,
         type: this.data.type,
         man: this.data.man,
-        certificate: this.data.cert
+        certificate: this.data.cert,
+        phone: this.data.phone
       }
     }).then(res =>{
       wx.navigateTo({

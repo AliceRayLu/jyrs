@@ -43,4 +43,5 @@
     </view>
 
   <button class="button" bind:tap="update">更新</button>
+  <button class="btnOfSignUp" bindtap="toLogin">退出登录</button>
 </view>

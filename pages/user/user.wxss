@@ -67,3 +67,14 @@
 .welcome{
   margin:1.5vh;
 }
+
+.btnOfSignUp{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 85% !important;
+  height: 6vh;
+  border-radius: 30px;
+  background-color: #F3F9FF;
+  margin: 1.5vh;
+}
