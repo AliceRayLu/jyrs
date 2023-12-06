@@ -77,11 +77,10 @@ Page({
       })
     }
     let _this = this
-    db.collection('activities').orderBy('aid','desc').get().then(res => {
+    db.collection('activities').orderBy('time','desc').get().then(res => {
       _this.setData({
         activities: res.data
       })
-      app.globalData.act_num = _this.data.activities.length
     }).then(res => {
       let copy = _this.data.activities
       let day = ["日","一","二","三","四","五","六"]

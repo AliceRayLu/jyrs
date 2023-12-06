@@ -42,10 +42,16 @@
 .cancel {
   color: black;
   background-color: #CECECE;
-  margin-top: 7vh;
+  margin-top: 1.5vh;
 }
 .confirm {
   color: #ffffff;
   background-color: #347CAF;
-  margin-top: 3vh;
+  margin-top: 1.5vh;
+}
+
+.delete{
+  color:black;
+  background-color: #F3F9FF;
+  margin-top: 1.5vh;
 }

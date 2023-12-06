@@ -27,7 +27,6 @@ App({
   },
   globalData: {
     uname:"",
-    act_num:-1,
     current_act:-1,
   }
 })

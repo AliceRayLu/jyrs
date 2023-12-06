@@ -15,7 +15,9 @@ Page({
     detail:"",
     pic:"/images/logo.jpg",
     participants:[],
+    num: 0,
     status:true,
+    isAdmin: false,
   },
 
   /**
@@ -36,7 +38,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    
+    if(app.globalData.uname === "bi4ssb"){
+      this.setData({
+        isAdmin:true
+      })
+    }
     let idx = app.globalData.current_act
     this.setData({
       id:idx
@@ -54,6 +60,7 @@ Page({
           place: act.location,
           detail: act.detail,
           participants: act.participants,
+          num: act.participants.length,
         })
         if(act.pic != ""){
           _this.setData({
@@ -99,6 +106,22 @@ Page({
       }
     }).then(res => {
       _this.onShow()
+    })
+  },
+
+  delete(){
+    let _this = this
+    db.collection('activities').where({
+      aid: _this.data.id
+    }).remove().then(res =>{
+      wx.switchTab({
+        url: '/pages/activities/activities',
+      })
+    }).catch(err => {
+      wx.showToast({
+        title: '删除失败',
+        icon:'error'
+      })
     })
   },
 

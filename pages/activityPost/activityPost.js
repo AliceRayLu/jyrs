@@ -100,7 +100,7 @@ Page({
   },
 
   post(){
-    let index = app.globalData.act_num
+    let index = Date.now()+""
     if(this.data.title == ""){
       wx.showToast({
         title: '请填写活动名称',
@@ -133,9 +133,6 @@ Page({
         title: _this.data.title,
         participants:[]
       }
-    }).then(res => {
-      index += 1
-      app.globalData.act_num = index
     }).then(res => {
       wx.switchTab({
         url: '/pages/activities/activities',

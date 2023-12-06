@@ -17,14 +17,19 @@
   </view>
   <view class="divider"></view>
   <view class="sub-container">
-    <view class="text"><text>已报名的用户：</text></view>
-    <view style="padding-left: 2vw;">
+    <view class="text"><text>已报名的用户{{num}}人</text></view>
+    <view style="padding-left: 2vw;" wx:if="{{isAdmin}}">
       <view class="text" wx:for="{{participants}}" wx:key="id">
         <text>{{item}}</text>
       </view>
     </view>
   </view>
 
-  <button class="button cancel" wx:if="{{status}}" bind:tap="cancel">取消报名</button>
-  <button class="button confirm" wx:else bind:tap="sign">立即报名</button>
+
+  <button class="button delete" wx:if="{{isAdmin}}" bind:tap="delete">删除活动</button>
+  <button class="button confirm" wx:if="{{isAdmin}}" bind:tap="">下载报名数据</button>
+  <view wx:else>
+    <button class="button cancel" wx:if="{{status}}" bind:tap="cancel">取消报名</button>
+    <button class="button confirm" wx:else bind:tap="sign">立即报名</button>
+  </view>
 </view>
