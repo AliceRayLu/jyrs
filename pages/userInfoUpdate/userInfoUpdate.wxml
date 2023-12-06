@@ -8,6 +8,11 @@
     </view>
   </view>
 
+  <view class="input-container">
+    <label class="label">联系电话</label>
+    <input class="input" bind:input="getPhone" />
+  </view>
+
   <button class="add" bind:tap="loadPic">
     <image class="add-icon" src="/images/ic-add.jpg"></image>
     点击上传电台执照图片

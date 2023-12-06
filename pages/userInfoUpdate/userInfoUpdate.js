@@ -19,6 +19,13 @@ Page({
     location:"", //电台地址
     due:"", //到期时间
     img_url:"",
+    phone:""
+  },
+
+  getPhone(event){
+    this.setData({
+      phone: event.detail.value
+    })
   },
 
   bindDateChange(event){
@@ -190,67 +197,80 @@ Page({
   update(){
     let uname = this.data.uname
     if(this.data.pic.length == 0){
-      wx.showToast({
-        title: '请上传电台执照',
-        icon:"error"
+      if(this.data.phone == ""){
+        wx.showToast({
+          title: '没有更新信息',
+          icon:'error'
+        })
+        return
+      }
+    }else{
+      if(this.data.man == ""){
+        wx.showToast({
+          title: '请填写设台人员',
+          icon:"error"
+        })
+        return
+      }
+      if(this.data.cert == ""){
+        wx.showToast({
+          title: '请填写证件号码',
+          icon:"error"
+        })
+        return
+      }
+      if(this.data.call == ""){
+        wx.showToast({
+          title: '请填写电台呼号',
+          icon:"error"
+        })
+        return
+      }
+      if(this.data.type == ""){
+        wx.showToast({
+          title: '请填写电台类型',
+          icon:"error"
+        })
+        return
+      }
+      if(this.data.location == ""){
+        wx.showToast({
+          title: '请填写台站地址',
+          icon:"error"
+        })
+        return
+      }
+      if(this.data.due == ""){
+        wx.showToast({
+          title: '请选择到期时间',
+          icon:"error"
+        })
+        return
+      }
+      db.collection('members').where({
+        uname: uname
+      }).update({
+        data:({
+          due: new Date(this.data.due),
+          location: this.data.location,
+          call: this.data.call,
+          license: this.data.picPath,
+          type: this.data.type,
+          man: this.data.man,
+          certificate: this.data.cert
+        })
       })
-      return
     }
-    if(this.data.man == ""){
-      wx.showToast({
-        title: '请填写设台人员',
-        icon:"error"
+    if(this.data.phone != ""){
+      let _this = this
+      db.collection('members').where({
+        uname:uname
+      }).update({
+        data:{
+          phone:_this.data.phone
+        }
       })
-      return
     }
-    if(this.data.cert == ""){
-      wx.showToast({
-        title: '请填写证件号码',
-        icon:"error"
-      })
-      return
-    }
-    if(this.data.call == ""){
-      wx.showToast({
-        title: '请填写电台呼号',
-        icon:"error"
-      })
-      return
-    }
-    if(this.data.type == ""){
-      wx.showToast({
-        title: '请填写电台类型',
-        icon:"error"
-      })
-      return
-    }
-    if(this.data.location == ""){
-      wx.showToast({
-        title: '请填写台站地址',
-        icon:"error"
-      })
-      return
-    }
-    if(this.data.due == ""){
-      wx.showToast({
-        title: '请选择到期时间',
-        icon:"error"
-      })
-      return
-    }
-    db.collection('members').where({
-      uname: uname
-    }).update({
-      data:({
-        due: new Date(this.data.due),
-        location: this.data.location,
-        call: this.data.call,
-        license: this.data.picPath,
-        type: this.data.type,
-        man: this.data.man,
-        certificate: this.data.cert
-      })
-    })
     wx.switchTab({
       url: '/pages/user/user',
     })

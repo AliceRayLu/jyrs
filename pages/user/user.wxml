@@ -19,6 +19,10 @@
     <text class="content">{{man}}</text>
   </view>
   <view class="text-container">
+    <label class="label">联系电话</label>
+    <text class="content">{{phone}}</text>
+  </view>
+  <view class="text-container">
     <label class="label">证件号码</label>
     <text class="content">{{cert}}</text>
   </view>

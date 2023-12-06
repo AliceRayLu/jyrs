@@ -19,6 +19,7 @@ Page({
     year:-1,
     month:-1,
     date:-1,
+    phone:"",
   },
 
   update(){
@@ -61,6 +62,7 @@ Page({
         let user = res.data[0]
         _this.setData({
           uname:uname,
+          phone: user.phone,
           year:user.due.getFullYear(),
           month: user.due.getMonth()+1,
           date: user.due.getDate(),
