@@ -15,6 +15,14 @@ Page({
     time:"",
     location:"",
     detail:"",
+    items: [
+      { value: '姓名', isChecked: false, disabled: false },
+      { value: '联系电话', isChecked: false, disabled: false },
+      { value: '证件号码', isChecked: false, disabled: false },
+      { value: '电台呼号', isChecked: false, disabled: false },
+      { value: '电台类型', isChecked: false, disabled: false },
+      { value: '台站地址', isChecked: false, disabled: false }    
+    ]
   },
 
   getName(event){
@@ -137,6 +145,35 @@ Page({
       wx.switchTab({
         url: '/pages/activities/activities',
       })
+    })
+
+    let info = []
+    const infoMap = {
+      '姓名': 'man',
+      '联系电话': 'phone',
+      '证件号码': 'certificate',
+      '电台呼号': 'call',
+      '电台类型': 'type',
+      '台站地址': 'location'
+    };
+    let newItems = this.data.items
+    for(let i = 0; i < newItems.length; i++) {
+      if(newItems[i].isChecked) {
+        info.push(infoMap[newItems[i].value])
+      }
+    }
+    console.log(info)
+  },
+
+  onChangeTap(event) {
+    let newItems = this.data.items
+    for(let i = 0; i < newItems.length; i++) {
+      if(newItems[i].value == event.detail.key) {
+        newItems[i].isChecked = event.detail.checked;
+      }
+    }
+    this.setData({
+      items: newItems
     })
   },
 

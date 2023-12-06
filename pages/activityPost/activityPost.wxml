@@ -25,6 +25,19 @@
     <label class="label">活动详情</label>
     <textarea class="textarea" bind:input="getDes"></textarea>
   </view>
+  <view class="input-container">
+    <label class="label">报名信息</label>
+    <l-checkbox-group bind:linchange="onChangeTap">
+      <l-checkbox
+        wx:for-items="{{items}}"
+        wx:key="value"
+        key="{{item.value}}"
+        checked="{{item.isChecked}}"
+        disabled="{{item.disabled}}">
+        {{item.value}}
+      </l-checkbox>
+    </l-checkbox-group>
+  </view>
 
   <button class="button" bind:tap="post">发布活动</button>
 </view>
