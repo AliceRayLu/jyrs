@@ -1,4 +1,5 @@
 // pages/activityDetail/activityDetail.js
+import XLSX from '../../xlsx.mini.min'
 const app = getApp()
 const db = wx.cloud.database()
 
@@ -18,6 +19,9 @@ Page({
     num: 0,
     status:true,
     isAdmin: false,
+    pop: false,
+    durl:"",
+    sign_data:[]
   },
 
   /**
@@ -76,6 +80,28 @@ Page({
             status:false
           })
         }
+        if(_this.data.isAdmin){
+          let title = act.chosen
+          let data = []
+          data.push(title)
+          let pa = act.participants
+          for(let i = 0;i < pa.length;i++){
+            if(pa[i] == "")continue
+            let temp = []
+            db.collection('members').where({
+              uname: pa[i]
+            }).get().then(res2 => {
+              let usr = JSON.stringify(res2.data[0],title)
+              console.log(usr)
+              temp = usr.match(/:"([a-zA-Z0-9\u4e00-\u9fa5]*)"/g).map(item=>item.substring(2,item.length-1))
+              console.log(temp)
+              data.push(temp)
+              _this.setData({
+                sign_data:data
+              })
+            })
+          }
+        }
       }
     })
   },
@@ -125,6 +151,54 @@ Page({
     })
   },
 
+  download:function(event){
+    let _this = this
+      console.log(this.data.sign_data)
+      var ws = XLSX.utils.aoa_to_sheet(this.data.sign_data);
+      var wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "sheet");
+      var fileData = XLSX.write(wb, {
+        bookType: "xlsx",
+        type: 'base64'
+      });
+      let filePath = `${wx.env.USER_DATA_PATH}/${_this.data.id}.xlsx`
+      const fs = wx.getFileSystemManager()
+      fs.writeFile({
+        filePath: filePath,
+        data: fileData,
+        encoding: 'base64',
+        bookSST: true,
+        success(res){
+          let fileID = ""
+      wx.cloud.uploadFile({
+        filePath:filePath,
+        cloudPath: `infos/${_this.data.id}.xlsx`
+      }).then(res => {
+        fileID = res.fileID
+        wx.cloud.getTempFileURL({
+          fileList:[fileID],
+          success(res){
+            _this.setData({
+              pop:true,
+              durl: res.fileList[0].tempFileURL+" 已复制到剪贴板"
+            })
+            wx.setClipboardData({
+              data: res.fileList[0].tempFileURL,
+            })
+          }
+        })
+      })
+        }
+      })
+      
+      
+    },
+
+  cancelD(){
+    this.setData({
+      pop:false
+    })
+  },
   /**
    * 生命周期函数--监听页面隐藏
    */

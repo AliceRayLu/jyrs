@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/AliceRayLu/jyrsa#readme",
   "dependencies": {
-    "lin-ui": "^0.9.13"
+    "lin-ui": "^0.9.13",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz"
   }
 }

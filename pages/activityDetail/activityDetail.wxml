@@ -27,9 +27,15 @@
 
 
   <button class="button delete" wx:if="{{isAdmin}}" bind:tap="delete">删除活动</button>
-  <button class="button confirm" wx:if="{{isAdmin}}" bind:tap="">下载报名数据</button>
-  <view wx:else>
+  <button class="button confirm" wx:if="{{isAdmin}}" bind:tap="download">下载报名数据</button>
+  <view wx:else class="button">
     <button class="button cancel" wx:if="{{status}}" bind:tap="cancel">取消报名</button>
     <button class="button confirm" wx:else bind:tap="sign">立即报名</button>
   </view>
+
+  <l-popup show="{{pop}}" content-align="center" animation="hide">
+  <text class="popTitle">下载地址</text>
+  <textarea class="information" maxlength="-1"  disabled="true" placeholder="{{durl}}"></textarea>
+  <button class="popButton" bindtap="cancelD">我已阅读</button>
+  </l-popup>
 </view>

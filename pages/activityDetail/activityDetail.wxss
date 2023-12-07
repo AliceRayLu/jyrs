@@ -55,3 +55,26 @@
   background-color: #F3F9FF;
   margin-top: 1.5vh;
 }
+
+.popTitle {
+  color: white;
+  background-color: #12527B;
+  padding: 10px;
+  display: flex;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-weight: bold;
+}
+.information{
+  background-color: white;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  height: 400px;
+  padding: 10px;
+}
+.popButton {
+  color: white;
+  background-color: #12527B;
+  margin-top: 10px;
+  border-radius: 98rpx;
+}

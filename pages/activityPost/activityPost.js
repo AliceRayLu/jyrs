@@ -131,22 +131,6 @@ Page({
       return 
     }
     let _this = this
-    db.collection('activities').add({
-      data:{
-        aid:index,
-        detail:_this.data.detail,
-        location: _this.data.location,
-        time: new Date(_this.data.time),
-        pic: _this.data.picPath,
-        title: _this.data.title,
-        participants:[]
-      }
-    }).then(res => {
-      wx.switchTab({
-        url: '/pages/activities/activities',
-      })
-    })
-
     let info = []
     const infoMap = {
       '姓名': 'man',
@@ -163,6 +147,23 @@ Page({
       }
     }
     console.log(info)
+    db.collection('activities').add({
+      data:{
+        aid:index,
+        detail:_this.data.detail,
+        location: _this.data.location,
+        time: new Date(_this.data.time),
+        pic: _this.data.picPath,
+        title: _this.data.title,
+        participants:[],
+        chosen:info
+      }
+    }).then(res => {
+      wx.switchTab({
+        url: '/pages/activities/activities',
+      })
+    })
+
   },
 
   onChangeTap(event) {
