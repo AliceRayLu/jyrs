@@ -56,6 +56,7 @@
   border-radius: 30px;
   color: #ffffff;
   background-color: #347CAF;
+  margin:.5vh;
 }
 
 .uname{
