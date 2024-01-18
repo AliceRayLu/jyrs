@@ -1,0 +1,61 @@
+.add {
+  display: flex;
+  align-items: center;
+  width: 85% !important;
+  height: 6vh;
+  border-radius: 30px;
+  background-color: var(--light-blue);
+  margin: 2vh;
+}
+.add-icon {
+  width: 3vh;
+  height: 3vh;
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-left: 1vw;
+  margin-right: 2vw;
+}
+
+.all-collapse{
+  align-items: flex-start;
+  display: flex;
+  margin:1.5vh;
+}
+
+
+.collapse{
+  width: 80vw;
+  height: 5vh;
+}
+
+.details{
+  margin:.5vh;
+}
+
+.button{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.popTitle {
+  color: white;
+  background-color: #12527B;
+  padding: 10px;
+  display: flex;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-weight: bold;
+}
+.information{
+  background-color: white;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  height: 400px;
+  padding: 10px;
+}
+.popButton {
+  color: white;
+  background-color: #12527B;
+  margin-top: 10px;
+  border-radius: 98rpx;
+}

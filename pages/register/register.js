@@ -215,73 +215,72 @@ Page({
 
   register(){
     let uname = this.data.uname
+    let _this = this
     db.collection('members').where({
       uname:uname
-    }).get({
-      success(res){
-        if (res.data.length != 0){
-          wx.showToast({
-            title: '该用户名已存在',
-            icon:"error"
-          })
-          return
-        }
-      }
-    })
-    let p1 = this.data.passwd
-    let p2 = this.data.passwd2
-    console.log(p1)
-    console.log(p2)
-    if(p1 != p2){
-      wx.showToast({
-        title: '两次密码不同',
-        icon:"error"
-      })
-      return
-    }
-    if(this.data.phone == ""){
-      wx.showToast({
-        title: '请填写电话',
-        icon:"error"
-      })
-    }
-    if(this.data.pic.length != 0){
-      if(this.data.man == ""){
+    }).get().then(res => {
+      if (res.data.length != 0){
         wx.showToast({
-          title: '请填写设台人员',
+          title: '该用户名已存在',
           icon:"error"
         })
         return
       }
-      if(this.data.cert == ""){
+      let p1 = _this.data.passwd
+      let p2 = _this.data.passwd2
+      console.log(p1)
+      console.log(p2)
+      if(p1 != p2){
+        wx.showToast({
+          title: '两次密码不同',
+          icon:"error"
+        })
+        return
+      }
+      if(_this.data.phone == ""){
+        wx.showToast({
+          title: '请填写电话',
+          icon:"error"
+        })
+        return
+      }
+      if(_this.data.pic.length != 0){
+        if(_this.data.man == ""){
+          wx.showToast({
+            title: '请填写设台人员',
+            icon:"error"
+          })
+          return
+        }
+      if(_this.data.cert == ""){
         wx.showToast({
           title: '请填写证件号码',
           icon:"error"
         })
         return
       }
-      if(this.data.call == ""){
+      if(_this.data.call == ""){
         wx.showToast({
           title: '请填写电台呼号',
           icon:"error"
         })
         return
       }
-      if(this.data.type == ""){
+      if(_this.data.type == ""){
         wx.showToast({
           title: '请填写电台类型',
           icon:"error"
         })
         return
       }
-      if(this.data.location == ""){
+      if(_this.data.location == ""){
         wx.showToast({
           title: '请填写台站地址',
           icon:"error"
         })
         return
       }
-      if(this.data.due == ""){
+      if(_this.data.due == ""){
         wx.showToast({
           title: '请选择到期时间',
           icon:"error"
@@ -292,21 +291,23 @@ Page({
     db.collection('members').add({
       data:{
         uname:uname,
-        passwd: this.data.passwd,
-        due: new Date(this.data.due),
-        location: this.data.location,
-        call: this.data.call,
-        license: this.data.picPath,
-        type: this.data.type,
-        man: this.data.man,
-        certificate: this.data.cert,
-        phone: this.data.phone
+        passwd: _this.data.passwd,
+        due: new Date(_this.data.due),
+        location: _this.data.location,
+        call: _this.data.call,
+        license: _this.data.picPath,
+        type: _this.data.type,
+        man: _this.data.man,
+        certificate: _this.data.cert,
+        phone: _this.data.phone
       }
     }).then(res =>{
       wx.navigateTo({
         url: '/pages/index/index',
       })
     })
+    })
+    
   },
 
   /**

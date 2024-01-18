@@ -43,9 +43,10 @@
     <text class="content"></text>
   </view>
   <view>
-      <l-album urls="{{picPath}}" ></l-album>
-    </view>
+    <l-album urls="{{picPath}}" ></l-album>
+  </view>
 
+  <button class="btnOfSignUp" wx:if="{{isAdmin}}" bind:tap="toMembers">查看所有会员</button> 
   <button class="button" bind:tap="update">更新</button>
   <button class="btnOfSignUp" bindtap="toLogin">退出登录</button>
 </view>

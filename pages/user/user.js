@@ -9,6 +9,7 @@ Page({
    */
   data: {
     uname:"",
+    isAdmin: false,
     picPath:[],
     man:"", //设台人员
     cert:"", //证件号码
@@ -34,6 +35,12 @@ Page({
     })
   },
 
+  toMembers(){
+    wx.navigateTo({
+      url: '/pages/members/members',
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -55,6 +62,11 @@ Page({
     this.data.uname = app.globalData.uname
     let uname = this.data.uname
     let _this = this
+    if(uname === "bi4ssb"){
+      _this.setData({
+        isAdmin: true
+      })
+    }
     db.collection('members').where({
       uname:uname
     }).get({

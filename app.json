@@ -6,7 +6,8 @@
     "pages/activities/activities",
     "pages/userInfoUpdate/userInfoUpdate",
     "pages/activityDetail/activityDetail",
-    "pages/activityPost/activityPost"
+    "pages/activityPost/activityPost",
+    "pages/members/members"
   ],
   "window": {
     "backgroundColor": "#f6f6f6",
