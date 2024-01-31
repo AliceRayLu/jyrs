@@ -7,7 +7,8 @@
     "pages/userInfoUpdate/userInfoUpdate",
     "pages/activityDetail/activityDetail",
     "pages/activityPost/activityPost",
-    "pages/members/members"
+    "pages/members/members",
+    "pages/login/login"
   ],
   "window": {
     "backgroundColor": "#f6f6f6",
@@ -21,6 +22,12 @@
   "tabBar": {
     "list": [
       {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home_filled.png"
+      },
+      {
         "pagePath": "pages/activities/activities",
         "text": "活动",
         "iconPath": "images/activity-line.png",
@@ -28,7 +35,7 @@
       },
       {
         "pagePath": "pages/user/user",
-        "text": "用户中心",
+        "text": "我的",
         "iconPath": "images/geren.png",
         "selectedIconPath": "images/geren2.png"
       }

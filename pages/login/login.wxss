@@ -1,0 +1,58 @@
+/**index.wxss**/
+.head{
+  display: flex;
+  margin-top: 100rpx;
+  justify-content: center;
+}
+
+.logo{
+  height: 15vh;
+  width: 25vh;
+}
+
+.inputOfUser{
+  position: relative;
+  top: 80rpx;
+  width: 75% !important;
+  height: 90rpx;
+  border-radius: 30rpx;
+  background-color: #F3F9FF;
+  box-sizing: border-box;
+  padding-left: 30rpx;
+}
+
+.inputOfPswd{
+  position: relative;
+  top: 120rpx;
+  width: 75% !important;
+  height: 90rpx;
+  border-radius: 30rpx;
+  background-color: #F3F9FF;
+  box-sizing: border-box;
+  padding-left: 30rpx;
+}
+
+.btnOfLogin{
+  position: relative;
+  top:450rpx;
+  width: 75% !important;
+  height: 80rpx;
+  border-radius: 30rpx;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  color: #ffffff;
+  background-color: #347CAF;
+}
+
+.btnOfSignUp{
+  position: relative;
+  top:470rpx;
+  width: 75% !important;
+  height: 80rpx;
+  border-radius: 30rpx;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  background-color: #F3F9FF;
+}

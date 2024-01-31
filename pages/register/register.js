@@ -303,7 +303,7 @@ Page({
       }
     }).then(res =>{
       wx.navigateTo({
-        url: '/pages/index/index',
+        url: '/pages/login/login',
       })
     })
     })
