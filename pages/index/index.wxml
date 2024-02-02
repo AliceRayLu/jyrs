@@ -11,10 +11,59 @@
       <image mode="aspectFill" style="width: 100%;" src="https://6a79-jyrsa-9gg6w0crf1f1ed36-1322866588.tcb.qcloud.la/activity/1701931765940.jpg?sign=26a3c483fd8744c2c6c3f527adb4a8a5&t=1706712761" />
     </swiper-item>
   </swiper>
-  <view>
-    <view>
+  
+  <view class="icons">
+    <view class="icon-container" bind:tap="toLogin">
+      <image class="icon-img" src="cloud://jyrsa-9gg6w0crf1f1ed36.6a79-jyrsa-9gg6w0crf1f1ed36-1322866588/icon_login.png" />
+      <view class="icon-text">用户登录</view>
+    </view>
+
+    <view class="icon-container" bind:tap="toRegister">
+      <image class="icon-img" src="cloud://jyrsa-9gg6w0crf1f1ed36.6a79-jyrsa-9gg6w0crf1f1ed36-1322866588/icon_register.png" />
+      <view class="icon-text">会员注册</view>
+    </view>
+
+    <view class="icon-container" bind:tap="toCall">
+      <image class="icon-img" src="cloud://jyrsa-9gg6w0crf1f1ed36.6a79-jyrsa-9gg6w0crf1f1ed36-1322866588/icon_call.png" />
+      <view class="icon-text">日常点名</view>
+    </view>
+
+    <view class="icon-container" bind:tap="toAct">
+      <image class="icon-img" src="cloud://jyrsa-9gg6w0crf1f1ed36.6a79-jyrsa-9gg6w0crf1f1ed36-1322866588/icon_activity.png" />
+      <view class="icon-text">活动报名</view>
     </view>
   </view>
 
+  <view class="title">
+    <view class="title-thread"></view>
+    <view class="title-text">江阴市无线电运动协会</view>
+    <view class="title-thread"></view>
+  </view>
+
+  <view class="info">
+    <view>
+      江阴市无线电运动协会是有江阴业余无线电爱好者自愿发起成立，是经江阴市民政局核准登记的非营利性社会团体。业务主管单位江阴市文体广电和旅游局，业务指导单位江阴市工信局。
+    </view>
+    <view>  
+      本团体的宗旨: 团结江阴市业余无线电爱好者和无线电工作者，指导江阴市无线电活动，推动其普及与提高，丰富人民群众尤其是青少年的无线电科技知识；为社会提供无线电服务；组织爱好者参加国际、国内业余无线电方面比赛；促进地区间无线电活动的交流；增进与各省、市、地区业余无线电组织及爱好者的友谊。
+    </view>
+    
+    <view>本团体的业务范围：</view>
+    <view>
+      一. 组织和执行无线电相关赛事活动。
+    </view>
+
+    <view>
+      二. 组织实施与业余无线电和相关科技体育项目的培训和训练。
+    </view>
+    
+    <view>
+      三. 研究无线电和测向运动的技术，培养无线电和测向运动的爱好者和运动员，并积极推广和普及。
+    </view>
+
+    <view>
+      四. 辅助相关单位提供无线电监测、频率资源使用情况咨询调查等服务。
+    </view>
+  </view>
   
 </view>
