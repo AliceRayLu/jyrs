@@ -40,12 +40,6 @@
         "text": "我的",
         "iconPath": "images/geren.png",
         "selectedIconPath": "images/geren2.png"
-      }, 
-      {
-        "pagePath": "pages/callRecord/callRecord",
-        "text": "点名",
-        "iconPath": "images/geren.png",
-        "selectedIconPath": "images/geren2.png"
       }
     ]
   }
