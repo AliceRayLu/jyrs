@@ -1,17 +1,30 @@
-<!--pages/callRecord/callRecord.wxml-->
+<!-- pages/callRecord/callRecord.wxml -->
+
 <view class="container">
-  <text>点名记录上传</text>
-  <!-- 文件上传组件 -->
-  <view class="upload-area">
-    <l-button class="upload-button" bindtap="chooseFile">选择文件</l-button>
-    <text class="file-name">{{ file.name ? file.name : '未选择文件' }}</text>
+  <!-- 头部区域 -->
+  <view class="header">
+    <image class="logo" src="../../images/logo.jpg"></image>
+    <text class="title">点名上传</text>
   </view>
-  <!-- 备注输入组件 -->
-  <view class="textarea-container">
-    <l-textarea placeholder="添加备注..." class="handleTextareaInput"  bind:linblur="handleTextareaChange" />
+
+  <!-- 上传组件区域 -->
+  <view class="upload" bindtap="chooseFile">
+    <!-- <view class="upload-icon"></view> -->
+    <image class="upload-icon" src="/images/upload.png"></image>
+    <text class="upload-text">{{fileName || '点击上传文件'}}</text>
   </view>
-</view>
-<view class="button-container">
-  <l-button  type="success" class="submit-button" bindtap="handleSubmit">提交</l-button>
-  <l-button type="error" class="cancel-button" bindtap="handleCancel">取消</l-button>
+  <!-- 点名时间 -->
+  <view class="input-container">
+    <label class="label">点名时间</label>
+    <input class="input" bindblur="callTime"/>
+  </view>
+  <!-- 点名备注 -->
+  <view class="input-container">
+    <label class="label">添加备注</label>
+    <textarea class="textarea" bindblur="callLogs"></textarea>
+  </view>
+
+  <view class="upload-button-view">
+    <button class="upload-button" bind:tap="handleButtonClick">上传</button>
+  </view>
 </view>

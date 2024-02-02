@@ -5,49 +5,52 @@ Page({
    * 页面的初始数据
    */
   data: {
-    file: {}, // 保存上传的文件信息
-    remark: '', // 备注
-    formData: {},// 表单信息 测试
+    callTime: '',
+    callLogs: '',
+    fileName: ''
   },
 
-  
-  /**
-   * 监听备注输入框的输入事件
-   */
 
-  handleTextareaChange(event) {
-    const { value } = event.detail;
-    console.log('备注：', value);
-    this.setData({
-      remark: value,
-      formData: {
-        ...this.data.formData,
-        remark: value,  // 更新formData
-      },
-    });
-  },
-  /**
-   * 选择文件
-   */
-  chooseFile: function () {
+  chooseFile: function() {
     const that = this;
     wx.chooseMessageFile({
       count: 1,
-      type: 'file',
       success(res) {
-        console.log(res.tempFiles[0]);
+        // console.log(res)
+        // console.log(res.tempFiles[0])
+        let tempFilePaths = res.tempFiles[0].name;
+        if (tempFilePaths.indexOf('/') >= 0) {
+          // 如果是 iOS 平台，从路径中解析出文件名
+          tempFilePaths = tempFilePaths.split('/').pop();
+        }
         that.setData({
-          file: res.tempFiles[0],
-          formData: {
-            ...that.data.formData,
-            file: res.tempFiles[0],  // 更新formData
-          },
+          fileName: tempFilePaths
         });
-      },
-    });
-  },  
+        // 逻辑代码
+      }
+    })
+  },
 
 
+    // 点名时间输入框绑定函数
+    callTime: function(e) {
+      this.setData({
+        callTime: e.detail.value
+      });
+    },
+    
+    // 点名备注输入框绑定函数
+    callLogs: function(e) {
+      this.setData({
+        callLogs: e.detail.value
+      });
+    },
+    
+    // 按钮点击事件处理函数
+    handleButtonClick: function() {
+      console.log('点名时间:', this.data.callTime);
+      console.log('备注:', this.data.callLogs);
+    },
   /**
    * 提交表单
    */
@@ -55,10 +58,4 @@ Page({
     console.log('提交表单', this.data.formData);
   },
 
-  /**
-   * 取消表单
-   */
-  handleCancel: function () {
-    console.log('取消表单');
-  },
 });
