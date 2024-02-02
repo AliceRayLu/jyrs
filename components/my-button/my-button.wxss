@@ -1,0 +1,11 @@
+/* components/my-button/my-button.wxss */
+.my-button {
+  width: 570rpx;
+  height: 80rpx;
+  border-radius: 30rpx;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  color: #ffffff;
+  background-color: #347CAF;
+}
