@@ -68,7 +68,7 @@ Page({
     this.data.uname = app.globalData.uname
     let uname = this.data.uname
     let _this = this
-    if(uname === "BI4SSB"){
+    if(uname === app.globalData.admin){
       _this.setData({
         isAdmin: true
       })

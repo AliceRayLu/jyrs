@@ -28,5 +28,6 @@ App({
   globalData: {
     uname:"",
     current_act:-1,
+    admin:"BI4SSB"
   }
 })

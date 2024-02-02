@@ -42,7 +42,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    if(app.globalData.uname === "BI4SSB"){
+    if(app.globalData.uname === app.globalData.admin){
       this.setData({
         isAdmin:true
       })

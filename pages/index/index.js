@@ -31,7 +31,7 @@ Page({
 
   toCall(){
     let uname = app.globalData.uname
-    if(uname !== "BI4SSB"){
+    if(uname !== app.globalData.admin){
       wx.showToast({
         title: '仅管理员可用',
         icon:'error'
