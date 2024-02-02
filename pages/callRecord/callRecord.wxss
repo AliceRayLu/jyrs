@@ -1,0 +1,46 @@
+/* pages/callRecord/callRecord.wxss */
+.container {
+  padding: 20px;
+}
+
+.upload-area {
+  margin: 20px;
+  width: 100%;
+  /* border: 1px solid red; */
+  /* display: flex; */
+  float: left;
+}
+
+.upload-button {
+  width: 10%;
+}
+
+.file-name {
+  width: 90%;
+  font-size: 10px;
+  text-align: right;
+}
+
+.textarea-container {
+  width: 100%;
+  height: 5vh;
+  /* border: 1px solid red; */
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+  width: 100%;
+  /* border: red 1px solid; */
+}
+
+.submit-button {
+  margin-left: 16vh;
+}
+
+.cancel-button {
+  margin-right: 16vh;
+}

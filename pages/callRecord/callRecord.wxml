@@ -1,0 +1,17 @@
+<!--pages/callRecord/callRecord.wxml-->
+<view class="container">
+  <text>点名记录上传</text>
+  <!-- 文件上传组件 -->
+  <view class="upload-area">
+    <l-button class="upload-button" bindtap="chooseFile">选择文件</l-button>
+    <text class="file-name">{{ file.name ? file.name : '未选择文件' }}</text>
+  </view>
+  <!-- 备注输入组件 -->
+  <view class="textarea-container">
+    <l-textarea placeholder="添加备注..." class="handleTextareaInput"  bind:linblur="handleTextareaChange" />
+  </view>
+</view>
+<view class="button-container">
+  <l-button  type="success" class="submit-button" bindtap="handleSubmit">提交</l-button>
+  <l-button type="error" class="cancel-button" bindtap="handleCancel">取消</l-button>
+</view>
