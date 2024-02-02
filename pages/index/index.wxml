@@ -1,6 +1,20 @@
 <!--index.wxml-->
 <view class="container">
-  <view> this is index</view>
+  <swiper autoplay="{{true}}" 
+          circular="{{true}}"
+          indicator-dots="{{true}}"
+          interval="2000">
+    <swiper-item>
+      <image mode="aspectFill" src="../../images/logo.jpg" style="width: 100%;" />
+    </swiper-item>
+    <swiper-item>
+      <image mode="aspectFill" style="width: 100%;" src="https://6a79-jyrsa-9gg6w0crf1f1ed36-1322866588.tcb.qcloud.la/activity/1701931765940.jpg?sign=26a3c483fd8744c2c6c3f527adb4a8a5&t=1706712761" />
+    </swiper-item>
+  </swiper>
+  <view>
+    <view>
+    </view>
+  </view>
 
   
 </view>
