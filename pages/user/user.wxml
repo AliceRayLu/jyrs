@@ -5,7 +5,7 @@
     <view class="head-split"></view>
     <view class="head-text">
       <view class="welcome">欢迎您</view>
-      <view class="uname">用户  {{uname}}</view>
+      <view class="uname">用户  {{call}}</view>
     </view>
   </view>
 

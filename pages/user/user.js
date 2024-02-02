@@ -68,18 +68,17 @@ Page({
     this.data.uname = app.globalData.uname
     let uname = this.data.uname
     let _this = this
-    if(uname === "bi4ssb"){
+    if(uname === "BD4TS"){
       _this.setData({
         isAdmin: true
       })
     }
     db.collection('members').where({
-      uname:uname
+      call:uname
     }).get({
       success(res){
         let user = res.data[0]
         _this.setData({
-          uname:uname,
           phone: user.phone,
           year:user.due.getFullYear(),
           month: user.due.getMonth()+1,

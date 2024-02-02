@@ -248,7 +248,7 @@ Page({
         return
       }
       db.collection('members').where({
-        uname: uname
+        call: uname
       }).update({
         data:({
           due: new Date(this.data.due),
@@ -264,7 +264,7 @@ Page({
     if(this.data.phone != ""){
       let _this = this
       db.collection('members').where({
-        uname:uname
+        call:uname
       }).update({
         data:{
           phone:_this.data.phone

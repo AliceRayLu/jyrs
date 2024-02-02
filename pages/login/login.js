@@ -51,6 +51,15 @@ Page({
             console.log(user.uname)
             wx.switchTab({
               url: '/pages/user/user',
+              success: function (e) {
+ 
+                let page = getCurrentPages().pop();
+         
+                if (page == undefined || page == null) return;
+         
+                    page.onLoad();
+         
+              }
             })
             //保存用户登陆状态
             wx.setStorageSync('user', user)

@@ -76,7 +76,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    if(app.globalData.uname === "bi4ssb"){
+    if(app.globalData.uname === "BD4TS"){
       this.setData({
         isAdmin:true
       })
@@ -90,7 +90,7 @@ Page({
       let copy = _this.data.activities
       let day = ["日","一","二","三","四","五","六"]
       for(var i = 0;i < copy.length;i++){
-        if(copy[i].time < (new Date()) || app.globalData.uname === "bi4ssb"){
+        if(copy[i].time < (new Date()) || app.globalData.uname === "BD4TS"){
           copy[i].status = 2
         }else{
           if(copy[i].participants.includes(app.globalData.uname)){

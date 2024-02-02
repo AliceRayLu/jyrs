@@ -42,7 +42,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    if(app.globalData.uname === "bi4ssb"){
+    if(app.globalData.uname === "BD4TS"){
       this.setData({
         isAdmin:true
       })
@@ -89,7 +89,7 @@ Page({
             if(pa[i] == "")continue
             let temp = []
             db.collection('members').where({
-              uname: pa[i]
+              call: pa[i]
             }).get().then(res2 => {
               let usr = JSON.stringify(res2.data[0],title)
               console.log(usr)

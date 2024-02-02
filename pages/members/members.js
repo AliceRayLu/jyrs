@@ -12,7 +12,7 @@ Page({
     members:[
       {
         man: "顾",
-        uname: "bi4ssb",
+        uname: "BD$TS",
         phone: "13333333333",
         call: "BD4TS",
         location: "xxxxxxx",

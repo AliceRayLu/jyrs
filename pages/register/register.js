@@ -8,7 +8,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    uname:"",
     passwd:"",
     passwd2:"",
     pic:[],
@@ -26,12 +25,6 @@ Page({
     console.log( new Date(event.detail.value))
     this.setData({
       due:event.detail.value
-    })
-  },
-
-  getUName(event){
-    this.setData({
-      uname: event.detail.value
     })
   },
 
@@ -214,14 +207,22 @@ Page({
   },
 
   register(){
-    let uname = this.data.uname
+    let uname = this.data.call
+    console.log(this.data.call)
     let _this = this
+    if(this.data.call === ""){
+      wx.showToast({
+        title: '请填写电台呼号',
+        icon:"error"
+      })
+      return
+    }
     db.collection('members').where({
-      uname:uname
+      call: uname
     }).get().then(res => {
       if (res.data.length != 0){
         wx.showToast({
-          title: '该用户名已存在',
+          title: '该用户已存在',
           icon:"error"
         })
         return
@@ -259,13 +260,6 @@ Page({
         })
         return
       }
-      if(_this.data.call == ""){
-        wx.showToast({
-          title: '请填写电台呼号',
-          icon:"error"
-        })
-        return
-      }
       if(_this.data.type == ""){
         wx.showToast({
           title: '请填写电台类型',
@@ -290,7 +284,6 @@ Page({
     }
     db.collection('members').add({
       data:{
-        uname:uname,
         passwd: _this.data.passwd,
         due: new Date(_this.data.due),
         location: _this.data.location,
