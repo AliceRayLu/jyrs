@@ -12,7 +12,6 @@ Page({
     members:[
       {
         man: "顾",
-        uname: "BD$TS",
         phone: "13333333333",
         call: "BD4TS",
         location: "xxxxxxx",
@@ -24,7 +23,6 @@ Page({
       },
       {
         man: "刘",
-        uname: "bi4ssb",
         phone: "13333333333",
         call: "BD4TSxxx",
         location: "xxxxxxxx",
@@ -97,9 +95,9 @@ Page({
   delete(event){
     let index = event.currentTarget.dataset.id;
     console.log(index)
-    let uname = this.data.members[index].uname;
+    let uname = this.data.members[index].call;
     db.collection('members').where({
-      uname: uname
+      call: uname
     }).remove().then(res =>{
       wx.navigateTo({
         url: '/pages/members/members',
