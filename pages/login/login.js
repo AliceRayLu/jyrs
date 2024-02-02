@@ -40,16 +40,13 @@ Page({
 
     //登陆
     db.collection('members').where({
-      uname:uname
+      call:uname
     }).get({
       success(res) {
         if (res.data.length != 0)
         {
           let user = res.data[0]
           if (passwd == user.passwd) {                                                             
-            wx.showToast({
-              title: '登陆成功',
-            })
             app.globalData.uname = uname
             console.log(user.uname)
             wx.switchTab({
