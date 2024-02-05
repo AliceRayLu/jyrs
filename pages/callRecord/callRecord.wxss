@@ -5,7 +5,7 @@
 .header {
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 80%;
   height: 16vh;
   /* border: 1px solid red; */
 }
@@ -77,6 +77,18 @@
   background-color: #F3F9FF;
   box-sizing: border-box;
   padding: 30rpx;
+}
+
+.time-container{
+  display: flex;
+  justify-content: left;
+  margin-top: 1.5vh;
+}
+
+.time-label{
+  float: left;
+  display: inline;
+  padding:1vh;
 }
 
 /* 按钮 */

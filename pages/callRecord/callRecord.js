@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    callTime: '',
+    due: '',
     callLogs: '',
     fileName: ''
   },
@@ -35,7 +35,7 @@ Page({
     // 点名时间输入框绑定函数
     callTime: function(e) {
       this.setData({
-        callTime: e.detail.value
+        due: e.detail.value
       });
     },
     
