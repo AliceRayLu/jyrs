@@ -1,11 +1,38 @@
 // pages/callManage.js
+const db = wx.cloud.database()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    files:[],
+    count: 0,
+    pop: false,
+    durl:""
+  },
 
+  download(event){
+    let _this = this
+    let index = event.currentTarget.dataset.id;
+    this.setData({
+      pop:true,
+      durl:_this.data.files[index].file
+    })
+    wx.setClipboardData({
+      data: _this.data.files[index].file,
+    })
+  },
+
+  cancelD(){
+    this.setData({
+      pop:false
+    })
+  },
+
+  delete(event){
+    let index = event.currentTarget.dataset.id;
+    //TODO
   },
 
   /**
@@ -26,7 +53,18 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    let _this = this
+    let count = this.data.count
+    db.collection('call_file').orderBy("time",'desc').get().then(res => {
+      _this.setData({
+        files:res.data
+      })
+    }).then(res => {
+      count += 20
+      _this.setData({
+        count:count
+      })
+    })
   },
 
   /**
@@ -54,7 +92,16 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom() {
-
+    let _this = this
+    let count = this.data.count
+    db.collection('call_file').orderBy('time','desc').skip(count).get().then(res => {
+      let newdata = res.data
+      let olddata = _this.data.files
+      count += 20
+      _this.setData({
+        files:olddata.concat(newdata)
+      })
+    })
   },
 
   /**

@@ -37,9 +37,8 @@ Page({
         icon:'error'
       })
     }else{
-      wx.showToast({
-        title: '还未开放功能',
-        icon:'error'
+      wx.navigateTo({
+        url: '/pages/call/call',
       })
     }
   },

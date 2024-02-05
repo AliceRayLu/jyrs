@@ -1,2 +1,19 @@
 <!--pages/callManage.wxml-->
-<text>pages/callManage.wxml</text>
+<l-collapse type="normal">
+  <view wx:for="{{files}}" wx:key="_id">
+    <l-collapse-item title="{{item.time}} 点名" l-title-class="collapse">
+      <view class="texts">主控人员：{{item.control}}</view>
+      <view class="texts">备注：{{item.log}}</view>
+      <view class="buttons">
+        <l-button size="mini" bind:tap="download" data-id="{{index}}" style="margin-right: 2vw;">下载</l-button>
+        <l-button type="error" size="mini" bind:tap="delete" data-id="{{index}}">删除</l-button>
+      </view> 
+    </l-collapse-item>
+  </view>
+</l-collapse>
+
+<l-popup show="{{pop}}" content-align="center" animation="hide">
+  <text class="popTitle">下载地址</text>
+  <textarea class="information" maxlength="-1"  disabled="true" placeholder="{{durl}} 已复制到剪贴板"></textarea>
+  <button class="popButton" bindtap="cancelD">我已阅读</button>
+</l-popup>
