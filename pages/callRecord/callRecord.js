@@ -1,4 +1,6 @@
 // pages/callRecord/callRecord.js
+const db = wx.cloud.database()
+
 Page({
 
   /**
@@ -7,7 +9,8 @@ Page({
   data: {
     due: '',
     callLogs: '',
-    fileName: ''
+    fileName: '',
+    downloadPath:''
   },
 
 
@@ -18,15 +21,29 @@ Page({
       success(res) {
         // console.log(res)
         // console.log(res.tempFiles[0])
-        let tempFilePaths = res.tempFiles[0].name;
-        if (tempFilePaths.indexOf('/') >= 0) {
+        let fileName = res.tempFiles[0].name;
+        if (fileName.indexOf('/') >= 0) {
           // 如果是 iOS 平台，从路径中解析出文件名
-          tempFilePaths = tempFilePaths.split('/').pop();
+          fileName = fileName.split('/').pop();
         }
         that.setData({
-          fileName: tempFilePaths
+          fileName: fileName
         });
-        // 逻辑代码
+        wx.cloud.uploadFile({
+          filePath:res.tempFiles[0].path,
+          cloudPath:`calls/${fileName}`
+        }).then(r2 => {
+          let fileID = r2.fileID
+          wx.cloud.getTempFileURL({
+            fileList:[fileID],
+            success(r3){
+              that.setData({
+                downloadPath:r3.fileList[0].tempFileURL
+              })
+              console.log(r3.fileList[0].tempFileURL)
+            }
+          })
+        })
       }
     })
   },
@@ -46,16 +63,34 @@ Page({
       });
     },
     
-    // 按钮点击事件处理函数
-    handleButtonClick: function() {
-      console.log('点名时间:', this.data.callTime);
-      console.log('备注:', this.data.callLogs);
-    },
-  /**
-   * 提交表单
-   */
-  handleSubmit: function () {
-    console.log('提交表单', this.data.formData);
-  },
+    upload(){
+      if(this.data.downloadPath === ""){
+        wx.showToast({
+          title: '请上传文件',
+          icon:'error'
+        })
+        return
+      }
+      if(this.data.due == ""){
+        wx.showToast({
+          title: '请选择时间',
+          icon:'error'
+        })
+        return
+      }
+      let _this = this
+      // TODO: parse excel and control
+      db.collection('call_file').add({
+        data:{
+          log: _this.data.callLogs,
+          file: _this.data.downloadPath,
+          time: _this.data.due
+        }
+      }).then(res => {
+        // wx.navigateTo({
+        //   url: 'url', // TODO
+        // })
+      })
+    }
 
 });

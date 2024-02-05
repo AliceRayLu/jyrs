@@ -26,10 +26,10 @@
   <!-- 点名备注 -->
   <view class="input-container">
     <label class="label">添加备注</label>
-    <textarea class="textarea" bindblur="callLogs"></textarea>
+    <textarea class="textarea" bind:input="callLogs" placeholder="可不填"></textarea>
   </view>
 
   <view class="upload-button-view">
-    <button class="upload-button" bind:tap="handleButtonClick">上传</button>
+    <button class="upload-button" bind:tap="upload">上传</button>
   </view>
 </view>
