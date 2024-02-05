@@ -9,7 +9,8 @@
     "pages/activityPost/activityPost",
     "pages/members/members",
     "pages/login/login",
-    "pages/call/call"
+    "pages/call/call",
+    "pages/callRecord/callRecord"
   ],
   "window": {
     "backgroundColor": "#f6f6f6",
