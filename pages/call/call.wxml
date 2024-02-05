@@ -1,0 +1,4 @@
+<!--pages/call.wxml-->
+<l-list title="文件上传" style="margin: 0 3vw 0 3vw;" image="cloud://jyrsa-9gg6w0crf1f1ed36.6a79-jyrsa-9gg6w0crf1f1ed36-1322866588/icon_activity.png" />
+<l-list title="文件上传" style="margin: 0 3vw 0 3vw;" />
+<l-list title="文件上传" style="margin: 0 3vw 0 3vw;" />
