@@ -8,7 +8,9 @@
     "pages/activityDetail/activityDetail",
     "pages/activityPost/activityPost",
     "pages/members/members",
-    "pages/login/login"
+    "pages/login/login",
+    "pages/callRecord/callRecord"
+
   ],
   "window": {
     "backgroundColor": "#f6f6f6",

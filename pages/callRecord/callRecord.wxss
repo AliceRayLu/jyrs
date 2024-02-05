@@ -1,0 +1,110 @@
+.container {
+  padding: 20rpx;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  height: 16vh;
+  /* border: 1px solid red; */
+}
+
+.logo {
+  width: 99px;
+  height: 55px;
+  border-right: solid 1px black;
+  padding-right: 20px;
+}
+
+.title {
+  margin-left: 20px;
+  font-size: 30px;
+  line-height: 25px;
+}
+
+
+.upload {
+  
+  border-radius: 30rpx;
+  background-color: #F3F9FF;
+  margin-top: 20rpx;
+  width: 85% !important;
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
+  height: 90rpx;
+}
+
+.upload-icon {
+  margin-left: 30rpx;
+  width: 40rpx;
+  height: 40rpx;
+  background: url(../../images/upload.png);
+}
+
+.upload-text {
+  margin-left: 20rpx;
+  font-size: 28rpx;
+}
+
+/* 备注 */
+.input-container {
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  width: 85% !important;
+  margin-top: 1.5vh;
+}
+.label {
+  margin-top: 20rpx;
+  width: 35%;
+  padding-left: 1.5vw;
+  /* border: 1px solid red; */
+}
+.input {
+  width: 100%;
+  height: 90rpx;
+  border-radius: 30rpx;
+  background-color: #F3F9FF;
+  box-sizing: border-box;
+  padding-left: 30rpx;
+}
+.textarea {
+  /* border: 1px solid red; */
+  width: 100%;
+  border-radius: 30rpx;
+  background-color: #F3F9FF;
+  box-sizing: border-box;
+  padding: 30rpx;
+}
+
+.time-container{
+  display: flex;
+  justify-content: left;
+  margin-top: 1.5vh;
+}
+
+.time-label{
+  float: left;
+  display: inline;
+  padding:1vh;
+}
+
+/* 按钮 */
+.upload-button-view{
+  width: 100%;
+  /* border: 1px solid green; */
+}
+.upload-button {
+  /* border: 1px solid red; */
+  margin-top: 40rpx;
+  width: 75% !important;
+  height: 80rpx;
+  border-radius: 30rpx;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  color: #ffffff;
+  background-color: #347CAF;
+}

@@ -1,0 +1,2 @@
+<!--components/my-button/my-button.wxml-->
+<view class="my-button" bindtap="handleTap">{{text}}</view>

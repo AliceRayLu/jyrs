@@ -1,0 +1,35 @@
+<!-- pages/callRecord/callRecord.wxml -->
+
+<view class="container">
+  <!-- 头部区域 -->
+  <view class="header">
+    <image class="logo" src="../../images/logo.jpg"></image>
+    <text class="title">点名上传</text>
+  </view>
+
+  <!-- 上传组件区域 -->
+  <view class="upload" bindtap="chooseFile">
+    <!-- <view class="upload-icon"></view> -->
+    <image class="upload-icon" src="/images/upload.png"></image>
+    <text class="upload-text">{{fileName || '点击上传文件'}}</text>
+  </view>
+  <!-- 点名时间 -->
+  <view class="input-container">
+    <picker mode="date" header-text="点名时间"  value="{{due}}" bindchange="callTime">
+      <view class="time-container">
+        <label class="time-label">点名时间</label>
+        <text class="time-label">{{due}}</text>
+        <text class="time-label">▼</text>
+      </view>
+    </picker>
+  </view>
+  <!-- 点名备注 -->
+  <view class="input-container">
+    <label class="label">添加备注</label>
+    <textarea class="textarea" bind:input="callLogs" placeholder="可不填"></textarea>
+  </view>
+
+  <view class="upload-button-view">
+    <button class="upload-button" bind:tap="upload">上传</button>
+  </view>
+</view>
