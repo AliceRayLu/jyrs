@@ -10,7 +10,9 @@
     "pages/members/members",
     "pages/login/login",
     "pages/call/call",
-    "pages/callRecord/callRecord"
+    "pages/callRecord/callRecord",
+    "pages/callManage/callManage",
+    "pages/callData/callData"
   ],
   "window": {
     "backgroundColor": "#f6f6f6",
