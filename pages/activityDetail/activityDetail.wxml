@@ -19,8 +19,8 @@
   <view class="sub-container">
     <view class="text"><text>已报名的用户{{num}}人</text></view>
     <view style="padding-left: 2vw;" wx:if="{{isAdmin}}">
-      <view class="text" wx:for="{{participants}}" wx:key="id">
-        <text>{{item}}</text>
+      <view class="text" wx:for="{{participants_with_name}}" wx:key="id">
+         <text style="font-weight: bold;">{{item}}</text>
       </view>
     </view>
   </view>

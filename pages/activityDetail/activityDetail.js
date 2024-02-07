@@ -16,6 +16,7 @@ Page({
     detail:"",
     pic:"/images/logo.jpg",
     participants:[],
+    participants_with_name:[],
     num: 0,
     status:true,
     isAdmin: false,
@@ -81,6 +82,43 @@ Page({
           })
         }
         if(_this.data.isAdmin){
+          // 定义一个函数来查询参与者姓名
+          function queryParticipants(skip) {
+            return db.collection('members')
+                .where({
+                    uname: db.command.in(act.participants) 
+                })
+                .skip(skip)
+                .field({
+                    _id: false,
+                    man: true,
+                    uname:true
+                })
+                .get()
+                .then(res => {
+                    const participantsWithName = res.data.map(item => {
+                        const man = item.man ? item.man : "unknown 未登记姓名";
+                        return `${item.uname} - ${man}`;
+                    });
+                    // 将结果添加到 data.participants_with_name 数组末尾
+                    const newData = _this.data.participants_with_name.concat(participantsWithName);
+                    _this.setData({
+                        participants_with_name: newData
+                    });
+        
+                    // 如果查询结果数量小于 20，则说明已经查询完所有结果，不再需要递归查询
+                    if (res.data.length < 20) {
+                      //console.log("查询完成:", _this.data.participants_with_name);
+                        return;
+                    }
+                    // 否则继续递归查询，增加 skip 值
+                    return queryParticipants(skip + 20);
+                });
+        }
+          // 初始化 skip 值为 0，开始查询
+          let skip = 0;
+          queryParticipants(skip);
+
           let title = act.chosen
           let data = []
           data.push(title)
@@ -92,9 +130,9 @@ Page({
               call: pa[i]
             }).get().then(res2 => {
               let usr = JSON.stringify(res2.data[0],title)
-              console.log(usr)
+             // console.log(usr)
               temp = usr.match(/:"([a-zA-Z0-9\u4e00-\u9fa5]*)"/g).map(item=>item.substring(2,item.length-1))
-              console.log(temp)
+            //  console.log(temp)
               data.push(temp)
               _this.setData({
                 sign_data:data
@@ -233,4 +271,5 @@ Page({
   onShareAppMessage() {
 
   }
+  
 })
