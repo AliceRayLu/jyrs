@@ -12,16 +12,18 @@
       <text>{{place}}</text>
     </view>
     <view class="text">
-    {{detail}}
+      {{detail}}
     </view>
   </view>
   <view class="divider"></view>
   <view class="sub-container">
     <view class="text"><text>已报名的用户{{num}}人</text></view>
     <view style="padding-left: 2vw;" wx:if="{{isAdmin}}">
-      <view class="text" wx:for="{{participants}}" wx:key="id">
-        <text>{{item}}</text>
-      </view>
+      <view class="text" wx:for="{{participants_with_name}}" wx:key="index" wx:for-index="idx">
+    <text class="participant-item">{{idx + 1}}. {{item}}</text>
+</view>
+
+
     </view>
   </view>
 
@@ -34,8 +36,8 @@
   </view>
 
   <l-popup show="{{pop}}" content-align="center" animation="hide">
-  <text class="popTitle">下载地址</text>
-  <textarea class="information" maxlength="-1"  disabled="true" placeholder="{{durl}}"></textarea>
-  <button class="popButton" bindtap="cancelD">我已阅读</button>
+    <text class="popTitle">下载地址</text>
+    <textarea class="information" maxlength="-1" disabled="true" placeholder="{{durl}}"></textarea>
+    <button class="popButton" bindtap="cancelD">我已阅读</button>
   </l-popup>
 </view>
