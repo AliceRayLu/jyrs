@@ -78,3 +78,12 @@
   margin-top: 10px;
   border-radius: 98rpx;
 }
+.participant-item {
+  font-weight: bold;
+  font-size: 22px;
+  white-space: nowrap; /* 不换行 */
+  overflow: hidden; /* 隐藏溢出内容 */
+  text-overflow: ellipsis; /* 使用省略号表示溢出 */
+  display: block; /* 设置为块级元素 */
+  max-width: 100%; /* 最大宽度为父元素宽度 */
+}
