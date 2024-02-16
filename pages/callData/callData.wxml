@@ -1,2 +1,3 @@
 <!--pages/callData.wxml-->
 <text>pages/callData.wxml</text>
+<button bindtap="importExcel">云函数获取加法</button>

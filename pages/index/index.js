@@ -32,9 +32,12 @@ Page({
   toCall(){
     let uname = app.globalData.uname
     if(uname !== app.globalData.admin){
-      wx.showToast({
-        title: '仅管理员可用',
-        icon:'error'
+      // wx.showToast({
+      //   title: '仅管理员可用',
+      //   icon:'error'
+      // })
+      wx.navigateTo({
+        url: '/pages/call/call',
       })
     }else{
       wx.navigateTo({
