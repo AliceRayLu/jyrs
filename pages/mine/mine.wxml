@@ -1,0 +1,39 @@
+<!--pages/mine/mine.wxml-->
+<view class="container">
+  <view class="head">
+    <view style="display: flex;">
+      <l-avatar size="150" src="/images/logo.jpg" />
+      <view class="head-text">
+        <text style="font-size: 3.5vh">BD4TS</text>
+        <text style="font-size: 2vh">张三</text>
+      </view>
+    </view>
+    <view>
+      <l-icon name="right" color="#000000" />
+    </view>
+  </view>
+
+  <view class="expiration">
+    <text>电台执照到期时间：{{year}}-{{month}}-{{date}}</text>
+    <text class="expiration-date">{{beforedue}}天后</text>
+  </view>
+
+  <l-tabs style="width: 85%; margin-top: 3vh;">
+    <l-tabpanel tab="参与主控" key="one" slot="one">
+      <view class="table">
+        <view class="table-header table-row">
+          <text>2023年</text>
+        </view>
+        <block wx:for="{{control}}" wx:for-item="item">
+          <view class="table-row">
+            <text>{{item.date}}</text>
+            <text style="margin-left: 10%;">{{item.time}}</text>
+          </view>
+        </block>
+      </view>
+    </l-tabpanel>
+    <l-tabpanel tab="参与点名" key="two" slot="two">
+      <view class="tab-content">TODO</view>
+    </l-tabpanel>
+  </l-tabs>
+</view>

@@ -4,6 +4,7 @@
     "pages/index/index",
     "pages/register/register",
     "pages/user/user",
+    "pages/mine/mine",
     "pages/activities/activities",
     "pages/userInfoUpdate/userInfoUpdate",
     "pages/activityDetail/activityDetail",
