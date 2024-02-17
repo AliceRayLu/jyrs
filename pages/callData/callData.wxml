@@ -1,3 +1,40 @@
 <!--pages/callData.wxml-->
-<text>pages/callData.wxml</text>
 <button bindtap="importExcel">云函数获取加法</button>
+
+<view class="container">
+  <view class="section">
+    <view class="section__title text-size">选择统计年份：</view>
+    <view class="section__content">
+      <picker bindchange="bindYearChange" value="{{yearIndex}}" range="{{yearArray}}">
+        <view class="picker">
+          <text class="text-size">{{yearIndex == -1 ? '请选择' : yearArray[yearIndex]}}</text>
+          <l-icon name="down" color="#000000" />
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section__title text-size">选择统计类型：</view>
+    <view class="section__content">
+      <picker bindchange="bindTypeChange" value="{{typeIndex}}" range="{{typeArray}}">
+        <view class="picker">
+          <text class="text-size">{{typeIndex == -1 ? '请选择' : typeArray[typeIndex]}}</text>
+          <l-icon name="down" color="#000000" />
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view wx:for="{{list}}" wx:for-item="item" wx:key="*this">
+    <view class="row">
+      <view class="text-size" style="display: flex; flex-direction: row;">
+        <view style="width: 17vw;">{{item.no}}</view>
+        <view style="width: 17vw;">{{item.name}}</view>
+      </view>
+      <l-tag shape="circle">
+        <text class="text-size">{{item.times}} 次</text>
+      </l-tag>
+    </view>
+  </view>
+</view>

@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "l-icon": "../../miniprogram_npm/lin-ui/icon/index",
+    "l-tag": "../../miniprogram_npm/lin-ui/tag/index"
+  }
 }

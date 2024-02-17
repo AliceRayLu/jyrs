@@ -1,4 +1,42 @@
 Page({
+  data: {
+    yearArray: ['2020', '2021', '2022', '2023', '2024'],
+    yearIndex: -1,
+    
+    typeArray: ['点名', '主控'],
+    typeIndex: -1,
+
+    list: [
+      {
+        no: 'BD4TS',
+        name: '张三',
+        times: '3'
+      },
+      {
+        no: 'BT4TW',
+        name: '李四',
+        times: '4'
+      },
+      {
+        no: 'BT4TA',
+        name: '王五',
+        times: '5'
+      }
+    ]
+  },
+
+  bindYearChange: function(e) {
+    this.setData({
+      yearIndex: e.detail.value
+    })
+  },
+  
+  bindTypeChange: function(e) {
+    this.setData({
+      typeIndex: e.detail.value
+    })
+  },
+
   //云函数add
   importExcel(){
     wx.cloud.callFunction({
