@@ -21,17 +21,25 @@
   <l-tabs style="width: 85%; margin-top: 3vh;">
     <l-tabpanel tab="参与主控" key="one" slot="one">
       <view class="table">
-        <view class="table-header table-row">
-          <text>2023年</text>
-        </view>
-        <block wx:for="{{control}}" wx:for-item="item">
-          <view class="table-row">
-            <text>{{item.date}}</text>
-            <text style="margin-left: 10%;">{{item.time}}</text>
+        <view wx:for="{{controlYear}}" wx:for-item="year" wx:key="*year">
+          <view class="horizon table-header table-row">
+            <view class="horizon table-cell" style="justify-content: space-between;">
+              <view><text>{{year}}年</text></view>
+              <l-tag shape="circle">{{controlList[year].length}} 次</l-tag>
+            </view>
           </view>
-        </block>
+          <view wx:for="{{controlList[year]}}" wx:for-item="item" wx:key="*item.date">
+            <view class="horizon table-row">
+              <view class="horizon table-cell">
+                <text>{{item.date}}</text>
+                <text style="margin-left: 10%;">{{item.time}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
       </view>
     </l-tabpanel>
+    
     <l-tabpanel tab="参与点名" key="two" slot="two">
       <view class="tab-content">TODO</view>
     </l-tabpanel>
