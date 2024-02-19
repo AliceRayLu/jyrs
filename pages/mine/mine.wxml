@@ -20,7 +20,7 @@
   </view>
 
   <l-tabs style="width: 85%; margin-top: 3vh;">
-    <l-tabpanel tab="参与主控" key="one" slot="one">
+    <l-tabpanel tab="参与点名" key="one" slot="one">
       <view class="table">
         <view wx:for="{{controlYear}}" wx:for-item="year" wx:key="*year">
           <view class="horizon table-header table-row">
@@ -41,7 +41,7 @@
       </view>
     </l-tabpanel>
     
-    <l-tabpanel tab="参与点名" key="two" slot="two">
+    <l-tabpanel tab="参与主控" key="two" slot="two">
       <view class="tab-content">TODO</view>
     </l-tabpanel>
   </l-tabs>

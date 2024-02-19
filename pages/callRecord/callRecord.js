@@ -10,7 +10,14 @@ Page({
     due: '',
     callLogs: '',
     fileName: '',
-    downloadPath:''
+    downloadPath:'',
+    control:""
+  },
+
+  getControl(event){
+    this.setData({
+      control:event.detail.value
+    })
   },
 
 
@@ -29,9 +36,10 @@ Page({
         that.setData({
           fileName: fileName
         });
+        let name = Date.now()+fileName
         wx.cloud.uploadFile({
           filePath:res.tempFiles[0].path,
-          cloudPath:`calls/${fileName}`
+          cloudPath:`calls/${name}`
         }).then(r2 => {
           let fileID = r2.fileID
           wx.cloud.getTempFileURL({
@@ -78,13 +86,21 @@ Page({
         })
         return
       }
+      if(this.data.control == ""){
+        wx.showToast({
+          title: '请填写主控人员',
+          icon:'error'
+        })
+        return
+      }
       let _this = this
       // TODO: parse excel and control
       db.collection('call_file').add({
         data:{
           log: _this.data.callLogs,
           file: _this.data.downloadPath,
-          time: _this.data.due
+          time: _this.data.due,
+          control:_this.data.control
         }
       }).then(res => {
         // wx.navigateTo({
