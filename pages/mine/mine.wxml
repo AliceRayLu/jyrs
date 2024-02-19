@@ -15,7 +15,8 @@
 
   <view class="expiration">
     <text>电台执照到期时间：{{year}}-{{month}}-{{date}}</text>
-    <text class="expiration-date">{{beforedue}}天后</text>
+    <text class="expiration-date" wx:if="{{beforedue > 0}}">{{beforedue}}天后</text>
+    <text class="expiration-date" wx:else>已过期</text>
   </view>
 
   <l-tabs style="width: 85%; margin-top: 3vh;">
