@@ -4,11 +4,11 @@
     <view style="display: flex;">
       <l-avatar size="150" src="/images/logo.jpg" />
       <view class="head-text">
-        <text style="font-size: 3.5vh">BD4TS</text>
-        <text style="font-size: 2vh">张三</text>
+        <text style="font-size: 3.5vh">{{uname}}</text>
+        <text style="font-size: 2vh">{{man}}</text>
       </view>
     </view>
-    <view>
+    <view bind:tap="toDetail">
       <l-icon name="right" color="#000000" />
     </view>
   </view>

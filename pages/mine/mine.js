@@ -1,4 +1,7 @@
 // pages/mine/mine.js
+const app = getApp()
+const db = wx.cloud.database()
+
 Page({
   data: {
     controlData: [
@@ -9,13 +12,26 @@ Page({
       { date: '2022.1.4', time: '12:00:00' }
     ],
     controlYear: [],
-    controlList: {}
+    controlList: {},
+    uname:"",
+    man:"",
+    beforedue: -1, //距到期时间天数
+    year:-1,
+    month:-1,
+    date:-1,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    this.data.uname = app.globalData.uname
+    if(this.data.uname === ""){
+      wx.navigateTo({
+        url: '/pages/login/login',
+      })
+    }
+    
     let controlData = this.data.controlData;
     let yearList = [];
     let dataByYear = {};
@@ -38,6 +54,12 @@ Page({
     });
   },
 
+  toDetail(){
+    wx.navigateTo({
+      url: '/pages/user/user',
+    })
+  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -49,7 +71,26 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    let uname = app.globalData.uname
+    let _this = this
+    _this.setData({
+      uname: uname
+    })
+  
+    db.collection('members').where({
+      call:uname
+    }).get({
+      success(res){
+        let user = res.data[0]
+        _this.setData({
+          year:user.due.getFullYear(),
+          month: user.due.getMonth()+1,
+          date: user.due.getDate(),
+          man:user.man,
+          beforedue: parseInt((user.due.getTime()- new Date().getTime())/1000/60/60/24),
+        })
+      }
+    })
   },
 
   /**

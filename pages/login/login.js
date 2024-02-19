@@ -50,7 +50,7 @@ Page({
             app.globalData.uname = uname
             console.log(user.uname)
             wx.switchTab({
-              url: '/pages/user/user',
+              url: '/pages/mine/mine',
               success: function (e) {
  
                 let page = getCurrentPages().pop();

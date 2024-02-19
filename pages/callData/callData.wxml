@@ -1,5 +1,5 @@
 <!--pages/callData.wxml-->
-<button bindtap="importExcel">云函数获取加法</button>
+<!-- <button bindtap="importExcel">云函数获取加法</button> -->
 
 <view class="container">
   <view class="section">
