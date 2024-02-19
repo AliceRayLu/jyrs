@@ -10,7 +10,6 @@
         <l-collapse-item title="{{item.call+empty+item.man}}" l-title-class="collapse">
           <view class="infos">
             <view class="details">设台人员：{{item.man}}</view>
-            <view class="details">用户名：{{item.uname}}</view>
             <view class="details">电话号码：{{item.phone}}</view>
             <view class="details">电台呼号：{{item.call}}</view>
             <view class="details">电台地址：{{item.location}}</view>

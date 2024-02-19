@@ -134,7 +134,13 @@ Page({
   onShow() {
     let _this = this
     let count = _this.data.count
-    db.collection('members').get().then(res => {
+    db.collection('members').field({
+      _id:false,
+      _openid:false,
+      uname:false,
+      license:false,
+      passwd:false
+    }).get().then(res => {
       _this.setData({
         members: res.data
       })
@@ -173,7 +179,13 @@ Page({
   onReachBottom(res) {
     let count = this.data.count
     let _this = this
-    db.collection('members').skip(count).get().then(res => {
+    db.collection('members').skip(count).field({
+      _id:false,
+      _openid:false,
+      uname:false,
+      license:false,
+      passwd:false
+    }).get().then(res => {
       let newdata = res.data
       let olddata = _this.data.members
       count += 20
