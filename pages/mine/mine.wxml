@@ -2,7 +2,7 @@
 <view class="container">
   <view class="head">
     <view style="display: flex;">
-      <l-avatar size="150" src="/images/logo.jpg" />
+      <!-- <l-avatar size="150" src="/images/logo.jpg" /> -->
       <view class="head-text">
         <text style="font-size: 3.5vh">{{uname}}</text>
         <text style="font-size: 2vh">{{man}}</text>
@@ -22,18 +22,17 @@
   <l-tabs style="width: 85%; margin-top: 3vh;">
     <l-tabpanel tab="参与点名" key="one" slot="one">
       <view class="table">
-        <view wx:for="{{controlYear}}" wx:for-item="year" wx:key="*year">
+        <view wx:for="{{callYear}}" wx:for-item="year" wx:key="*year">
           <view class="horizon table-header table-row">
             <view class="horizon table-cell" style="justify-content: space-between;">
               <view><text>{{year}}年</text></view>
               <l-tag shape="circle">{{controlList[year].length}} 次</l-tag>
             </view>
           </view>
-          <view wx:for="{{controlList[year]}}" wx:for-item="item" wx:key="*item.date">
+          <view wx:for="{{callList[year]}}" wx:for-item="item" wx:key="*item">
             <view class="horizon table-row">
               <view class="horizon table-cell">
-                <text>{{item.date}}</text>
-                <text style="margin-left: 10%;">{{item.time}}</text>
+                <text>{{item}}</text>
               </view>
             </view>
           </view>
@@ -42,7 +41,23 @@
     </l-tabpanel>
     
     <l-tabpanel tab="参与主控" key="two" slot="two">
-      <view class="tab-content">TODO</view>
+      <view class="table">
+        <view wx:for="{{controlYear}}" wx:for-item="year" wx:key="*year">
+          <view class="horizon table-header table-row">
+            <view class="horizon table-cell" style="justify-content: space-between;">
+              <view><text>{{year}}年</text></view>
+              <l-tag shape="circle">{{controlList[year].length}} 次</l-tag>
+            </view>
+          </view>
+          <view wx:for="{{controlList[year]}}" wx:for-item="item" wx:key="*item">
+            <view class="horizon table-row">
+              <view class="horizon table-cell">
+                <text>{{item}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
     </l-tabpanel>
   </l-tabs>
 </view>

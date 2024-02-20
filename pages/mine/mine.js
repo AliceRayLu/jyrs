@@ -13,6 +13,8 @@ Page({
     ],
     controlYear: [],
     controlList: {},
+    callYear:[],
+    callList:{},
     uname:"",
     man:"",
     beforedue: -1, //距到期时间天数
@@ -88,6 +90,38 @@ Page({
           date: user.due.getDate(),
           man:user.man,
           beforedue: parseInt((user.due.getTime()- new Date().getTime())/1000/60/60/24),
+        })
+      }
+    })
+
+    db.collection('call_record').where({
+      call:uname
+    }).field({
+      _id:false,
+      man:false,
+      call:false
+    }).get({
+      success(res){
+        let info = res.data[0]
+        let keys = Object.keys(info)
+        let callY = [],controlY = []
+        let callD = {},controlD = {}
+        // console.log(keys)
+        for(var i in keys){
+          let key = keys[i];
+          if(key.startsWith('call')){
+            callY.push(key.substr(4))
+            callD[key.substr(4)] = info[key]
+          }else{
+            controlY.push(key.substr(7))
+            controlD[key.substr(7)] = info[key]
+          }
+        }
+        _this.setData({
+          controlYear:controlY,
+          controlList:controlD,
+          callYear:callY,
+          callList:callD
         })
       }
     })

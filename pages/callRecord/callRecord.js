@@ -121,7 +121,8 @@ Page({
         }).then(res => {
           wx.showToast({
             title: '上传中',
-            icon:'loading'
+            icon:'loading',
+            duration:6000
           }).then(res => {
             const fs = wx.getFileSystemManager()
             let fileData;
