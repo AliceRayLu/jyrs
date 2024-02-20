@@ -1,5 +1,7 @@
 // pages/callRecord/callRecord.js
 const db = wx.cloud.database()
+const _ = db.command
+import XLSX from '../../xlsx.mini.min'
 
 Page({
 
@@ -11,6 +13,7 @@ Page({
     callLogs: '',
     fileName: '',
     downloadPath:'',
+    tempFilePath:'',
     control:""
   },
 
@@ -29,6 +32,9 @@ Page({
         // console.log(res)
         // console.log(res.tempFiles[0])
         let fileName = res.tempFiles[0].name;
+        that.setData({
+          tempFilePath: res.tempFiles[0].path
+        })
         if (fileName.indexOf('/') >= 0) {
           // 如果是 iOS 平台，从路径中解析出文件名
           fileName = fileName.split('/').pop();
@@ -103,9 +109,64 @@ Page({
           control:_this.data.control
         }
       }).then(res => {
-        // wx.navigateTo({
-        //   url: 'url', // TODO
-        // })
+        let year = _this.data.due.substr(0,4)
+        console.log(year)
+        let head = "control"+year
+        db.collection('call_record').where({
+          call:_this.data.control
+        }).update({
+          data:{
+            [head]: _.push(_this.data.due)
+          },
+        }).then(res => {
+          wx.showToast({
+            title: '上传中',
+            icon:'loading'
+          }).then(res => {
+            const fs = wx.getFileSystemManager()
+            let fileData;
+            fs.readFile({
+              filePath: _this.data.tempFilePath,
+              encoding:'base64',
+              success(res){
+                fileData = res.data
+                const workbook = XLSX.read(fileData, { type: 'base64' });
+                const worksheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[worksheetName];
+                const data = XLSX.utils.sheet_to_json(worksheet);
+                console.log(data)
+
+                let caller = []
+                for(var i in data){
+                  caller.push(data[i]['呼号'])
+                  let title = "call"+year
+                  db.collection('call_record').where({
+                    call:data[i]['呼号']
+                  }).update({
+                    data:{
+                      [title]:_.push(_this.data.due)
+                    }
+                  })
+                }
+
+                console.log(caller)
+
+                db.collection('call_file').where({
+                  file:_this.data.downloadPath
+                }).update({
+                  data:{
+                    caller:caller
+                  },
+                }).then(res =>{
+                  wx.navigateTo({
+                    url: '/pages/call/call', 
+                  })
+                })
+              }
+            })
+          })
+        })
+        
       })
     }
 
