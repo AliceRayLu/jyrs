@@ -19,6 +19,8 @@ Page({
     location:"", //电台地址
     due:"", //到期时间
     phone:"",
+    certError: "",
+    phoneError: ""
   },
   
   bindDateChange(event){
@@ -46,10 +48,22 @@ Page({
     })
   },
 
-  getcert(event){
-    this.setData({
-      cert: event.detail.value
-    })
+  certReg: /^(\d{17})([0-9]|X)$/,
+  getcert(event) {
+    let cert = event.detail.value;
+    if (!this.certReg.test(cert)) {
+      this.setData({
+        certError: '证件号码格式不正确'
+      });
+    }
+    else {
+      this.setData({
+        certError: ''
+      });
+      this.setData({
+        cert: event.detail.value
+      })
+    }
   },
 
   getcall(event){
@@ -70,10 +84,22 @@ Page({
     })
   },
 
-  getPhone(event){
-    this.setData({
-      phone: event.detail.value
-    })
+  phoneReg: /^1[34578]\d{9}$/,
+  getPhone(event) {
+    let phone = event.detail.value;
+    if (!this.phoneReg.test(phone)) {
+      this.setData({
+        phoneError: '电话号码格式不正确'
+      });
+    }
+    else {
+      this.setData({
+        phoneError: ''
+      });
+      this.setData({
+        phone: event.detail.value
+      })
+    }
   },
 
   recognize:function(pic_path){
