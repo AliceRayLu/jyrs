@@ -303,7 +303,8 @@ Page({
     
     db.collection('call_record').add({
       data:{
-        call:_this.data.call
+        call:_this.data.call,
+        man:_this.data.man
       }
     })
   },

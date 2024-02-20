@@ -135,13 +135,38 @@ Page({
                 const worksheet = workbook.Sheets[worksheetName];
                 const data = XLSX.utils.sheet_to_json(worksheet);
                 console.log(data)
+
+                let caller = []
+                for(var i in data){
+                  caller.push(data[i]['呼号'])
+                  let title = "call"+year
+                  db.collection('call_record').where({
+                    call:data[i]['呼号']
+                  }).update({
+                    data:{
+                      [title]:_.push(_this.data.due)
+                    }
+                  })
+                }
+
+                console.log(caller)
+
+                db.collection('call_file').where({
+                  file:_this.data.downloadPath
+                }).update({
+                  data:{
+                    caller:caller
+                  },
+                }).then(res =>{
+                  wx.navigateTo({
+                    url: '/pages/call/call', 
+                  })
+                })
               }
             })
           })
         })
-        // wx.navigateTo({
-        //   url: 'url', // TODO
-        // })
+        
       })
     }
 
