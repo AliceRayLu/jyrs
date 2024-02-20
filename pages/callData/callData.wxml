@@ -29,8 +29,8 @@
   <view wx:for="{{list}}" wx:for-item="item" wx:key="*this">
     <view class="row">
       <view class="text-size" style="display: flex; flex-direction: row;">
-        <view style="width: 17vw;">{{item.no}}</view>
-        <view style="width: 17vw;">{{item.name}}</view>
+        <view style="width: 23vw;">{{item.no}}</view>
+        <view style="width: 20vw;">{{item.name}}</view>
       </view>
       <l-tag shape="circle">
         <text class="text-size">{{item.times}} 次</text>
