@@ -301,6 +301,11 @@ Page({
     })
     })
     
+    db.collection('call_record').add({
+      data:{
+        call:_this.data.call
+      }
+    })
   },
 
   /**
