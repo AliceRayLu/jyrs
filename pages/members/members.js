@@ -135,14 +135,24 @@ Page({
     let _this = this
     let count = _this.data.count
     db.collection('members').field({
-      _id:false,
-      _openid:false,
-      uname:false,
-      license:false,
-      passwd:false
+      _id: false,
+      _openid: false,
+      uname: false,
+      license: false,
+      passwd: false
     }).get().then(res => {
+      let newData = res.data.map(item => {
+        if (item.due instanceof Date) {          
+          let due = item.due;
+          let year = due.getFullYear();
+          let month = due.getMonth() + 1;
+          let day = due.getDate();
+          item.due = year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2);
+        }
+        return item;
+      });
       _this.setData({
-        members: res.data
+        members: newData
       })
     }).then(res => {
       count += 20

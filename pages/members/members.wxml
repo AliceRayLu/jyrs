@@ -13,8 +13,8 @@
             <view class="details">电话号码：{{item.phone}}</view>
             <view class="details">电台呼号：{{item.call}}</view>
             <view class="details">电台地址：{{item.location}}</view>
-            <view class="details">电台类型：{{item.type}}</view>
-            <!-- <view class="details">到期时间：{{item.due.getFullYear()}}</view> -->
+            <view class="details">电台类型：{{item.type}}</view>            
+            <view class="details">到期时间：{{item.due}}</view>
             <l-button type="error" size="mini" class="button" bind:tap="delete" data-id="{{index}}">删除</l-button>
           </view>
         </l-collapse-item>
