@@ -22,7 +22,8 @@ Page({
       { value: '电台呼号', isChecked: false, disabled: false },
       { value: '电台类型', isChecked: false, disabled: false },
       { value: '台站地址', isChecked: false, disabled: false }    
-    ]
+    ],
+    customInfo: [{id: 0}]
   },
 
   getName(event){
@@ -176,6 +177,20 @@ Page({
     this.setData({
       items: newItems
     })
+  },
+
+  addCustomInfo: function() {
+    const id = this.data.customInfo.length;
+    this.setData({
+      customInfo: this.data.customInfo.concat({id: id}),
+    });
+  },
+
+  removeCustomInfo: function(e) {
+    const id = e.currentTarget.dataset.id;
+    this.setData({
+      customInfo: this.data.customInfo.filter(customInfo => customInfo.id !== id),
+    });
   },
 
   /**

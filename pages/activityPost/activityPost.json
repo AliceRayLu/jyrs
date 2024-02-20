@@ -2,6 +2,7 @@
   "usingComponents": {
     "l-album":"../../miniprogram_npm/lin-ui/album/index",
     "l-checkbox-group": "../../miniprogram_npm/lin-ui/checkbox-group/index",
-    "l-checkbox": "../../miniprogram_npm/lin-ui/checkbox/index"
+    "l-checkbox": "../../miniprogram_npm/lin-ui/checkbox/index",
+    "l-icon": "../../miniprogram_npm/lin-ui/icon/index"
   }
 }
