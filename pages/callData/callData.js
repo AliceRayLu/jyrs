@@ -1,56 +1,89 @@
+const db = wx.cloud.database()
+
 Page({
   data: {
     yearArray: ['2020', '2021', '2022', '2023', '2024'],
     yearIndex: -1,
     
     typeArray: ['点名', '主控'],
+    typeEN:['call','control'],
     typeIndex: -1,
 
-    list: [
-      {
-        no: 'BD4TS',
-        name: '张三',
-        times: '3'
-      },
-      {
-        no: 'BT4TW',
-        name: '李四',
-        times: '4'
-      },
-      {
-        no: 'BT4TA',
-        name: '王五',
-        times: '5'
-      }
-    ]
+    list: []
   },
 
   bindYearChange: function(e) {
     this.setData({
       yearIndex: e.detail.value
     })
+    if(e.detail.value >= 0 && this.data.typeIndex >= 0){
+      this.onChange()
+    }
   },
   
   bindTypeChange: function(e) {
     this.setData({
       typeIndex: e.detail.value
     })
+    if(this.data.yearIndex >= 0 && e.detail.value >= 0){
+      this.onChange()
+    }
   },
 
-  // //云函数add
-  // importExcel(){
-  //   wx.cloud.callFunction({
-  //     name: 'importExcel',
-  //     data: {
-  //       fileID: 'cloud://jyrsa-9gg6w0crf1f1ed36.6a79-jyrsa-9gg6w0crf1f1ed36-1322866588/calls/test.xls', // 替换成实际的Excel文件在云存储的fileID
-  //     },
-  //     success: res => {
-  //       console.log('导入成功', res.result);
-  //     },
-  //     fail: err => {
-  //       console.error('导入失败', err);
-  //     }
-  //   });
-  // }
+  onChange(){
+    let _this = this
+    let type = this.data.typeEN[this.data.typeIndex]
+    let year = this.data.yearArray[this.data.yearIndex]
+    let title = type+year
+    let total = 0
+    db.collection('call_record').count().then(res => {
+      total = res.total
+      if(total%20 == 0){
+        total = total/20
+      }else{
+        total = Math.floor(total/20)+1
+      }
+      console.log(total)
+      let lists = []
+      for(var i = 0;i < total;i++){
+        db.collection('call_record').skip(i*20).field({
+          call:true,
+          [title]:true,
+          man:true,
+          _id:false
+        }).get().then(res => {
+          console.log(res)
+          for(var i in res.data){
+            let obj = {}
+            obj['no'] = res.data[i]['call']
+            obj['name'] = res.data[i]['man'],
+            obj['times'] = res.data[i][title]? res.data[i][title].length:0
+            lists.push(obj)
+          }
+          lists.sort(function(a,b){
+            return b['times']-a['times']
+          })
+          console.log(lists)
+          _this.setData({
+            list:lists
+          })
+        })
+      }
+    })
+    
+  },
+
+  onLoad(){
+    let now = new Date().getFullYear()
+    let dif = now-2024
+    let years = []
+    for(let i = 0;i <= dif;i++){
+      years.push(String(now));
+      now--;
+    }
+    this.setData({
+      yearArray:years
+    })
+  }
 })
 
