@@ -174,6 +174,10 @@ When the user is an administrator, trigger the logic: search for name through un
     }).then(res => {
       _this.onShow()
     })
+
+    _this.setData({
+      pop: true
+    })
   },
 
   cancel(event) {
