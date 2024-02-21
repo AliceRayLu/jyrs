@@ -4,13 +4,6 @@ const db = wx.cloud.database()
 
 Page({
   data: {
-    controlData: [
-      { date: '2021.2.2', time: '12:00:00' },
-      { date: '2024.1.1', time: '12:00:00' },
-      { date: '2022.1.2', time: '12:00:00' },
-      { date: '2023.1.3', time: '12:00:00' },
-      { date: '2022.1.4', time: '12:00:00' }
-    ],
     controlYear: [],
     controlList: {},
     callYear:[],
@@ -21,6 +14,8 @@ Page({
     year:-1,
     month:-1,
     date:-1,
+    emptyCall:"",
+    emptyControl:""
   },
 
   /**
@@ -34,26 +29,6 @@ Page({
       })
     }
     
-    let controlData = this.data.controlData;
-    let yearList = [];
-    let dataByYear = {};
-    for (let item of controlData) {
-      let year = item.date.split(".")[0];
-      if (!dataByYear[year]) {
-        yearList.push(year);
-        dataByYear[year] = [];
-      }
-      dataByYear[year].push(item);
-    }
-
-    yearList.sort(function(a, b) {
-      return b - a;
-    }) 
-
-    this.setData({
-      controlYear: yearList,
-      controlList: dataByYear
-    });
   },
 
   toDetail(){
@@ -98,6 +73,7 @@ Page({
       call:uname
     }).field({
       _id:false,
+      _openid:false,
       man:false,
       call:false
     }).get({
@@ -123,6 +99,16 @@ Page({
           callYear:callY,
           callList:callD
         })
+        if(controlY.length == 0){
+          _this.setData({
+            emptyControl:"暂无数据~"
+          })
+        }
+        if(callY.length == 0){
+          _this.setData({
+            emptyCall:"暂无数据~"
+          })
+        }
       }
     })
   },

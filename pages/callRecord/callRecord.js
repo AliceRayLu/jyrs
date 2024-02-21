@@ -119,6 +119,13 @@ Page({
             [head]: _.push(_this.data.due)
           },
         }).then(res => {
+          if(res['stats']['updated'] == 0){
+            let d = {
+              "call":_this.data.control,
+              [head]:[_this.data.due]
+            }
+            this.addToDB('call_record',d)
+          }
           wx.showToast({
             title: '上传中',
             icon:'loading',
@@ -141,11 +148,23 @@ Page({
                 for(var i in data){
                   caller.push(data[i]['呼号'])
                   let title = "call"+year
+                  let c = data[i]['呼号']
+                  console.log(c)
                   db.collection('call_record').where({
-                    call:data[i]['呼号']
+                    call:c
                   }).update({
                     data:{
                       [title]:_.push(_this.data.due)
+                    }
+                  }).then(res =>{
+                    console.log(c)
+                    console.log(res)
+                    if(res['stats']['updated'] == 0){
+                      let d = {
+                        "call":c,
+                        [title]:[_this.data.due]
+                      }
+                      _this.addToDB('call_record',d)
                     }
                   })
                 }
@@ -168,6 +187,12 @@ Page({
           })
         })
         
+      })
+    },
+
+    addToDB(name,data){
+      db.collection(name).add({
+        data:data
       })
     }
 
