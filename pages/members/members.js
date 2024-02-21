@@ -136,10 +136,13 @@ Page({
     let count = _this.data.count
     db.collection('members').field({
       _id: false,
-      _openid: false,
-      uname: false,
-      license: false,
-      passwd: false
+      call:true,
+      due:true,
+      certificate:true,
+      location:true,
+      man:true,
+      phone:true,
+      type:true
     }).get().then(res => {
       let newData = res.data.map(item => {
         if (item.due instanceof Date) {          
@@ -190,11 +193,14 @@ Page({
     let count = this.data.count
     let _this = this
     db.collection('members').skip(count).field({
-      _id:false,
-      _openid:false,
-      uname:false,
-      license:false,
-      passwd:false
+      _id: false,
+      call:true,
+      due:true,
+      certificate:true,
+      location:true,
+      man:true,
+      phone:true,
+      type:true
     }).get().then(res => {
       let newdata = res.data
       let olddata = _this.data.members
