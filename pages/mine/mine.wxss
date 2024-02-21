@@ -53,3 +53,7 @@
 .table-cell {
   width: 95%;
 }
+
+.empty-remind{
+  margin:2vh;
+}

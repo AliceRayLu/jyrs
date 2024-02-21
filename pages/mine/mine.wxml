@@ -14,19 +14,24 @@
   </view>
 
   <view class="expiration">
-    <text>电台执照到期时间：{{year}}-{{month}}-{{date}}</text>
-    <text class="expiration-date" wx:if="{{beforedue > 0}}">{{beforedue}}天后</text>
-    <text class="expiration-date" wx:else>已过期</text>
+    <view wx:if="{{year > 0}}">
+      <text wx:if="{{year > 0}}">电台执照到期时间：{{year}}-{{month}}-{{date}}</text>
+      <text class="expiration-date" wx:if="{{beforedue > 0}}">{{beforedue}}天后</text>
+      <text class="expiration-date" wx:else>已过期</text>
+    </view>
+    <text wx:else>电台执照到期时间无数据</text>
+    
   </view>
 
   <l-tabs style="width: 85%; margin-top: 3vh;">
     <l-tabpanel tab="参与点名" key="one" slot="one">
+      <view class="empty-remind">{{emptyCall}}</view>
       <view class="table">
         <view wx:for="{{callYear}}" wx:for-item="year" wx:key="*year">
           <view class="horizon table-header table-row">
             <view class="horizon table-cell" style="justify-content: space-between;">
               <view><text>{{year}}年</text></view>
-              <l-tag shape="circle">{{controlList[year].length}} 次</l-tag>
+              <l-tag shape="circle">{{callList[year].length}} 次</l-tag>
             </view>
           </view>
           <view wx:for="{{callList[year]}}" wx:for-item="item" wx:key="*item">
@@ -41,6 +46,7 @@
     </l-tabpanel>
     
     <l-tabpanel tab="参与主控" key="two" slot="two">
+      <view class="empty-remind">{{emptyControl}}</view>
       <view class="table">
         <view wx:for="{{controlYear}}" wx:for-item="year" wx:key="*year">
           <view class="horizon table-header table-row">

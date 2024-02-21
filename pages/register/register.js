@@ -321,18 +321,31 @@ Page({
         phone: _this.data.phone
       }
     }).then(res =>{
-      wx.navigateTo({
-        url: '/pages/login/login',
+      db.collection('call_record').where({
+        call:_this.data.call
+      }).update({
+        data:{
+          man:_this.data.man
+        }
+      }).then(res => {
+        if(res['stats']['updated'] == 0){
+          db.collection('call_record').add({
+            data:{
+              call:_this.data.call,
+              man:_this.data.man
+            }
+          })
+        }
+      }).then(res => {
+        wx.navigateTo({
+          url: '/pages/login/login',
+        })
       })
+      
     })
     })
     
-    db.collection('call_record').add({
-      data:{
-        call:_this.data.call,
-        man:_this.data.man
-      }
-    })
+    
   },
 
   /**

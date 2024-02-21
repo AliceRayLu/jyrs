@@ -44,7 +44,7 @@
   </view>
   <block wx:for="{{customInfo}}" wx:key="id">
     <view class="input-container">
-      <input class="input" />
+      <input class="input" bind:blur="addInfoText" data-id="{{index}}" />
       <l-icon name="error" color="#000000" style="margin-left: 3vw;" bindtap="removeCustomInfo" data-id="{{item.id}}" />
     </view>
   </block>
