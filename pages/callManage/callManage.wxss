@@ -35,3 +35,9 @@
   margin-top: 10px;
   border-radius: 98rpx;
 }
+
+.warning{
+  margin:2vh;
+  color:gray;
+  font-size: small;
+}

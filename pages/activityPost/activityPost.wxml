@@ -38,6 +38,7 @@
       </l-checkbox>
     </l-checkbox-group>
   </view>
+  <view class="hint">*报名信息至少勾选一项，可以不添加自定义报名信息</view>
   <view class="input-container" style="justify-content: space-between;">
     <label class="label">自定义报名信息</label>
     <l-icon name="add" color="#000000" bindtap="addCustomInfo" />

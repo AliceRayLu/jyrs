@@ -1,5 +1,6 @@
 // pages/callManage.js
 const db = wx.cloud.database()
+const _ = db.command
 Page({
 
   /**
@@ -31,8 +32,40 @@ Page({
   },
 
   delete(event){
+    wx.showToast({
+      title: '删除中',
+      icon:'loading',
+      duration:3000
+    })
     let index = event.currentTarget.dataset.id;
-    //TODO
+    let time = this.data.files[index]['time']
+    let year = time.substr(0,4)
+    let control = "control"+year
+    let call = "call"+year
+    let _this = this
+    db.collection('call_record').where({
+      call: _this.data.files[index]['control']
+    }).update({
+      data:{
+        [control]:_.pull(time)
+      }
+    })
+    let caller = this.data.files[index]['caller']
+    for(var i in caller){
+      let name = caller[i]
+      db.collection('call_record').where({
+        call:name
+      }).update({
+        data:{
+          [call]:_.pull(time)
+        }
+      })
+    }
+    db.collection('call_file').where({
+      time:time
+    }).remove().then(res => {
+      _this.onShow()
+    })
   },
 
   /**

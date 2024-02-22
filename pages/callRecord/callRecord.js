@@ -100,7 +100,6 @@ Page({
         return
       }
       let _this = this
-      // TODO: parse excel and control
       db.collection('call_file').add({
         data:{
           log: _this.data.callLogs,

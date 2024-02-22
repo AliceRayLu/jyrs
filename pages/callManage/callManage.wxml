@@ -1,4 +1,5 @@
 <!--pages/callManage.wxml-->
+<view class="warning">*请注意：删除文件会删除对应文件中所有人的点名与主控记录</view>
 <l-collapse type="normal">
   <view wx:for="{{files}}" wx:key="_id">
     <l-collapse-item title="{{item.time}} 点名" l-title-class="collapse">
