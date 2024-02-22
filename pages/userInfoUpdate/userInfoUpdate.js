@@ -210,6 +210,7 @@ Page({
 
   update(){
     let uname = this.data.uname
+    let _this = this
     if(this.data.pic.length == 0){
       if(this.data.phone == ""){
         wx.showToast({
@@ -275,19 +276,23 @@ Page({
           call: uname
         }).update({
           data:({
-            due: new Date(this.data.due),
-            location: this.data.location,
-            call: this.data.call,
-            license: this.data.picPath,
-            type: this.data.type,
-            man: this.data.man,
-            certificate: this.data.cert
+            due: new Date(_this.data.due),
+            location: _this.data.location,
+            call: _this.data.call,
+            license: _this.data.picPath,
+            type: _this.data.type,
+            man: _this.data.man,
+            certificate: _this.data.cert
           })
         })
       })
+      db.collection('call_record').where({
+        call:uname
+      }).update({
+        man:_this.data.man
+      })
     }
     if(this.data.phone != ""){
-      let _this = this
       db.collection('members').where({
         call:uname
       }).update({

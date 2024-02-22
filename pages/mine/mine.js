@@ -94,9 +94,9 @@ Page({
           }
         }
         _this.setData({
-          controlYear:controlY,
+          controlYear:controlY.reverse(),
           controlList:controlD,
-          callYear:callY,
+          callYear:callY.reverse(),
           callList:callD
         })
         if(controlY.length == 0){

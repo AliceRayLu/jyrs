@@ -13,6 +13,7 @@ Page({
     callLogs: '',
     fileName: '',
     downloadPath:'',
+    fileID:'',
     tempFilePath:'',
     control:""
   },
@@ -48,6 +49,15 @@ Page({
           cloudPath:`calls/${name}`
         }).then(r2 => {
           let fileID = r2.fileID
+          let oldid = that.data.fileID
+          if(oldid != ''){
+            wx.cloud.deleteFile({
+              fileList:[oldid]
+            })
+          }
+          that.setData({
+            fileID:fileID
+          })
           wx.cloud.getTempFileURL({
             fileList:[fileID],
             success(r3){
@@ -100,93 +110,99 @@ Page({
         return
       }
       let _this = this
-      db.collection('call_file').add({
-        data:{
-          log: _this.data.callLogs,
-          file: _this.data.downloadPath,
-          time: _this.data.due,
-          control:_this.data.control
-        }
+      wx.showToast({
+        title: '上传中',
+        icon:'loading',
+        duration:6000
       }).then(res => {
+        const fs = wx.getFileSystemManager()
+        let fileData;
         let year = _this.data.due.substr(0,4)
-        console.log(year)
         let head = "control"+year
-        db.collection('call_record').where({
-          call:_this.data.control
-        }).update({
-          data:{
-            [head]: _.push(_this.data.due)
-          },
-        }).then(res => {
-          if(res['stats']['updated'] == 0){
-            let d = {
-              "call":_this.data.control,
-              [head]:[_this.data.due]
-            }
-            this.addToDB('call_record',d)
-          }
-          wx.showToast({
-            title: '上传中',
-            icon:'loading',
-            duration:6000
-          }).then(res => {
-            const fs = wx.getFileSystemManager()
-            let fileData;
-            fs.readFile({
-              filePath: _this.data.tempFilePath,
-              encoding:'base64',
-              success(res){
-                fileData = res.data
-                const workbook = XLSX.read(fileData, { type: 'base64' });
-                const worksheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[worksheetName];
-                const data = XLSX.utils.sheet_to_json(worksheet);
-                console.log(data)
+        fs.readFile({
+          filePath: _this.data.tempFilePath,
+          encoding:'base64',
+          success(res){
+            fileData = res.data
+            const workbook = XLSX.read(fileData, { type: 'base64' });
+            const worksheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[worksheetName];
+            const data = XLSX.utils.sheet_to_json(worksheet);
+            console.log(data)
 
-                let caller = []
-                for(var i in data){
-                  caller.push(data[i]['呼号'])
-                  let title = "call"+year
-                  let c = data[i]['呼号']
-                  console.log(c)
-                  db.collection('call_record').where({
-                    call:c
-                  }).update({
-                    data:{
-                      [title]:_.push(_this.data.due)
-                    }
-                  }).then(res =>{
-                    console.log(c)
-                    console.log(res)
-                    if(res['stats']['updated'] == 0){
-                      let d = {
-                        "call":c,
-                        [title]:[_this.data.due]
-                      }
-                      _this.addToDB('call_record',d)
-                    }
-                  })
-                }
-
-                console.log(caller)
-
-                db.collection('call_file').where({
-                  file:_this.data.downloadPath
-                }).update({
-                  data:{
-                    caller:caller
-                  },
-                }).then(res =>{
-                  wx.navigateTo({
-                    url: '/pages/call/call', 
-                  })
+            let caller = []
+            for(var i in data){
+              if(!Object.keys(data[i]).includes('呼号')){
+                wx.showToast({
+                  title: '文件格式不对',
+                  icon:'error'
                 })
+                wx.cloud.deleteFile({
+                  fileList:[_this.data.fileID]
+                })
+                return
               }
+              caller.push(data[i]['呼号'])
+              let title = "call"+year
+              let c = data[i]['呼号']
+              console.log(c)
+              db.collection('call_record').where({
+                call:c
+              }).update({
+                data:{
+                  [title]:_.push(_this.data.due)
+                }
+              }).then(res =>{
+                console.log(c)
+                console.log(res)
+                if(res['stats']['updated'] == 0){
+                  let d = {
+                    "call":c,
+                    [title]:[_this.data.due]
+                  }
+                  _this.addToDB('call_record',d)
+                }
+              })
+            }
+
+            console.log(caller)
+
+            db.collection('call_file').add({
+              data:{
+                log: _this.data.callLogs,
+                file: _this.data.downloadPath,
+                fileID: _this.data.fileID,
+                time: _this.data.due,
+                control:_this.data.control,
+                caller:caller
+              }
+            }).then(res => {
+              console.log(year)
+              db.collection('call_record').where({
+                call:_this.data.control
+              }).update({
+                data:{
+                  [head]: _.push(_this.data.due)
+                },
+              }).then(res => {
+                if(res['stats']['updated'] == 0){
+                  let d = {
+                    "call":_this.data.control,
+                    [head]:[_this.data.due]
+                  }
+                  this.addToDB('call_record',d)
+                }
+                
+              }) 
+            }).then(res => {
+              wx.navigateTo({
+                url: '/pages/call/call', 
+              })
             })
-          })
+          }
         })
-        
       })
+      
     },
 
     addToDB(name,data){

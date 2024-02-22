@@ -43,6 +43,20 @@ Page({
     let control = "control"+year
     let call = "call"+year
     let _this = this
+    db.collection('call_file').where({
+      time:time
+    }).get().then(res => {
+      let fileID = res.data[0]['fileID']
+      wx.cloud.deleteFile({
+        fileList:[fileID]
+      })
+    }).then(res => {
+      db.collection('call_file').where({
+        time:time
+      }).remove().then(res => {
+        _this.onShow()
+      })
+    })
     db.collection('call_record').where({
       call: _this.data.files[index]['control']
     }).update({
@@ -61,11 +75,6 @@ Page({
         }
       })
     }
-    db.collection('call_file').where({
-      time:time
-    }).remove().then(res => {
-      _this.onShow()
-    })
   },
 
   /**
