@@ -25,9 +25,7 @@
       </view>
       <view class="button-container">
         <view class="spacer" />
-        <button class="button" style="width: 30%;" wx:if="{{item.status === 0}}" catchtap="sign" data-index="{{index}}">立即报名</button>
-        <button class="button cancel" style="width: 30%;" wx:if="{{item.status === 1}}" catchtap="cancel" data-index="{{index}}">取消报名</button>
-        <button class="button detail" style="width: 30%;" wx:if="{{item.status === 2}}" catchtap="toDetail" data-index="{{index}}">查看详情</button>
+        <button class="button detail" style="width: 30%;" catchtap="toDetail" data-index="{{index}}">查看详情</button>
       </view>
     </view>
   </block>

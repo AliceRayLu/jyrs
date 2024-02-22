@@ -2,6 +2,7 @@
 import XLSX from '../../xlsx.mini.min'
 const app = getApp()
 const db = wx.cloud.database()
+const _ = db.command
 
 Page({
 
@@ -21,8 +22,11 @@ Page({
     status: true,
     isAdmin: false,
     pop: false,
+    pop2:false,
     durl: "",
-    sign_data: []
+    sign_data: [],
+    otherInfo:[],
+    userInfo:{}
   },
 
   /**
@@ -66,6 +70,7 @@ Page({
           detail: act.detail,
           participants: act.participants,
           num: act.participants.length,
+          otherInfo:act.otherInfo
         })
         if (act.pic != "") {
           _this.setData({
@@ -136,7 +141,7 @@ When the user is an administrator, trigger the logic: search for name through un
           let skip = 0;
           queryParticipants(skip);
 
-          let title = act.chosen
+          let title = act.chosen.concat(act.otherInfo)
           let data = []
           data.push(title)
           let pa = act.participants
@@ -145,10 +150,17 @@ When the user is an administrator, trigger the logic: search for name through un
             let temp = []
             db.collection('members').where({
               call: pa[i]
+            }).field({
+              _id:false,
+              _openid:false,
+              due:false,
+              license:false,
+              uname:false,
+              passwd:false
             }).get().then(res2 => {
               let usr = JSON.stringify(res2.data[0], title)
-              // console.log(usr)
-              temp = usr.match(/:"([a-zA-Z0-9\u4e00-\u9fa5]*)"/g).map(item => item.substring(2, item.length - 1))
+              console.log(usr)
+              temp = Object.values(JSON.parse(usr))
               //  console.log(temp)
               data.push(temp)
               _this.setData({
@@ -163,6 +175,17 @@ When the user is an administrator, trigger the logic: search for name through un
 
   sign(event) {
     let _this = this
+    if(this.data.otherInfo.length == 0){
+      this.upload()
+    }else{
+      _this.setData({
+        pop2: true
+      })
+    }
+  },
+
+  upload(){
+    let _this = this
     this.data.participants.push(app.globalData.uname)
     console.log(this.data.participants)
     db.collection('activities').where({
@@ -174,9 +197,35 @@ When the user is an administrator, trigger the logic: search for name through un
     }).then(res => {
       _this.onShow()
     })
+  },
 
-    _this.setData({
-      pop: true
+  getInfoInput(e){
+    let idx = e.currentTarget.dataset.id
+    let copy = this.data.userInfo
+    copy[this.data.otherInfo[idx]] = e.detail.value
+    this.setData({
+      userInfo:copy
+    })
+  },
+
+  fillInfo(){
+    let _this = this
+    db.collection('members').where({
+      call: app.globalData.uname
+    }).update({
+      data: _this.data.userInfo
+    }).then(res => {
+      _this.setData({
+        pop2: false
+      })
+      _this.upload()
+    })
+    
+  },
+
+  cancelD(){
+    this.setData({
+      pop:false
     })
   },
 
@@ -251,12 +300,6 @@ When the user is an administrator, trigger the logic: search for name through un
     })
 
 
-  },
-
-  cancelD() {
-    this.setData({
-      pop: false
-    })
   },
   /**
    * 生命周期函数--监听页面隐藏
