@@ -24,7 +24,8 @@ Page({
       { value: '台站地址', isChecked: false, disabled: false }    
     ],
     customInfo: [],
-    infoTexts:[]
+    infoTexts:[],
+    aid:""
   },
 
   getName(event){
@@ -68,7 +69,7 @@ Page({
               for(let i = 0;i < _this.data.pic.length;i++){
                 wx.cloud.uploadFile({
                   filePath: res.tempFilePaths[i],
-                  cloudPath:"activity/"+Date.now()+".jpg",
+                  cloudPath:"activity/"+_this.data.aid+".jpg",
                 }).then(res=>{
                   list.push(res.fileID)
                   console.log(list)
@@ -92,7 +93,7 @@ Page({
               for(let i = 0;i < _this.data.pic.length;i++){
                 wx.cloud.uploadFile({
                   filePath: res.tempFilePaths[i],
-                  cloudPath:"activity/"+Date.now()+".jpg",
+                  cloudPath:"activity/"+_this.data.aid+".jpg",
                 })
                 .then(res=>{
                   list.push(res.fileID)
@@ -110,7 +111,6 @@ Page({
   },
 
   post(){
-    let index = Date.now()+""
     if(this.data.title == ""){
       wx.showToast({
         title: '请填写活动名称',
@@ -151,7 +151,7 @@ Page({
     console.log(this.data.infoTexts)
     db.collection('activities').add({
       data:{
-        aid:index,
+        aid:_this.data.aid,
         detail:_this.data.detail,
         location: _this.data.location,
         time: new Date(_this.data.time),
@@ -218,7 +218,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    this.setData({
+      aid:Date.now()+""
+    })
   },
 
   /**

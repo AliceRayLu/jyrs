@@ -245,18 +245,32 @@ When the user is an administrator, trigger the logic: search for name through un
 
   delete() {
     let _this = this
-    db.collection('activities').where({
-      aid: _this.data.id
-    }).remove().then(res => {
-      wx.switchTab({
-        url: '/pages/activities/activities',
+    if(_this.data.pic != "/images/logo.jpg"){
+      wx.cloud.deleteFile({
+        fileList:[_this.data.pic]
       })
-    }).catch(err => {
-      wx.showToast({
-        title: '删除失败',
-        icon: 'error'
+    }
+    db.collection('activities').where({
+      aid:_this.data.id
+    }).get().then(res => {
+      wx.cloud.deleteFile({
+        fileList:[res.data[0]['signInfo']]
+      })
+    }).then(res => {
+      db.collection('activities').where({
+        aid: _this.data.id
+      }).remove().then(res => {
+        wx.switchTab({
+          url: '/pages/activities/activities',
+        })
+      }).catch(err => {
+        wx.showToast({
+          title: '删除失败',
+          icon: 'error'
+        })
       })
     })
+    
   },
 
   download: function (event) {
@@ -283,6 +297,13 @@ When the user is an administrator, trigger the logic: search for name through un
           cloudPath: `infos/${_this.data.id}.xlsx`
         }).then(res => {
           fileID = res.fileID
+          db.collection('activities').where({
+            aid:_this.data.id
+          }).update({
+            data:{
+              signInfo:fileID
+            }
+          })
           wx.cloud.getTempFileURL({
             fileList: [fileID],
             success(res) {
