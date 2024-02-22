@@ -179,18 +179,25 @@ Page({
           wx.chooseImage({
             sizeType: ['original', 'compressed'],
             sourceType: ['camera'],
+            count:1,
             success(res) {
               _this.setData({
                 pic: res.tempFilePaths,
               })
               let list = []
-              for(let i = 0;i < _this.data.pic.length;i++){
+              for(let i = 0;i < 1;i++){
                 wx.cloud.uploadFile({
                   filePath: res.tempFilePaths[i],
                   cloudPath:"license/"+Date.now()+".jpg",
                 }).then(res=>{
                   list.push(res.fileID)
-                  console.log(list)
+                  // console.log(list)
+                  let path = _this.data.picPath
+                  if(path != ""){
+                    wx.cloud.deleteFile({
+                      fileList:[path]
+                    })
+                  }
                   _this.setData({
                     picPath:list[0]
                   })
@@ -205,12 +212,13 @@ Page({
           wx.chooseImage({
             sizeType: ['original', 'compressed'],
             sourceType: ['album'],
+            count:1,
             success(res) {
               _this.setData({
                 pic: res.tempFilePaths,
               })
               let list = []
-              for(let i = 0;i < _this.data.pic.length;i++){
+              for(let i = 0;i < 1;i++){
                 wx.cloud.uploadFile({
                   filePath: res.tempFilePaths[i],
                   cloudPath:"license/"+Date.now()+".jpg",
@@ -218,6 +226,12 @@ Page({
                 .then(res=>{
                   list.push(res.fileID)
                   console.log(list)
+                  let path = _this.data.picPath
+                  if(path != ""){
+                    wx.cloud.deleteFile({
+                      fileList:[path]
+                    })
+                  }
                   _this.setData({
                     picPath:list[0]
                   })

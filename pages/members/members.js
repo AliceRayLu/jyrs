@@ -97,18 +97,29 @@ Page({
     console.log(index)
     let uname = this.data.members[index].call;
     db.collection('members').where({
-      call: uname
-    }).remove().then(res =>{
-      wx.navigateTo({
-        url: '/pages/members/members',
-      })
-      wx.showToast({
-        title: '删除成功',
-      })
-    }).catch(err => {
-      wx.showToast({
-        title: '删除失败',
-        icon:'error'
+      call:uname
+    }).get().then(res => {
+      let path = res.data[0]
+      if(path != ""){
+        wx.cloud.deleteFile({
+          fileList:[path]
+        })
+      }
+    }).then(res => {
+      db.collection('members').where({
+        call: uname
+      }).remove().then(res =>{
+        wx.navigateTo({
+          url: '/pages/members/members',
+        })
+        wx.showToast({
+          title: '删除成功',
+        })
+      }).catch(err => {
+        wx.showToast({
+          title: '删除失败',
+          icon:'error'
+        })
       })
     })
   },
