@@ -40,20 +40,26 @@ Page({
 
     //登陆
     db.collection('members').where({
-      uname:uname
+      call:uname
     }).get({
       success(res) {
         if (res.data.length != 0)
         {
           let user = res.data[0]
           if (passwd == user.passwd) {                                                             
-            wx.showToast({
-              title: '登陆成功',
-            })
             app.globalData.uname = uname
             console.log(user.uname)
             wx.switchTab({
-              url: '/pages/user/user',
+              url: '/pages/mine/mine',
+              success: function (e) {
+ 
+                let page = getCurrentPages().pop();
+         
+                if (page == undefined || page == null) return;
+         
+                    page.onLoad();
+         
+              }
             })
             //保存用户登陆状态
             wx.setStorageSync('user', user)

@@ -1,0 +1,43 @@
+/* pages/callManage.wxss */
+.collapse{
+  margin: 1vh 3vw 0 3vw;
+}
+
+.texts{
+  margin: 1vh 3vw 0 5vw;
+}
+
+.buttons{
+  display: flex;
+  justify-content: flex-end;
+  margin-right:5vw;
+}
+
+.popTitle {
+  color: white;
+  background-color: #12527B;
+  padding: 10px;
+  display: flex;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-weight: bold;
+}
+.information{
+  background-color: white;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  height: 400px;
+  padding: 10px;
+}
+.popButton {
+  color: white;
+  background-color: #12527B;
+  margin-top: 10px;
+  border-radius: 98rpx;
+}
+
+.warning{
+  margin:2vh;
+  color:gray;
+  font-size: small;
+}

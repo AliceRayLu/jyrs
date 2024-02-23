@@ -141,6 +141,7 @@ Page({
           wx.chooseImage({
             sizeType: ['original', 'compressed'],
             sourceType: ['camera'],
+            count:1,
             success(res) {
               _this.setData({
                 pic: res.tempFilePaths,
@@ -152,7 +153,13 @@ Page({
                   cloudPath:"license/"+Date.now()+".jpg",
                 }).then(res=>{
                   list.push(res.fileID)
-                  console.log(res)
+                  // console.log(res)
+                  let path = _this.data.picPath
+                  if(path != ""){
+                    wx.cloud.deleteFile({
+                      fileList:[path]
+                    })
+                  }
                   _this.setData({
                     picPath:list[0]
                   })
@@ -167,6 +174,7 @@ Page({
           wx.chooseImage({
             sizeType: ['original', 'compressed'],
             sourceType: ['album'],
+            count:1,
             success(res) {
               _this.setData({
                 pic: res.tempFilePaths,
@@ -179,7 +187,13 @@ Page({
                 })
                 .then(res=>{
                   list.push(res.fileID)
-                  console.log(res)
+                  // console.log(res)
+                  let path = _this.data.picPath
+                  if(path != ""){
+                    wx.cloud.deleteFile({
+                      fileList:[path]
+                    })
+                  }
                   _this.setData({
                     picPath:list[0],
                   })
@@ -196,6 +210,7 @@ Page({
 
   update(){
     let uname = this.data.uname
+    let _this = this
     if(this.data.pic.length == 0){
       if(this.data.phone == ""){
         wx.showToast({
@@ -248,23 +263,38 @@ Page({
         return
       }
       db.collection('members').where({
-        uname: uname
-      }).update({
-        data:({
-          due: new Date(this.data.due),
-          location: this.data.location,
-          call: this.data.call,
-          license: this.data.picPath,
-          type: this.data.type,
-          man: this.data.man,
-          certificate: this.data.cert
+        call:uname
+      }).get().then(res => {
+        let path = res.data[0]['license']
+        if(path != ""){
+          wx.cloud.deleteFile({
+            fileList:[path]
+          })
+        }
+      }).then(res => {
+        db.collection('members').where({
+          call: uname
+        }).update({
+          data:({
+            due: new Date(_this.data.due),
+            location: _this.data.location,
+            call: _this.data.call,
+            license: _this.data.picPath,
+            type: _this.data.type,
+            man: _this.data.man,
+            certificate: _this.data.cert
+          })
         })
+      })
+      db.collection('call_record').where({
+        call:uname
+      }).update({
+        man:_this.data.man
       })
     }
     if(this.data.phone != ""){
-      let _this = this
       db.collection('members').where({
-        uname:uname
+        call:uname
       }).update({
         data:{
           phone:_this.data.phone
@@ -272,7 +302,16 @@ Page({
       })
     }
     wx.switchTab({
-      url: '/pages/user/user',
+      url: '/pages/mine/mine',
+      success: function (e) {
+ 
+        let page = getCurrentPages().pop();
+ 
+        if (page == undefined || page == null) return;
+ 
+            page.onLoad();
+ 
+      }
     })
   },
 

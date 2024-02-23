@@ -38,6 +38,17 @@
       </l-checkbox>
     </l-checkbox-group>
   </view>
+  <view class="hint">*报名信息至少勾选一项，可以不添加自定义报名信息</view>
+  <view class="input-container" style="justify-content: space-between;">
+    <label class="label">自定义报名信息</label>
+    <l-icon name="add" color="#000000" bindtap="addCustomInfo" />
+  </view>
+  <block wx:for="{{customInfo}}" wx:key="id">
+    <view class="input-container">
+      <input class="input" bind:blur="addInfoText" data-id="{{index}}" />
+      <l-icon name="error" color="#000000" style="margin-left: 3vw;" bindtap="removeCustomInfo" data-id="{{item.id}}" />
+    </view>
+  </block>
 
   <button class="button" bind:tap="post">发布活动</button>
 </view>

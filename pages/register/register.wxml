@@ -9,16 +9,14 @@
   </view>
 
   <view class="input-container">
-    <input class="input" placeholder="设置用户名" bind:input="getUName"/>
-  </view>
-  <view class="input-container">
     <input class="input" placeholder="设置密码" bind:input="getPasswd" password="true"/>
   </view>
   <view class="input-container">
     <input class="input" placeholder="再次输入密码" bind:input="getPasswdAgain" password="true"/>
   </view>
-  <view class="input-container">
-    <input class="input" placeholder="设置联系电话" bind:input="getPhone" />
+  <view class="input-container" style="flex-direction: column;">
+    <input class="input" placeholder="设置联系电话" bind:blur="getPhone" />
+    <view class="error" hidden="{{ !phoneError }}">{{phoneError}}</view>
   </view>
   <view class="input-container">
     <button class="button_pic" bind:tap="loadPic">点击上传电台执照图片</button>
@@ -31,9 +29,12 @@
     <label class="label">设台人员</label>
     <input class="input" value="{{man}}" bind:input="getman"/>
   </view>
-  <view class="input-container">
-    <label class="label">证件号码</label>
-    <input class="input" value="{{cert}}" bind:input="getcert" />
+  <view class="input-container" style="flex-direction: column;">
+    <view style="display: flex; align-items: center; justify-content: center; width: 100%;">
+      <label class="label">证件号码</label>
+      <input class="input" value="{{cert}}" bind:blur="getcert" />
+    </view>
+    <view class="error" hidden="{{ !certError }}">{{certError}}</view>
   </view>
   <view class="input-container">
     <label class="label">电台呼号</label>

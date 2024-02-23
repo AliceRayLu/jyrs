@@ -8,7 +8,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    uname:"",
     passwd:"",
     passwd2:"",
     pic:[],
@@ -20,18 +19,14 @@ Page({
     location:"", //电台地址
     due:"", //到期时间
     phone:"",
+    certError: "",
+    phoneError: ""
   },
   
   bindDateChange(event){
     console.log( new Date(event.detail.value))
     this.setData({
       due:event.detail.value
-    })
-  },
-
-  getUName(event){
-    this.setData({
-      uname: event.detail.value
     })
   },
 
@@ -53,10 +48,22 @@ Page({
     })
   },
 
-  getcert(event){
-    this.setData({
-      cert: event.detail.value
-    })
+  certReg: /^(\d{17})([0-9]|X)$/,
+  getcert(event) {
+    let cert = event.detail.value;
+    if (!this.certReg.test(cert)) {
+      this.setData({
+        certError: '证件号码格式不正确'
+      });
+    }
+    else {
+      this.setData({
+        certError: ''
+      });
+      this.setData({
+        cert: event.detail.value
+      })
+    }
   },
 
   getcall(event){
@@ -77,10 +84,22 @@ Page({
     })
   },
 
-  getPhone(event){
-    this.setData({
-      phone: event.detail.value
-    })
+  phoneReg: /^1[34578]\d{9}$/,
+  getPhone(event) {
+    let phone = event.detail.value;
+    if (!this.phoneReg.test(phone)) {
+      this.setData({
+        phoneError: '电话号码格式不正确'
+      });
+    }
+    else {
+      this.setData({
+        phoneError: ''
+      });
+      this.setData({
+        phone: event.detail.value
+      })
+    }
   },
 
   recognize:function(pic_path){
@@ -160,18 +179,25 @@ Page({
           wx.chooseImage({
             sizeType: ['original', 'compressed'],
             sourceType: ['camera'],
+            count:1,
             success(res) {
               _this.setData({
                 pic: res.tempFilePaths,
               })
               let list = []
-              for(let i = 0;i < _this.data.pic.length;i++){
+              for(let i = 0;i < 1;i++){
                 wx.cloud.uploadFile({
                   filePath: res.tempFilePaths[i],
                   cloudPath:"license/"+Date.now()+".jpg",
                 }).then(res=>{
                   list.push(res.fileID)
-                  console.log(list)
+                  // console.log(list)
+                  let path = _this.data.picPath
+                  if(path != ""){
+                    wx.cloud.deleteFile({
+                      fileList:[path]
+                    })
+                  }
                   _this.setData({
                     picPath:list[0]
                   })
@@ -186,12 +212,13 @@ Page({
           wx.chooseImage({
             sizeType: ['original', 'compressed'],
             sourceType: ['album'],
+            count:1,
             success(res) {
               _this.setData({
                 pic: res.tempFilePaths,
               })
               let list = []
-              for(let i = 0;i < _this.data.pic.length;i++){
+              for(let i = 0;i < 1;i++){
                 wx.cloud.uploadFile({
                   filePath: res.tempFilePaths[i],
                   cloudPath:"license/"+Date.now()+".jpg",
@@ -199,6 +226,12 @@ Page({
                 .then(res=>{
                   list.push(res.fileID)
                   console.log(list)
+                  let path = _this.data.picPath
+                  if(path != ""){
+                    wx.cloud.deleteFile({
+                      fileList:[path]
+                    })
+                  }
                   _this.setData({
                     picPath:list[0]
                   })
@@ -214,14 +247,22 @@ Page({
   },
 
   register(){
-    let uname = this.data.uname
+    let uname = this.data.call
+    console.log(this.data.call)
     let _this = this
+    if(this.data.call === ""){
+      wx.showToast({
+        title: '请填写电台呼号',
+        icon:"error"
+      })
+      return
+    }
     db.collection('members').where({
-      uname:uname
+      call: uname
     }).get().then(res => {
       if (res.data.length != 0){
         wx.showToast({
-          title: '该用户名已存在',
+          title: '该用户已存在',
           icon:"error"
         })
         return
@@ -259,13 +300,6 @@ Page({
         })
         return
       }
-      if(_this.data.call == ""){
-        wx.showToast({
-          title: '请填写电台呼号',
-          icon:"error"
-        })
-        return
-      }
       if(_this.data.type == ""){
         wx.showToast({
           title: '请填写电台类型',
@@ -290,7 +324,6 @@ Page({
     }
     db.collection('members').add({
       data:{
-        uname:uname,
         passwd: _this.data.passwd,
         due: new Date(_this.data.due),
         location: _this.data.location,
@@ -302,11 +335,30 @@ Page({
         phone: _this.data.phone
       }
     }).then(res =>{
-      wx.navigateTo({
-        url: '/pages/login/login',
+      db.collection('call_record').where({
+        call:_this.data.call
+      }).update({
+        data:{
+          man:_this.data.man
+        }
+      }).then(res => {
+        if(res['stats']['updated'] == 0){
+          db.collection('call_record').add({
+            data:{
+              call:_this.data.call,
+              man:_this.data.man
+            }
+          })
+        }
+      }).then(res => {
+        wx.navigateTo({
+          url: '/pages/login/login',
+        })
       })
+      
     })
     })
+    
     
   },
 

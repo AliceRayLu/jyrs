@@ -1,16 +1,20 @@
 {
+  "cloud": true,
   "pages": [
     "pages/index/index",
     "pages/register/register",
     "pages/user/user",
+    "pages/mine/mine",
     "pages/activities/activities",
     "pages/userInfoUpdate/userInfoUpdate",
     "pages/activityDetail/activityDetail",
     "pages/activityPost/activityPost",
     "pages/members/members",
     "pages/login/login",
-    "pages/callRecord/callRecord"
-
+    "pages/call/call",
+    "pages/callRecord/callRecord",
+    "pages/callManage/callManage",
+    "pages/callData/callData"
   ],
   "window": {
     "backgroundColor": "#f6f6f6",
@@ -36,7 +40,7 @@
         "selectedIconPath": "images/activity-s.png"
       },
       {
-        "pagePath": "pages/user/user",
+        "pagePath": "pages/mine/mine",
         "text": "我的",
         "iconPath": "images/geren.png",
         "selectedIconPath": "images/geren2.png"

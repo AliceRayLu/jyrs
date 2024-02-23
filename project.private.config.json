@@ -10,6 +10,34 @@
       "list": [
         {
           "name": "",
+          "pathName": "pages/mine/mine",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/callData/callData",
+          "pathName": "pages/callData/callData",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/callManage/callManage",
+          "pathName": "pages/callManage/callManage",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/call/call",
+          "pathName": "pages/call/call",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
           "pathName": "pages/callRecord/callRecord",
           "query": "",
           "launchMode": "default",

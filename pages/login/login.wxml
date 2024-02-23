@@ -4,7 +4,7 @@
     <image src="/images/logo.jpg" class="logo"/>
   </view>
 
-  <input class="inputOfUser" placeholder="请输入用户名" bind:input="getName"></input>
+  <input class="inputOfUser" placeholder="请输入电台呼号" bind:input="getName"></input>
   <input class="inputOfPswd" placeholder="请输入密码" 
   bind:input="getPassword" password="true">
   </input>

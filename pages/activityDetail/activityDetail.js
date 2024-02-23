@@ -2,6 +2,7 @@
 import XLSX from '../../xlsx.mini.min'
 const app = getApp()
 const db = wx.cloud.database()
+const _ = db.command
 
 Page({
 
@@ -10,18 +11,22 @@ Page({
    */
   data: {
     id: -1,
-    title:"",
-    time:"",
-    place:"",
-    detail:"",
-    pic:"/images/logo.jpg",
-    participants:[],
+    title: "",
+    time: "",
+    place: "",
+    detail: "",
+    pic: "/images/logo.jpg",
+    participants: [],
+    participants_with_name: [],
     num: 0,
-    status:true,
+    status: true,
     isAdmin: false,
     pop: false,
-    durl:"",
-    sign_data:[]
+    pop2:false,
+    durl: "",
+    sign_data: [],
+    otherInfo:[],
+    userInfo:{}
   },
 
   /**
@@ -42,62 +47,124 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    if(app.globalData.uname === "bi4ssb"){
+    if (app.globalData.uname === app.globalData.admin) {
       this.setData({
-        isAdmin:true
+        isAdmin: true
       })
     }
     let idx = app.globalData.current_act
     this.setData({
-      id:idx
+      id: idx
     })
     let _this = this
-    let day = ["日","一","二","三","四","五","六"]
+    let day = ["日", "一", "二", "三", "四", "五", "六"]
     db.collection('activities').where({
-      aid:idx
+      aid: idx
     }).get({
-      success(res){
+      success(res) {
         let act = res.data[0]
         _this.setData({
-          title:act.title,
-          time: act.time.getFullYear()+"-"+(act.time.getMonth()+1)+"-"+act.time.getDate()+"  周"+day[act.time.getDay()],
+          title: act.title,
+          time: act.time.getFullYear() + "-" + (act.time.getMonth() + 1) + "-" + act.time.getDate() + "  周" + day[act.time.getDay()],
           place: act.location,
           detail: act.detail,
           participants: act.participants,
           num: act.participants.length,
+          otherInfo:act.otherInfo
         })
-        if(act.pic != ""){
+        if (act.pic != "") {
           _this.setData({
-            pic:act.pic
+            pic: act.pic
           })
         }
-        if(_this.data.participants.includes(app.globalData.uname)){
+        if (_this.data.participants.includes(app.globalData.uname)) {
           _this.setData({
-            status:true
+            status: true
           })
-        }else{
+        } else {
           _this.setData({
-            status:false
+            status: false
           })
         }
-        if(_this.data.isAdmin){
-          let title = act.chosen
+        if (_this.data.isAdmin) {  
+ /******
+When the user is an administrator, trigger the logic: search for name through uname, construct sign_data for download
+******/
+          // Define a function to search for name through uname
+          function queryParticipants(skip) {
+            return db.collection('members')
+              .where({
+                call: db.command.in(act.participants)
+              })
+              .skip(skip)
+              .field({
+                _id: false,
+                man: true,
+                call: true
+              })
+              .get()
+              .then(res => {
+                const participantsWithName = res.data.map(item => {
+                  const man = item.man ? item.man : "❌ 未登记姓名";
+                  return `${item.call} - ${man}`;
+                });
+                // Add result to the end of array data.participants_with_name 
+                const newData = _this.data.participants_with_name.concat(participantsWithName);
+                _this.setData({
+                  participants_with_name: newData
+                });
+
+                // If the number of query results is less than 20, it indicates that all results have been queried and recursive queries are no longer needed
+                if (res.data.length < 20) {
+                  _this.setData({
+                    participants_with_name: sortParticipants(_this.data.participants_with_name)
+                  });
+                  //console.log(_this.data.participants_with_name);
+                  return;
+                }
+                // Otherwise, continue to recursively query and increase the skip value
+                return queryParticipants(skip + 20);
+              });
+          }
+          // Sort participants in the order of the act.participants array. So it will be displayed in the order of registration.
+          function sortParticipants(participants) {
+            const sortedParticipants = [];
+            act.participants.forEach(participant => {
+              const foundItem = participants.find(item => item.startsWith(participant));
+              if (foundItem) {
+                sortedParticipants.push(foundItem);
+              }
+            });
+            return sortedParticipants;
+          }
+          // init skip=0, start query
+          let skip = 0;
+          queryParticipants(skip);
+
+          let title = act.chosen.concat(act.otherInfo)
           let data = []
           data.push(title)
           let pa = act.participants
-          for(let i = 0;i < pa.length;i++){
-            if(pa[i] == "")continue
+          for (let i = 0; i < pa.length; i++) {
+            if (pa[i] == "") continue
             let temp = []
             db.collection('members').where({
-              uname: pa[i]
+              call: pa[i]
+            }).field({
+              _id:false,
+              _openid:false,
+              due:false,
+              license:false,
+              uname:false,
+              passwd:false
             }).get().then(res2 => {
-              let usr = JSON.stringify(res2.data[0],title)
+              let usr = JSON.stringify(res2.data[0], title)
               console.log(usr)
-              temp = usr.match(/:"([a-zA-Z0-9\u4e00-\u9fa5]*)"/g).map(item=>item.substring(2,item.length-1))
-              console.log(temp)
+              temp = Object.values(JSON.parse(usr))
+              //  console.log(temp)
               data.push(temp)
               _this.setData({
-                sign_data:data
+                sign_data: data
               })
             })
           }
@@ -106,28 +173,25 @@ Page({
     })
   },
 
-  sign(event){
+  sign(event) {
+    let _this = this
+    if(this.data.otherInfo.length == 0){
+      this.upload()
+    }else{
+      _this.setData({
+        pop2: true
+      })
+    }
+  },
+
+  upload(){
     let _this = this
     this.data.participants.push(app.globalData.uname)
     console.log(this.data.participants)
     db.collection('activities').where({
       aid: _this.data.id
     }).update({
-      data:{
-        participants: _this.data.participants
-      }
-    }).then(res=>{
-      _this.onShow()
-    })
-  },
-
-  cancel(event){
-    let _this = this
-    this.data.participants = this.data.participants.filter(item => item != app.globalData.uname)
-    db.collection('activities').where({
-      aid:_this.data.id
-    }).update({
-      data:{
+      data: {
         participants: _this.data.participants
       }
     }).then(res => {
@@ -135,69 +199,128 @@ Page({
     })
   },
 
-  delete(){
-    let _this = this
-    db.collection('activities').where({
-      aid: _this.data.id
-    }).remove().then(res =>{
-      wx.switchTab({
-        url: '/pages/activities/activities',
-      })
-    }).catch(err => {
-      wx.showToast({
-        title: '删除失败',
-        icon:'error'
-      })
+  getInfoInput(e){
+    let idx = e.currentTarget.dataset.id
+    let copy = this.data.userInfo
+    copy[this.data.otherInfo[idx]] = e.detail.value
+    this.setData({
+      userInfo:copy
     })
   },
 
-  download:function(event){
+  fillInfo(){
     let _this = this
-      console.log(this.data.sign_data)
-      var ws = XLSX.utils.aoa_to_sheet(this.data.sign_data);
-      var wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "sheet");
-      var fileData = XLSX.write(wb, {
-        bookType: "xlsx",
-        type: 'base64'
-      });
-      let filePath = `${wx.env.USER_DATA_PATH}/${_this.data.id}.xlsx`
-      const fs = wx.getFileSystemManager()
-      fs.writeFile({
-        filePath: filePath,
-        data: fileData,
-        encoding: 'base64',
-        bookSST: true,
-        success(res){
-          let fileID = ""
-      wx.cloud.uploadFile({
-        filePath:filePath,
-        cloudPath: `infos/${_this.data.id}.xlsx`
-      }).then(res => {
-        fileID = res.fileID
-        wx.cloud.getTempFileURL({
-          fileList:[fileID],
-          success(res){
-            _this.setData({
-              pop:true,
-              durl: res.fileList[0].tempFileURL+" 已复制到剪贴板"
-            })
-            wx.setClipboardData({
-              data: res.fileList[0].tempFileURL,
-            })
-          }
-        })
+    db.collection('members').where({
+      call: app.globalData.uname
+    }).update({
+      data: _this.data.userInfo
+    }).then(res => {
+      _this.setData({
+        pop2: false
       })
-        }
-      })
-      
-      
-    },
+      _this.upload()
+    })
+    
+  },
 
   cancelD(){
     this.setData({
       pop:false
     })
+  },
+
+  cancel(event) {
+    let _this = this
+    this.data.participants = this.data.participants.filter(item => item != app.globalData.uname)
+    db.collection('activities').where({
+      aid: _this.data.id
+    }).update({
+      data: {
+        participants: _this.data.participants
+      }
+    }).then(res => {
+      _this.onShow()
+    })
+  },
+
+  delete() {
+    let _this = this
+    if(_this.data.pic != "/images/logo.jpg"){
+      wx.cloud.deleteFile({
+        fileList:[_this.data.pic]
+      })
+    }
+    db.collection('activities').where({
+      aid:_this.data.id
+    }).get().then(res => {
+      wx.cloud.deleteFile({
+        fileList:[res.data[0]['signInfo']]
+      })
+    }).then(res => {
+      db.collection('activities').where({
+        aid: _this.data.id
+      }).remove().then(res => {
+        wx.switchTab({
+          url: '/pages/activities/activities',
+        })
+      }).catch(err => {
+        wx.showToast({
+          title: '删除失败',
+          icon: 'error'
+        })
+      })
+    })
+    
+  },
+
+  download: function (event) {
+    let _this = this
+    console.log(this.data.sign_data)
+    var ws = XLSX.utils.aoa_to_sheet(this.data.sign_data);
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "sheet");
+    var fileData = XLSX.write(wb, {
+      bookType: "xlsx",
+      type: 'base64'
+    });
+    let filePath = `${wx.env.USER_DATA_PATH}/${_this.data.id}.xlsx`
+    const fs = wx.getFileSystemManager()
+    fs.writeFile({
+      filePath: filePath,
+      data: fileData,
+      encoding: 'base64',
+      bookSST: true,
+      success(res) {
+        let fileID = ""
+        wx.cloud.uploadFile({
+          filePath: filePath,
+          cloudPath: `infos/${_this.data.id}.xlsx`
+        }).then(res => {
+          fileID = res.fileID
+          db.collection('activities').where({
+            aid:_this.data.id
+          }).update({
+            data:{
+              signInfo:fileID
+            }
+          })
+          wx.cloud.getTempFileURL({
+            fileList: [fileID],
+            success(res) {
+              _this.setData({
+                pop: true,
+                durl: res.fileList[0].tempFileURL + " 已复制到剪贴板"
+              })
+              wx.setClipboardData({
+                data: res.fileList[0].tempFileURL,
+              })
+            }
+          })
+        })
+      }
+    })
+
+
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -233,4 +356,5 @@ Page({
   onShareAppMessage() {
 
   }
+
 })

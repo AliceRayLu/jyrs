@@ -12,7 +12,6 @@ Page({
     members:[
       {
         man: "顾",
-        uname: "bi4ssb",
         phone: "13333333333",
         call: "BD4TS",
         location: "xxxxxxx",
@@ -24,7 +23,6 @@ Page({
       },
       {
         man: "刘",
-        uname: "bi4ssb",
         phone: "13333333333",
         call: "BD4TSxxx",
         location: "xxxxxxxx",
@@ -97,20 +95,31 @@ Page({
   delete(event){
     let index = event.currentTarget.dataset.id;
     console.log(index)
-    let uname = this.data.members[index].uname;
+    let uname = this.data.members[index].call;
     db.collection('members').where({
-      uname: uname
-    }).remove().then(res =>{
-      wx.navigateTo({
-        url: '/pages/members/members',
-      })
-      wx.showToast({
-        title: '删除成功',
-      })
-    }).catch(err => {
-      wx.showToast({
-        title: '删除失败',
-        icon:'error'
+      call:uname
+    }).get().then(res => {
+      let path = res.data[0]
+      if(path != ""){
+        wx.cloud.deleteFile({
+          fileList:[path]
+        })
+      }
+    }).then(res => {
+      db.collection('members').where({
+        call: uname
+      }).remove().then(res =>{
+        wx.navigateTo({
+          url: '/pages/members/members',
+        })
+        wx.showToast({
+          title: '删除成功',
+        })
+      }).catch(err => {
+        wx.showToast({
+          title: '删除失败',
+          icon:'error'
+        })
       })
     })
   },
@@ -136,9 +145,28 @@ Page({
   onShow() {
     let _this = this
     let count = _this.data.count
-    db.collection('members').get().then(res => {
+    db.collection('members').field({
+      _id: false,
+      call:true,
+      due:true,
+      certificate:true,
+      location:true,
+      man:true,
+      phone:true,
+      type:true
+    }).get().then(res => {
+      let newData = res.data.map(item => {
+        if (item.due instanceof Date) {          
+          let due = item.due;
+          let year = due.getFullYear();
+          let month = due.getMonth() + 1;
+          let day = due.getDate();
+          item.due = year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2);
+        }
+        return item;
+      });
       _this.setData({
-        members: res.data
+        members: newData
       })
     }).then(res => {
       count += 20
@@ -175,7 +203,16 @@ Page({
   onReachBottom(res) {
     let count = this.data.count
     let _this = this
-    db.collection('members').skip(count).get().then(res => {
+    db.collection('members').skip(count).field({
+      _id: false,
+      call:true,
+      due:true,
+      certificate:true,
+      location:true,
+      man:true,
+      phone:true,
+      type:true
+    }).get().then(res => {
       let newdata = res.data
       let olddata = _this.data.members
       count += 20

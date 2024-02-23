@@ -1,0 +1,65 @@
+/* pages/callData.wxss */
+.text-size {
+  font-size: 2.1vh;
+}
+
+.section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 0.8vh;
+  margin-bottom: 0.8vh;
+}
+.section__title {
+  margin-right: 1.5vw;
+}
+.picker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 40vw;
+  padding-top: 8rpx;
+  padding-bottom: 8rpx;
+  padding-left: 16rpx;
+  padding-right: 20rpx;
+  border-radius: 20rpx;
+  border: 2rpx solid #000;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 70%;
+  height: 4.5vh;
+  padding: 0 10px;
+  background-color: #fff;
+  border: 2rpx solid #000;
+  border-radius: 25px;
+  margin-top: 0.5vh;
+}
+.search-box {
+  flex: 1;
+  height: 80%;
+  padding-left: 10px;
+  border: none;
+  outline: none;
+}
+.search-icon {
+  width: 40px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 80vw;
+  padding-bottom: 1.5vh;
+  margin-top: 1.5vh;
+  border-bottom: 1px solid #b0b0b0b0;
+}

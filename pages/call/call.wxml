@@ -1,0 +1,4 @@
+<!--pages/call.wxml-->
+<l-list title="文件上传" style="margin: 0 3vw 0 3vw;" url="/pages/callRecord/callRecord" image="cloud://jyrsa-9gg6w0crf1f1ed36.6a79-jyrsa-9gg6w0crf1f1ed36-1322866588/icons/upload.png" />
+<l-list title="文件管理" style="margin: 0 3vw 0 3vw;" url="/pages/callManage/callManage" image="cloud://jyrsa-9gg6w0crf1f1ed36.6a79-jyrsa-9gg6w0crf1f1ed36-1322866588/icons/manage.png"/>
+<l-list title="统计数据" style="margin: 0 3vw 0 3vw;" url="/pages/callData/callData" image="cloud://jyrsa-9gg6w0crf1f1ed36.6a79-jyrsa-9gg6w0crf1f1ed36-1322866588/icons/static.png" />

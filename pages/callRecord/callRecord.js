@@ -1,5 +1,7 @@
 // pages/callRecord/callRecord.js
 const db = wx.cloud.database()
+const _ = db.command
+import XLSX from '../../xlsx.mini.min'
 
 Page({
 
@@ -10,7 +12,16 @@ Page({
     due: '',
     callLogs: '',
     fileName: '',
-    downloadPath:''
+    downloadPath:'',
+    fileID:'',
+    tempFilePath:'',
+    control:""
+  },
+
+  getControl(event){
+    this.setData({
+      control:event.detail.value
+    })
   },
 
 
@@ -22,6 +33,9 @@ Page({
         // console.log(res)
         // console.log(res.tempFiles[0])
         let fileName = res.tempFiles[0].name;
+        that.setData({
+          tempFilePath: res.tempFiles[0].path
+        })
         if (fileName.indexOf('/') >= 0) {
           // 如果是 iOS 平台，从路径中解析出文件名
           fileName = fileName.split('/').pop();
@@ -29,11 +43,21 @@ Page({
         that.setData({
           fileName: fileName
         });
+        let name = Date.now()+fileName
         wx.cloud.uploadFile({
           filePath:res.tempFiles[0].path,
-          cloudPath:`calls/${fileName}`
+          cloudPath:`calls/${name}`
         }).then(r2 => {
           let fileID = r2.fileID
+          let oldid = that.data.fileID
+          if(oldid != ''){
+            wx.cloud.deleteFile({
+              fileList:[oldid]
+            })
+          }
+          that.setData({
+            fileID:fileID
+          })
           wx.cloud.getTempFileURL({
             fileList:[fileID],
             success(r3){
@@ -78,18 +102,112 @@ Page({
         })
         return
       }
+      if(this.data.control == ""){
+        wx.showToast({
+          title: '请填写主控人员',
+          icon:'error'
+        })
+        return
+      }
       let _this = this
-      // TODO: parse excel and control
-      db.collection('call_file').add({
-        data:{
-          log: _this.data.callLogs,
-          file: _this.data.downloadPath,
-          time: _this.data.due
-        }
+      wx.showToast({
+        title: '上传中',
+        icon:'loading',
+        duration:6000
       }).then(res => {
-        // wx.navigateTo({
-        //   url: 'url', // TODO
-        // })
+        const fs = wx.getFileSystemManager()
+        let fileData;
+        let year = _this.data.due.substr(0,4)
+        let head = "control"+year
+        fs.readFile({
+          filePath: _this.data.tempFilePath,
+          encoding:'base64',
+          success(res){
+            fileData = res.data
+            const workbook = XLSX.read(fileData, { type: 'base64' });
+            const worksheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[worksheetName];
+            const data = XLSX.utils.sheet_to_json(worksheet);
+            console.log(data)
+
+            let caller = []
+            for(var i in data){
+              if(!Object.keys(data[i]).includes('呼号')){
+                wx.showToast({
+                  title: '文件格式不对',
+                  icon:'error'
+                })
+                wx.cloud.deleteFile({
+                  fileList:[_this.data.fileID]
+                })
+                return
+              }
+              caller.push(data[i]['呼号'])
+              let title = "call"+year
+              let c = data[i]['呼号']
+              console.log(c)
+              db.collection('call_record').where({
+                call:c
+              }).update({
+                data:{
+                  [title]:_.push(_this.data.due)
+                }
+              }).then(res =>{
+                console.log(c)
+                console.log(res)
+                if(res['stats']['updated'] == 0){
+                  let d = {
+                    "call":c,
+                    [title]:[_this.data.due]
+                  }
+                  _this.addToDB('call_record',d)
+                }
+              })
+            }
+
+            console.log(caller)
+
+            db.collection('call_file').add({
+              data:{
+                log: _this.data.callLogs,
+                file: _this.data.downloadPath,
+                fileID: _this.data.fileID,
+                time: _this.data.due,
+                control:_this.data.control,
+                caller:caller
+              }
+            }).then(res => {
+              console.log(year)
+              db.collection('call_record').where({
+                call:_this.data.control
+              }).update({
+                data:{
+                  [head]: _.push(_this.data.due)
+                },
+              }).then(res => {
+                if(res['stats']['updated'] == 0){
+                  let d = {
+                    "call":_this.data.control,
+                    [head]:[_this.data.due]
+                  }
+                  this.addToDB('call_record',d)
+                }
+                
+              }) 
+            }).then(res => {
+              wx.navigateTo({
+                url: '/pages/call/call', 
+              })
+            })
+          }
+        })
+      })
+      
+    },
+
+    addToDB(name,data){
+      db.collection(name).add({
+        data:data
       })
     }
 

@@ -1,7 +1,7 @@
 // pages/activityPost/activityPost.js
 const app = getApp()
 const db = wx.cloud.database()
-
+const _ = db.command
 
 Page({
 
@@ -22,7 +22,10 @@ Page({
       { value: '电台呼号', isChecked: false, disabled: false },
       { value: '电台类型', isChecked: false, disabled: false },
       { value: '台站地址', isChecked: false, disabled: false }    
-    ]
+    ],
+    customInfo: [],
+    infoTexts:[],
+    aid:""
   },
 
   getName(event){
@@ -66,7 +69,7 @@ Page({
               for(let i = 0;i < _this.data.pic.length;i++){
                 wx.cloud.uploadFile({
                   filePath: res.tempFilePaths[i],
-                  cloudPath:"activity/"+Date.now()+".jpg",
+                  cloudPath:"activity/"+_this.data.aid+".jpg",
                 }).then(res=>{
                   list.push(res.fileID)
                   console.log(list)
@@ -90,7 +93,7 @@ Page({
               for(let i = 0;i < _this.data.pic.length;i++){
                 wx.cloud.uploadFile({
                   filePath: res.tempFilePaths[i],
-                  cloudPath:"activity/"+Date.now()+".jpg",
+                  cloudPath:"activity/"+_this.data.aid+".jpg",
                 })
                 .then(res=>{
                   list.push(res.fileID)
@@ -108,7 +111,6 @@ Page({
   },
 
   post(){
-    let index = Date.now()+""
     if(this.data.title == ""){
       wx.showToast({
         title: '请填写活动名称',
@@ -146,17 +148,18 @@ Page({
         info.push(infoMap[newItems[i].value])
       }
     }
-    console.log(info)
+    console.log(this.data.infoTexts)
     db.collection('activities').add({
       data:{
-        aid:index,
+        aid:_this.data.aid,
         detail:_this.data.detail,
         location: _this.data.location,
         time: new Date(_this.data.time),
         pic: _this.data.picPath,
         title: _this.data.title,
         participants:[],
-        chosen:info
+        chosen:info,
+        otherInfo:_this.data.infoTexts  //自定义报名信息
       }
     }).then(res => {
       wx.switchTab({
@@ -178,11 +181,46 @@ Page({
     })
   },
 
+  addCustomInfo: function() {
+    const id = this.data.customInfo.length;
+    this.setData({
+      customInfo: this.data.customInfo.concat({id: id}),
+    });
+  },
+
+  removeCustomInfo: function(e) {
+    const id = e.currentTarget.dataset.id;
+    let data = this.data.infoTexts
+    data.splice(id,1)
+    this.setData({
+      customInfo: this.data.customInfo.filter(customInfo => customInfo.id !== id),
+      infoTexts:data
+    });
+  },
+
+  addInfoText(e){
+    if(e.detail.value != ""){
+      let index = e.currentTarget.dataset.id
+      let data = this.data.infoTexts
+      if(data.length <= index){
+        data.push(e.detail.value)
+      }else{
+        data[index] = e.detail.value
+      }
+      this.setData({
+        infoTexts:data
+      })
+    }
+    
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    this.setData({
+      aid:Date.now()+""
+    })
   },
 
   /**

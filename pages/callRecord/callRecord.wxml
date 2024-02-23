@@ -23,6 +23,12 @@
       </view>
     </picker>
   </view>
+
+  <view class="input-container">
+    <label class="label">主控人员</label>
+    <input class="input" value="{{control}}" bind:input="getControl" />
+  </view>
+
   <!-- 点名备注 -->
   <view class="input-container">
     <label class="label">添加备注</label>
