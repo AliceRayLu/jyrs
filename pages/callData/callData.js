@@ -63,7 +63,17 @@ Page({
           lists.sort(function(a,b){
             return b['times']-a['times']
           })
-          console.log(lists)
+
+          let rank = 0;
+          let prevTimes = null;
+          for(let i = 0; i < lists.length; i++) {
+            if(lists[i].times !== prevTimes) {
+              rank = i + 1;
+              prevTimes = lists[i].times;
+            }
+            lists[i].rank = rank;
+          }
+          
           _this.setData({
             list:lists
           })
