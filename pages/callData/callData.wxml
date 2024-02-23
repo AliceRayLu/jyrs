@@ -27,7 +27,7 @@
   </view>
 
   <view class="search-bar">
-    <input class="search-box text-size" type="text" placeholder="请输入姓名..." bind:input="searchByName" />
+    <input class="search-box text-size" type="text" placeholder="请输入电台呼号" bind:input="searchByName" />
     <view class="search-icon">
       <l-icon name="research" color="#000000" />
     </view>
