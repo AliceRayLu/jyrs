@@ -31,6 +31,12 @@ Page({
 
   toCall(){
     let uname = app.globalData.uname
+    if(uname === ""){
+      wx.navigateTo({
+        url: '/pages/login/login',
+      })
+      return
+    }
     if(uname !== app.globalData.admin){
       wx.showToast({
         title: '仅管理员可用',
