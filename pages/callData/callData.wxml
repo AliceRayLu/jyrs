@@ -36,7 +36,10 @@
   <view wx:for="{{list}}" wx:for-item="item" wx:key="*this">
     <view class="row">
       <view class="text-size" style="display: flex; flex-direction: row;">
-        <view style="width: 8vw;">{{item.rank}}</view>
+        <l-tag type="reading" style="margin-right:5vw;" plain="true" font-color="#ff0000">
+          <text style="font-weight: 1000;">{{item.rank}}</text>
+        </l-tag>
+        <!-- <view style="width: 8vw;">{{item.rank}}</view> -->
         <view style="width: 25vw;">{{item.no}}</view>
         <view style="width: 18vw;">{{item.name}}</view>
       </view>
