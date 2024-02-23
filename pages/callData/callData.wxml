@@ -26,6 +26,13 @@
     </view>
   </view>
 
+  <view class="search-bar">
+    <input class="search-box text-size" type="text" placeholder="请输入姓名..." bind:blur="getName"/>
+    <view class="search-icon" bindtap="searchByName">
+      <l-icon name="research" color="#000000" />
+    </view>
+  </view>
+
   <view wx:for="{{list}}" wx:for-item="item" wx:key="*this">
     <view class="row">
       <view class="text-size" style="display: flex; flex-direction: row;">
