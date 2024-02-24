@@ -32,10 +32,6 @@
   margin:.5vh;
 }
 
-.button{
-  display: flex;
-  justify-content: flex-end;
-}
 
 .popTitle {
   color: white;

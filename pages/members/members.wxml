@@ -3,8 +3,13 @@
     <l-search-bar placeholder="搜索" />
   </view> -->
 
+  <button class="add" bind:tap="download">
+    <image class="add-icon" src="/images/ic-add.jpg"></image>
+    点击下载所有数据
+  </button>
   
   <view class="all-collapse">
+    
     <l-collapse type="normal">
       <view wx:for="{{members}}" wx:key="_id">
         <l-collapse-item title="{{item.call+empty+item.man}}" l-title-class="collapse">
@@ -18,9 +23,8 @@
             <view class="details">密码：{{item.passwd}}</view>
             <view class="buttons">
               <l-button size="mini" bind:tap="modify" data-id="{{index}}" style="margin-right: 2vw;">修改</l-button>
-              <l-button type="error" size="mini" class="button" bind:tap="delete" data-id="{{index}}">删除</l-button>
+              <l-button type="error" size="mini" bind:tap="delete" data-id="{{index}}">删除</l-button>
             </view>
-
           </view>
         </l-collapse-item>
       </view>
@@ -33,8 +37,5 @@
     <button class="popButton" bindtap="cancelD">我已阅读</button>
   </l-popup>
   
-  <button class="add" bind:tap="download">
-    <image class="add-icon" src="/images/ic-add.jpg"></image>
-    点击下载所有数据
-  </button>
+  
 </view>
