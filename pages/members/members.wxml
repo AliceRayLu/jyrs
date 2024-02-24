@@ -15,7 +15,12 @@
             <view class="details">电台地址：{{item.location}}</view>
             <view class="details">电台类型：{{item.type}}</view>            
             <view class="details">到期时间：{{item.due}}</view>
-            <l-button type="error" size="mini" class="button" bind:tap="delete" data-id="{{index}}">删除</l-button>
+            <view class="details">密码：{{item.passwd}}</view>
+            <view class="buttons">
+              <l-button size="mini" bind:tap="modify" data-id="{{index}}" style="margin-right: 2vw;">修改</l-button>
+              <l-button type="error" size="mini" class="button" bind:tap="delete" data-id="{{index}}">删除</l-button>
+            </view>
+
           </view>
         </l-collapse-item>
       </view>

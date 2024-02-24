@@ -59,3 +59,9 @@
   margin-top: 10px;
   border-radius: 98rpx;
 }
+
+.buttons{
+  display: flex;
+  justify-content: flex-end;
+  margin-right:5vw;
+}

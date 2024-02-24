@@ -124,6 +124,14 @@ Page({
     })
   },
 
+  modify(e){
+    let idx = e.currentTarget.dataset.id
+    app.globalData.helpee = this.data.members[idx]['call']
+    wx.navigateTo({
+      url: '/pages/userInfoUpdate/userInfoUpdate',
+    })
+  },
+
 
   /**
    * 生命周期函数--监听页面加载
@@ -153,7 +161,8 @@ Page({
       location:true,
       man:true,
       phone:true,
-      type:true
+      type:true,
+      passwd:true
     }).get().then(res => {
       let newData = res.data.map(item => {
         if (item.due instanceof Date) {          
@@ -162,6 +171,8 @@ Page({
           let month = due.getMonth() + 1;
           let day = due.getDate();
           item.due = year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2);
+        }else{
+          item.due = "unknown"
         }
         return item;
       });
@@ -211,13 +222,28 @@ Page({
       location:true,
       man:true,
       phone:true,
-      type:true
+      type:true,
+      passwd:true
     }).get().then(res => {
-      let newdata = res.data
-      let olddata = _this.data.members
+      let oldData = _this.data.members
+      let newData = res.data.map(item => {
+        if (item.due instanceof Date) {          
+          let due = item.due;
+          let year = due.getFullYear();
+          let month = due.getMonth() + 1;
+          let day = due.getDate();
+          item.due = year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2);
+        }else{
+          item.due = ""
+        }
+        return item;
+      });
+      _this.setData({
+        members: oldData.concat(newData)
+      })
+    }).then(res => {
       count += 20
       _this.setData({
-        members:olddata.concat(newdata),
         count:count
       },res =>{
         console.log('更新完成')
