@@ -1,13 +1,15 @@
 <view class="container">
-  <!-- <view>
-    <l-search-bar placeholder="搜索" />
-  </view> -->
-
+  <view class="search-bar">
+    <input class="search-box text-size" type="text" placeholder="请输入姓名..." bind:input="searchByName" />
+    <view class="search-icon">
+      <l-icon name="research" color="#000000" />
+    </view>
+  </view>
   
   <view class="all-collapse">
     <l-collapse type="normal">
-      <view wx:for="{{members}}" wx:key="_id">
-        <l-collapse-item title="{{item.call+empty+item.man}}" l-title-class="collapse">
+      <view wx:for="{{members}}" wx:key="index">
+        <l-collapse-item title="{{index + empty + item.call + empty + item.man}}" l-title-class="collapse">
           <view class="infos">
             <view class="details">设台人员：{{item.man}}</view>
             <view class="details">电话号码：{{item.phone}}</view>

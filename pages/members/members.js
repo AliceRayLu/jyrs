@@ -33,11 +33,26 @@ Page({
         type:"B"
       }
     ],
+    displayMembers: [],
     empty:" ",
     line:"-",
     count: 0,
     pop: false,
     durl:""
+  },
+
+  searchByName: function(e) {
+    let name = e.detail.value
+    let data = this.data.members
+    console.log(name)
+    if(name != "") {
+      data = this.data.members.filter(
+        (item) => item.man && item.man.includes(name)
+      );
+      console.log(name)
+    }
+    console.log(data)
+    this.setData({displayMembers: data})
   },
 
   cancelD(){
