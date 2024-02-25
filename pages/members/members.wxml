@@ -5,7 +5,7 @@
 
   <view class="container">
     <view class="search-bar">
-    <input class="search-box text-size" type="text" placeholder="请输入姓名..." bind:input="searchByName" />
+    <input class="search-box text-size" type="text" placeholder="请输入电台呼号..." bind:input="searchByName" />
     <view class="search-icon">
       <l-icon name="research" color="#000000" />
     </view>
@@ -20,7 +20,7 @@
             <view style="display: flex; flex-direction: row; justify-content: space-between;">
               <view style="display: flex; flex-direction: row;">
                 <l-tag type="reading" style="margin-right:5vw;" plain="true" font-color="#347CAF">
-                  <text style="font-weight: 1000;">{{index}}</text>
+                  <text style="font-weight: 1000;">{{index+1}}</text>
                 </l-tag>
                 <text>{{item.call + empty + item.man}}</text>
               </view>

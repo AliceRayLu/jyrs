@@ -234,7 +234,9 @@ Page({
       db.collection('call_record').where({
         call:uname
       }).update({
-        man:_this.data.man
+        data:{
+          man:_this.data.man
+        }
       })
     }
     if(this.data.cert != ""){

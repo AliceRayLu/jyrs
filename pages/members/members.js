@@ -21,7 +21,7 @@ Page({
     let data = this.data.members
     if(name != "") {
       data = this.data.members.filter(
-        (item) => item.man && item.man.includes(name)
+        (item) => item.call && item.call.includes(name)
       );
     }
     this.setData({displayMembers: data})
