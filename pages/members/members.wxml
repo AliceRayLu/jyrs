@@ -1,3 +1,8 @@
+  <button class="add" bind:tap="download">
+    <image class="add-icon" src="/images/ic-add.jpg"></image>
+    点击下载所有数据
+  </button>
+
   <view class="container">
     <view class="search-bar">
     <input class="search-box text-size" type="text" placeholder="请输入姓名..." bind:input="searchByName" />
@@ -6,15 +11,9 @@
     </view>
   </view>
 
-  <button class="add" bind:tap="download">
-    <image class="add-icon" src="/images/ic-add.jpg"></image>
-    点击下载所有数据
-  </button>
-  
   <view class="all-collapse">
-    
     <l-collapse type="normal">
-      <view wx:for="{{members}}" wx:key="index">
+      <view wx:for="{{displayMembers}}" wx:key="index">
         <l-collapse-item title="{{index + empty + item.call + empty + item.man}}" l-title-class="collapse">
           <view class="infos">
             <view class="details">设台人员：{{item.man}}</view>
@@ -39,6 +38,5 @@
     <textarea class="information" maxlength="-1"  disabled="true" placeholder="{{durl}}"></textarea>
     <button class="popButton" bindtap="cancelD">我已阅读</button>
   </l-popup>
-  
   
 </view>

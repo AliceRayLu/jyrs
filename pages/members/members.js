@@ -4,7 +4,6 @@ const app = getApp()
 const db = wx.cloud.database()
 
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -20,14 +19,11 @@ Page({
   searchByName: function(e) {
     let name = e.detail.value
     let data = this.data.members
-    console.log(name)
     if(name != "") {
       data = this.data.members.filter(
         (item) => item.man && item.man.includes(name)
       );
-      console.log(name)
     }
-    console.log(data)
     this.setData({displayMembers: data})
   },
 
@@ -180,7 +176,8 @@ Page({
           });
           let old = _this.data.members
           _this.setData({
-            members: old.concat(newData)
+            members: old.concat(newData),
+            displayMembers: old.concat(newData)
           })
         })
       }
