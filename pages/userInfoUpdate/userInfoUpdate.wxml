@@ -8,6 +8,10 @@
     </view>
   </view>
 
+  <view class="input-container" wx:if="{{isHelper}}">
+    <text>*您正在修改 {{uname}} 的信息</text>
+  </view>
+
   <view class="input-container">
     <label class="label">联系电话</label>
     <input class="input" bind:input="getPhone" />

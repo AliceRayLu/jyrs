@@ -28,6 +28,7 @@ App({
   globalData: {
     uname:"",
     current_act:-1,
-    admin:"BI4SSB"
+    admin:"BI4SSB",
+    helpee:"", //帮助他人修改
   }
 })

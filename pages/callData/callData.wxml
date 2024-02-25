@@ -27,7 +27,7 @@
   </view>
 
   <view class="search-bar">
-    <input class="search-box text-size" type="text" placeholder="请输入姓名..." bind:input="searchByName" />
+    <input class="search-box text-size" type="text" placeholder="请输入电台呼号" bind:input="searchByName" />
     <view class="search-icon">
       <l-icon name="research" color="#000000" />
     </view>
@@ -36,7 +36,10 @@
   <view wx:for="{{list}}" wx:for-item="item" wx:key="*this">
     <view class="row">
       <view class="text-size" style="display: flex; flex-direction: row;">
-        <view style="width: 8vw;">{{item.rank}}</view>
+        <l-tag type="reading" style="margin-right:5vw;" plain="true" font-color="#ff0000">
+          <text style="font-weight: 1000;">{{item.rank}}</text>
+        </l-tag>
+        <!-- <view style="width: 8vw;">{{item.rank}}</view> -->
         <view style="width: 25vw;">{{item.no}}</view>
         <view style="width: 18vw;">{{item.name}}</view>
       </view>
