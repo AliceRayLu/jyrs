@@ -22,8 +22,8 @@ exports.main = async (event, context) => {
           const dateStr = res.data[0].subscribeTime
           const targetDate = new Date(dateStr).getTime()
           const currentDate = new Date().getTime()
-          // const timeToTarget = targetDate - currentDate
-          const timeToTarget = -1
+          const timeToTarget = targetDate - currentDate
+          // const timeToTarget = -1
 
           console.log("还有多久:" + timeToTarget)
           if(timeToTarget < 0){
@@ -59,7 +59,7 @@ exports.main = async (event, context) => {
       }).catch(err => {
         console.log('查询失败', err);
       });
-    }, 10 * 1000) // 每隔 10 秒执行一次
+    }, 60*60*24* 1000) // 每隔 10 秒执行一次
 
   } catch (err) {
     console.error(err)
