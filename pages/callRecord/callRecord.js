@@ -119,6 +119,8 @@ Page({
         let fileData;
         let year = _this.data.due.substr(0,4)
         let head = "control"+year
+        // 将主控人员以空格分隔为数组
+        const controlList = this.data.control.split(/\s+/).filter(Boolean);
         fs.readFile({
           filePath: _this.data.tempFilePath,
           encoding:'base64',
@@ -173,27 +175,48 @@ Page({
                 file: _this.data.downloadPath,
                 fileID: _this.data.fileID,
                 time: _this.data.due,
-                control:_this.data.control,
+                control:controlList,
                 caller:caller
               }
             }).then(res => {
               console.log(year)
-              db.collection('call_record').where({
-                call:_this.data.control
-              }).update({
-                data:{
-                  [head]: _.push(_this.data.due)
+               // 遍历主控人员列表，逐个更新数据库
+           controlList.forEach((controlPerson) => {
+            db.collection("call_record")
+              .where({
+                call: controlPerson,
+              })
+              .update({
+                data: {
+                  [head]: _.push(_this.data.due),
                 },
-              }).then(res => {
-                if(res['stats']['updated'] == 0){
-                  let d = {
-                    "call":_this.data.control,
-                    [head]:[_this.data.due]
-                  }
-                  this.addToDB('call_record',d)
+              })
+              .then((res) => {
+                if (res["stats"]["updated"] == 0) {
+                  const d = {
+                    call: controlPerson,
+                    [head]: [_this.data.due],
+                  };
+                  _this.addToDB("call_record", d);
                 }
+              });
+          });
+              // db.collection('call_record').where({
+              //   call:_this.data.control
+              // }).update({
+              //   data:{
+              //     [head]: _.push(_this.data.due)
+              //   },
+              // }).then(res => {
+              //   if(res['stats']['updated'] == 0){
+              //     let d = {
+              //       "call":_this.data.control,
+              //       [head]:[_this.data.due]
+              //     }
+              //     this.addToDB('call_record',d)
+              //   }
                 
-              }) 
+              // }) 
             }).then(res => {
               wx.navigateTo({
                 url: '/pages/call/call', 
@@ -209,6 +232,7 @@ Page({
       db.collection(name).add({
         data:data
       })
-    }
+    },
+    
 
 });
