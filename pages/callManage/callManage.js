@@ -65,10 +65,9 @@ Page({
       }
     })
     let caller = this.data.files[index]['caller']
-    for(var i in caller){
-      let name = caller[i]
+    for(var c of caller){
       db.collection('call_record').where({
-        call:name
+        call: c
       }).update({
         data:{
           [call]:_.pull(time)
@@ -141,7 +140,8 @@ Page({
       let olddata = _this.data.files
       count += 20
       _this.setData({
-        files:olddata.concat(newdata)
+        files:olddata.concat(newdata),
+        count: count
       })
     })
   },
