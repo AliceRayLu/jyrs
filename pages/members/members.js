@@ -4,40 +4,27 @@ const app = getApp()
 const db = wx.cloud.database()
 
 Page({
-
   /**
    * 页面的初始数据
    */
   data: {
-    members:[
-      {
-        man: "顾",
-        phone: "13333333333",
-        call: "BD4TS",
-        location: "xxxxxxx",
-        // year:2025,
-        // month:3,
-        // date:2,
-        // due:"",
-        type:"C"
-      },
-      {
-        man: "刘",
-        phone: "13333333333",
-        call: "BD4TSxxx",
-        location: "xxxxxxxx",
-        // year:-1,
-        // month:-1,
-        // date:-1,
-        // due:"",
-        type:"B"
-      }
-    ],
-    empty:" ",
-    line:"-",
-    count: 0,
+    members: [],
+    displayMembers: [],
+    empty: " ",
+    line: "-",
     pop: false,
-    durl:""
+    durl: ""
+  },
+
+  searchByName: function(e) {
+    let name = e.detail.value
+    let data = this.data.members
+    if(name != "") {
+      data = this.data.members.filter(
+        (item) => item.call && item.call.includes(name)
+      );
+    }
+    this.setData({displayMembers: data})
   },
 
   cancelD(){
@@ -124,6 +111,14 @@ Page({
     })
   },
 
+  modify(e){
+    let idx = e.currentTarget.dataset.id
+    app.globalData.helpee = this.data.members[idx]['call']
+    wx.navigateTo({
+      url: '/pages/userInfoUpdate/userInfoUpdate',
+    })
+  },
+
 
   /**
    * 生命周期函数--监听页面加载
@@ -144,35 +139,48 @@ Page({
    */
   onShow() {
     let _this = this
-    let count = _this.data.count
-    db.collection('members').field({
-      _id: false,
-      call:true,
-      due:true,
-      certificate:true,
-      location:true,
-      man:true,
-      phone:true,
-      type:true
-    }).get().then(res => {
-      let newData = res.data.map(item => {
-        if (item.due instanceof Date) {          
-          let due = item.due;
-          let year = due.getFullYear();
-          let month = due.getMonth() + 1;
-          let day = due.getDate();
-          item.due = year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2);
-        }
-        return item;
-      });
-      _this.setData({
-        members: newData
-      })
-    }).then(res => {
-      count += 20
-      _this.setData({
-        count:count
-      })
+    _this.setData({
+      members:[]
+    })
+    let total = 0
+    db.collection('members').count().then(res => {
+      total = res.total
+      if(total%20 == 0){
+        total = total/20
+      }else{
+        total = Math.floor(total/20)+1
+      }
+      for(var i = 0;i < total;i++){
+        db.collection('members').skip(i*20).field({
+          _id: false,
+          call:true,
+          due:true,
+          certificate:true,
+          location:true,
+          man:true,
+          phone:true,
+          type:true,
+          passwd:true
+        }).get().then(res => {
+          let newData = res.data.map(item => {
+            if (item.due instanceof Date) {          
+              let due = item.due;
+              let year = due.getFullYear();
+              let month = due.getMonth() + 1;
+              let day = due.getDate();
+              item.due = year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2);
+            }else{
+              item.due = ""
+            }
+            return item;
+          });
+          let old = _this.data.members
+          _this.setData({
+            members: old.concat(newData),
+            displayMembers: old.concat(newData)
+          })
+        })
+      }
     })
   },
 
@@ -201,28 +209,6 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom(res) {
-    let count = this.data.count
-    let _this = this
-    db.collection('members').skip(count).field({
-      _id: false,
-      call:true,
-      due:true,
-      certificate:true,
-      location:true,
-      man:true,
-      phone:true,
-      type:true
-    }).get().then(res => {
-      let newdata = res.data
-      let olddata = _this.data.members
-      count += 20
-      _this.setData({
-        members:olddata.concat(newdata),
-        count:count
-      },res =>{
-        console.log('更新完成')
-      })
-    })
   },
 
   /**

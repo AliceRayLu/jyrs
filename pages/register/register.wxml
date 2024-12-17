@@ -45,6 +45,9 @@
     <input class="input" value="{{type}}" bind:input="gettype" />
   </view>
   <view class="input-container">
+    <text style="color: red;">*请务必输入全大写电台呼号</text>
+  </view>
+  <view class="input-container">
     <label class="label">台站地址</label>
     <input class="input" value="{{location}}" bind:input="getloca" />
   </view>

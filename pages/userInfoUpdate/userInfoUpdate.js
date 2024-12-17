@@ -19,7 +19,8 @@ Page({
     location:"", //电台地址
     due:"", //到期时间
     img_url:"",
-    phone:""
+    phone:"",
+    isHelper:false
   },
 
   getPhone(event){
@@ -211,57 +212,12 @@ Page({
   update(){
     let uname = this.data.uname
     let _this = this
-    if(this.data.pic.length == 0){
-      if(this.data.phone == ""){
-        wx.showToast({
-          title: '没有更新信息',
-          icon:'error'
-        })
-        return
-      }
-    }else{
-      if(this.data.man == ""){
-        wx.showToast({
-          title: '请填写设台人员',
-          icon:"error"
-        })
-        return
-      }
-      if(this.data.cert == ""){
-        wx.showToast({
-          title: '请填写证件号码',
-          icon:"error"
-        })
-        return
-      }
-      if(this.data.call == ""){
-        wx.showToast({
-          title: '请填写电台呼号',
-          icon:"error"
-        })
-        return
-      }
-      if(this.data.type == ""){
-        wx.showToast({
-          title: '请填写电台类型',
-          icon:"error"
-        })
-        return
-      }
-      if(this.data.location == ""){
-        wx.showToast({
-          title: '请填写台站地址',
-          icon:"error"
-        })
-        return
-      }
-      if(this.data.due == ""){
-        wx.showToast({
-          title: '请选择到期时间',
-          icon:"error"
-        })
-        return
-      }
+    let updatedData = {}
+    if(this.data.phone != ""){
+      updatedData['phone'] = _this.data.phone
+    }
+    if(this.data.pic.length > 0){
+      updatedData['license'] = _this.data.picPath
       db.collection('members').where({
         call:uname
       }).get().then(res => {
@@ -271,46 +227,54 @@ Page({
             fileList:[path]
           })
         }
-      }).then(res => {
-        db.collection('members').where({
-          call: uname
-        }).update({
-          data:({
-            due: new Date(_this.data.due),
-            location: _this.data.location,
-            call: _this.data.call,
-            license: _this.data.picPath,
-            type: _this.data.type,
-            man: _this.data.man,
-            certificate: _this.data.cert
-          })
-        })
       })
+    }
+    if(this.data.man != ""){
+      updatedData['man'] = _this.data.man
       db.collection('call_record').where({
         call:uname
       }).update({
-        man:_this.data.man
-      })
-    }
-    if(this.data.phone != ""){
-      db.collection('members').where({
-        call:uname
-      }).update({
         data:{
-          phone:_this.data.phone
+          man:_this.data.man
         }
       })
     }
-    wx.switchTab({
-      url: '/pages/mine/mine',
-      success: function (e) {
- 
-        let page = getCurrentPages().pop();
- 
+    if(this.data.cert != ""){
+      updatedData['certificate'] = _this.data.cert
+    }
+    if(this.data.call != ""){
+      updatedData['call'] = _this.data.call
+    }
+    if(this.data.type != ""){
+      updatedData['type'] = _this.data.type
+    }
+    if(this.data.location != ""){
+      updatedData['location'] = _this.data.location
+    }
+    if(this.data.due != ""){
+      updatedData['due'] = new Date(_this.data.due)
+    }
+    
+    if(Object.keys(updatedData).length == 0){
+      wx.showToast({
+        title: '没有任何信息更新',
+        icon:'error'
+      })
+      return;
+    }
+
+    db.collection('members').where({
+      call: uname
+    }).update({
+      data:(updatedData)
+    })
+      
+
+    wx.navigateBack({
+      success:function(e){
+        let page = getCurrentPages().pop()
         if (page == undefined || page == null) return;
- 
-            page.onLoad();
- 
+        page.onLoad();
       }
     })
   },
@@ -319,10 +283,20 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    let _this = this
     let uname = app.globalData.uname
-    this.setData({
-      uname: uname
-    })
+    if(app.globalData.helpee != ""){
+      uname = app.globalData.helpee
+      _this.setData({
+        uname:uname,
+        isHelper:true
+      })
+    }else{
+      _this.setData({
+        uname: uname
+      })
+    }
+    
   },
 
   /**

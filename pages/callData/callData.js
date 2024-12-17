@@ -9,7 +9,8 @@ Page({
     typeEN:['call', 'control'],
     typeIndex: -1,
 
-    list: []
+    list: [],
+    keepList:[]
   },
 
   bindYearChange: function(e) {
@@ -75,7 +76,8 @@ Page({
           }
           
           _this.setData({
-            list:lists
+            list:lists,
+            keepList:lists
           })
         })
       }
@@ -87,8 +89,8 @@ Page({
     let name = e.detail.value
     if(name == "") this.onChange();
     else {
-      var newList = this.data.list.filter(
-        (item) => item.name && item.name.includes(name)
+      var newList = this.data.keepList.filter(
+        (item) => item.no && item.no.includes(name)
       );
       this.setData({ list: newList });
     }

@@ -1,13 +1,32 @@
-<view class="container">
-  <!-- <view>
-    <l-search-bar placeholder="搜索" />
-  </view> -->
+  <button class="add" bind:tap="download">
+    <image class="add-icon" src="/images/ic-add.jpg"></image>
+    点击下载所有数据
+  </button>
 
-  
+  <view class="container">
+    <view class="search-bar">
+    <input class="search-box text-size" type="text" placeholder="请输入电台呼号..." bind:input="searchByName" />
+    <view class="search-icon">
+      <l-icon name="research" color="#000000" />
+    </view>
+  </view>
+
   <view class="all-collapse">
     <l-collapse type="normal">
-      <view wx:for="{{members}}" wx:key="_id">
-        <l-collapse-item title="{{item.call+empty+item.man}}" l-title-class="collapse">
+      <view wx:for="{{displayMembers}}" wx:key="index">
+        <l-collapse-item l-title-class="collapse" customTitle="{{true}}" style="display: flex; justify-content: center;">
+          <!--自定义标题-->
+          <view style="width: 100%;" slot="title">
+            <view style="display: flex; flex-direction: row; justify-content: space-between;">
+              <view style="display: flex; flex-direction: row;">
+                <l-tag type="reading" style="margin-right:5vw;" plain="true" font-color="#347CAF">
+                  <text style="font-weight: 1000;">{{index+1}}</text>
+                </l-tag>
+                <text>{{item.call + empty + item.man}}</text>
+              </view>
+              <l-icon name="down" color="#808080" />
+            </view>
+          </view>
           <view class="infos">
             <view class="details">设台人员：{{item.man}}</view>
             <view class="details">电话号码：{{item.phone}}</view>
@@ -15,7 +34,11 @@
             <view class="details">电台地址：{{item.location}}</view>
             <view class="details">电台类型：{{item.type}}</view>            
             <view class="details">到期时间：{{item.due}}</view>
-            <l-button type="error" size="mini" class="button" bind:tap="delete" data-id="{{index}}">删除</l-button>
+            <view class="details">密码：{{item.passwd}}</view>
+            <view class="buttons">
+              <l-button size="mini" bind:tap="modify" data-id="{{index}}" style="margin-right: 2vw;">修改</l-button>
+              <l-button type="error" size="mini" bind:tap="delete" data-id="{{index}}">删除</l-button>
+            </view>
           </view>
         </l-collapse-item>
       </view>
@@ -28,8 +51,4 @@
     <button class="popButton" bindtap="cancelD">我已阅读</button>
   </l-popup>
   
-  <button class="add" bind:tap="download">
-    <image class="add-icon" src="/images/ic-add.jpg"></image>
-    点击下载所有数据
-  </button>
 </view>

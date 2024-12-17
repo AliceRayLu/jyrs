@@ -57,6 +57,6 @@ App({
     admin:"BI4SSB",
     openid: null ,
     expirationTime: null,
+    helpee:"", //帮助他人修改
   },
- 
 })
