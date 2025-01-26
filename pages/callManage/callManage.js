@@ -38,54 +38,68 @@ Page({
     wx.showToast({
       title: '删除中',
       icon:'loading',
-      duration:3000
+      mask: true,
     })
-    let index = event.currentTarget.dataset.id;
-    let time = this.data.files[index]['time']
-    let year = time.substr(0,4)
-    let control = "control"+year
-    let call = "call"+year
-    let _this = this
-    db.collection('call_file').where({
-      time:time
-    }).get().then(res => {
-      let fileID = res.data[0]['fileID']
-      wx.cloud.deleteFile({
-        fileList:[fileID]
-      })
-    }).then(res => {
+    console.log("start.....................")
+    new Promise((resolve) => {
+      let index = event.currentTarget.dataset.id;
+      let time = this.data.files[index]['time']
+      let year = time.substr(0,4)
+      let control = "control"+year
+      let call = "call"+year
+      let _this = this
       db.collection('call_file').where({
         time:time
-      }).remove().then(res => {
-        _this.onShow()
+      }).get().then(res => {
+        let fileID = res.data[0]['fileID']
+        wx.cloud.deleteFile({
+          fileList:[fileID]
+        })
+      }).then(res => {
+        db.collection('call_file').where({
+          time:time
+        }).remove().then(res => {
+          _this.onShow()
+        })
       })
-    })
-    // 更新 control 数据（处理多个主控人员）
-     // 更新 control 数据（处理多个主控人员）
-  let controlList = this.data.files[index]['control']; // 获取 control 数组
-  console.log(controlList)
-  if (Array.isArray(controlList)) {
-    controlList.forEach((controlPerson) => {
-      db.collection('call_record')
-        .where({ call: controlPerson })
-        .update({
-          data: {
-            [control]: _.pull(time),
-          },
-        });
-    });
-  }
+      // 更新 control 数据（处理多个主控人员）
+      let controlList = this.data.files[index]['control'];
+      console.log(controlList)
+      if (!Array.isArray(controlList)) {
+        controlList = [controlList];
+      }
+      controlList.forEach((controlPerson) => {
+        db.collection('call_record')
+          .where({ call: controlPerson })
+          .get()
+          .then(res => {
+            let recordID = res.data[0]._id;
+            db.collection('call_record').doc(recordID).update({
+              data: {
+                [control]: _.pull(time),
+              },
+            })
+          })
+      });
 
-    let caller = this.data.files[index]['caller']
-    for(var c of caller){
-      db.collection('call_record').where({
-        call: c
-      }).update({
-        data:{
-          [call]:_.pull(time)
-        }
-      })
-    }
+      let caller = this.data.files[index]['caller']
+      for(var c of caller){
+        db.collection('call_record').where({
+          call: c
+        }).get().then(res => {
+          let recordID = res.data[0]._id;
+          db.collection('call_record').doc(recordID).update({
+            data:{
+              [call]:_.pull(time)
+            }
+          })
+        })
+      }
+      resolve();
+    }).then(() => {
+      wx.hideToast();
+    })
+    
   },
 
   /**
