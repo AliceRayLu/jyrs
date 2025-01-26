@@ -51,9 +51,11 @@ Page({
       db.collection('call_file').where({
         time:time
       }).get().then(res => {
-        let fileID = res.data[0]['fileID']
-        wx.cloud.deleteFile({
-          fileList:[fileID]
+        let fileIDs = res.data
+        fileIDs.forEach(file => {
+          wx.cloud.deleteFile({
+            fileList:[file['fileID']]
+          })
         })
       }).then(res => {
         db.collection('call_file').where({
