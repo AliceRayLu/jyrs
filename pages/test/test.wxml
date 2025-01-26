@@ -1,0 +1,5 @@
+<!--pages/test/test.wxml-->
+<text>pages/test/test.wxml</text>
+<button  bindtap="shouquan">授权</button>
+<button  bindtap="sendOne">发送一条消息</button>
+<button  bindtap="subscribetask">开启定时任务</button>

@@ -1,4 +1,22 @@
 <!--pages/callManage.wxml-->
+<view class="filter">
+  <view class="filter-row">
+    <text>起始日期：</text>
+    <picker mode="date" value="{{startDate}}" bindchange="onStartDateChange">
+      <view class="picker">{{startDate ? startDate : '请选择起始日期'}}</view>
+    </picker>
+  </view>
+  <view class="filter-row">
+    <text>结束日期：</text>
+    <picker mode="date" value="{{endDate}}" bindchange="onEndDateChange">
+      <view class="picker">{{endDate ? endDate : '请选择结束日期'}}</view>
+    </picker>
+  </view>
+  <view class="filter-buttons">
+    <button bindtap="filterFilesByDateRange" class="filter-button">查询</button>
+    <button bindtap="clearFilters" class="filter-button clear-button">清除</button>
+  </view>
+</view>
 <view class="warning">*请注意：删除文件会删除对应文件中所有人的点名与主控记录</view>
 <l-collapse type="normal">
   <view wx:for="{{files}}" wx:key="_id">

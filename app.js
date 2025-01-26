@@ -24,11 +24,39 @@ App({
         traceUser: true,
       });
     }
+     // 在小程序启动时执行的操作
+    // 可以在这里获取用户信息、登录、获取 openid 等
+    // 将获取到的 openid 存储在 globalData 中
+    wx.cloud.callFunction({
+      name: 'getopenid',
+      complete: res => {
+        const openid = res.result.openid;
+        this.globalData.openid = openid;
+        console.log('获取到 openid:', openid);
+        const db = wx.cloud.database();
+      const membersCollection = db.collection('members') 
+      membersCollection.where({  _openid: this.globalData.openid  }).get().then(res=>{
+        
+          const originalDate = new Date(res.data[0].due);
+          const year = originalDate.getFullYear();
+          const month = originalDate.getMonth() + 1;
+          const day = originalDate.getDate();
+    
+          const formattedDate = `${year}年${month < 10 ? '0' + month : month}月${day < 10 ? '0' + day : day}日`;
+    
+          this.globalData.expirationTime=formattedDate
+          console.log("到期时间" +this.globalData.expirationTime)
+      })
+      }
+    });
+    
   },
   globalData: {
     uname:"",
     current_act:-1,
     admin:"BI4SSB",
+    openid: null ,
+    expirationTime: null,
     helpee:"", //帮助他人修改
-  }
+  },
 })

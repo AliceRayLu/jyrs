@@ -14,7 +14,8 @@
     "pages/call/call",
     "pages/callRecord/callRecord",
     "pages/callManage/callManage",
-    "pages/callData/callData"
+    "pages/callData/callData",
+    "pages/test/test"
   ],
   "window": {
     "backgroundColor": "#f6f6f6",

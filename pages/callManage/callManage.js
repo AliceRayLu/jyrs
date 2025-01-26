@@ -9,6 +9,9 @@ Page({
   data: {
     files:[],
     count: 0,
+    // isLoading: false, // 是否正在加载数据
+    // hasMoreData: true, // 是否还有更多数据
+    isFilter:false, //是否在日期筛选
     pop: false,
     durl:""
   },
@@ -57,13 +60,22 @@ Page({
         _this.onShow()
       })
     })
-    db.collection('call_record').where({
-      call: _this.data.files[index]['control']
-    }).update({
-      data:{
-        [control]:_.pull(time)
-      }
-    })
+    // 更新 control 数据（处理多个主控人员）
+     // 更新 control 数据（处理多个主控人员）
+  let controlList = this.data.files[index]['control']; // 获取 control 数组
+  console.log(controlList)
+  if (Array.isArray(controlList)) {
+    controlList.forEach((controlPerson) => {
+      db.collection('call_record')
+        .where({ call: controlPerson })
+        .update({
+          data: {
+            [control]: _.pull(time),
+          },
+        });
+    });
+  }
+
     let caller = this.data.files[index]['caller']
     for(var c of caller){
       db.collection('call_record').where({
@@ -133,23 +145,205 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom() {
-    let _this = this
-    let count = this.data.count
-    db.collection('call_file').orderBy('time','desc').skip(count).get().then(res => {
-      let newdata = res.data
-      let olddata = _this.data.files
-      count += 20
-      _this.setData({
-        files:olddata.concat(newdata),
-        count: count
-      })
-    })
+    // 解构获取数据
+    const { count, files, isFilter, startDate, endDate } = this.data;
+  
+    // 如果是筛选状态
+    if (isFilter) {
+      const dbQuery = {};
+  
+      // 动态添加筛选条件
+      if (startDate) dbQuery.time = db.command.gte(startDate);
+      if (endDate) {
+        dbQuery.time = dbQuery.time
+          ? dbQuery.time.and(db.command.lte(endDate))
+          : db.command.lte(endDate);
+      }
+  
+      wx.showLoading({ title: '加载中...' });
+  
+      // 分页加载筛选后的数据
+      db.collection('call_file')
+        .where(dbQuery)
+        .orderBy('time', 'desc')
+        .skip(count)
+        .limit(20)
+        .get()
+        .then((res) => {
+          const newdata = res.data;
+          this.setData({
+            files: files.concat(newdata),
+            count: count + newdata.length // 动态更新已加载数据量
+          });
+  
+          if (newdata.length === 0) {
+            wx.showToast({
+              title: '没有更多筛选数据了',
+              icon: 'none',
+              duration: 2000
+            });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          wx.showToast({
+            title: '加载失败，请稍后再试',
+            icon: 'none',
+            duration: 2000
+          });
+        })
+        .finally(() => {
+          wx.hideLoading();
+        });
+    } else {
+      // 非筛选状态，加载全部数据
+      wx.showLoading({ title: '加载中...' });
+  
+      db.collection('call_file')
+        .orderBy('time', 'desc')
+        .skip(count)
+        .limit(20)
+        .get()
+        .then((res) => {
+          const newdata = res.data;
+          this.setData({
+            files: files.concat(newdata),
+            count: count + newdata.length
+          });
+  
+          if (newdata.length === 0) {
+            wx.showToast({
+              title: '没有更多数据了',
+              icon: 'none',
+              duration: 2000
+            });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          wx.showToast({
+            title: '加载失败，请稍后再试',
+            icon: 'none',
+            duration: 2000
+          });
+        })
+        .finally(() => {
+          wx.hideLoading();
+        });
+    }
   },
+  
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage() {
 
-  }
+  },
+    // 更新起始日期
+    onStartDateChange(e) {
+      this.setData({ startDate: e.detail.value });
+    },
+  
+    // 更新结束日期
+    onEndDateChange(e) {
+      this.setData({ endDate: e.detail.value });
+    },
+  
+    // 日期范围筛选逻辑
+    filterFilesByDateRange() {
+      const { startDate, endDate } = this.data;
+    
+      // 如果没有选择日期范围，提示用户选择
+      if (!startDate && !endDate) {
+        wx.showToast({
+          title: '请先选择起始日期或结束日期',
+          icon: 'none',
+          duration: 2000
+        });
+        return;
+      }
+    
+      // 数据库筛选逻辑
+      const dbQuery = {};
+      if (startDate) dbQuery.time = db.command.gte(startDate);
+      if (endDate) {
+        dbQuery.time = dbQuery.time
+          ? dbQuery.time.and(db.command.lte(endDate))
+          : db.command.lte(endDate);
+      }
+    
+      wx.showLoading({ title: '查询中...' });
+    
+      // 初次筛选时重置分页计数和状态
+      db.collection('call_file')
+        .where(dbQuery)
+        .orderBy('time', 'desc')
+        .limit(20)
+        .get()
+        .then((res) => {
+          this.setData({
+            files: res.data,
+            count: 20, // 初始化分页计数
+            isFilter: true // 进入筛选模式
+          });
+    
+          if (res.data.length === 0) {
+            wx.showToast({
+              title: '未找到符合条件的数据',
+              icon: 'none',
+              duration: 2000
+            });
+          } else {
+            wx.showToast({
+              title: '查询成功',
+              icon: 'success',
+              duration: 2000
+            });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          wx.showToast({
+            title: '查询失败，请稍后再试',
+            icon: 'none',
+            duration: 2000
+          });
+        })
+        .finally(() => {
+          wx.hideLoading();
+        });
+    },
+    
+  
+    // 清除筛选条件
+    clearFilters() {
+      wx.showLoading({ title: '加载中...' });
+    
+      db.collection('call_file')
+        .orderBy('time', 'desc')
+        .limit(20)
+        .get()
+        .then((res) => {
+          this.setData({
+            files: res.data,
+            count: 20, // 初始化分页计数
+            isFilter: false, // 退出筛选模式
+            startDate: "", // 清空筛选条件
+            endDate: ""
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+          wx.showToast({
+            title: '加载失败，请稍后再试',
+            icon: 'none',
+            duration: 2000
+          });
+        })
+        .finally(() => {
+          wx.hideLoading();
+        });
+    }
+    
 })
