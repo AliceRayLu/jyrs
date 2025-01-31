@@ -33,7 +33,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    let isAdmin = app.globalData.isAdmin
+    this.setData({
+      isAdmin: isAdmin
+    })
   },
 
   /**
@@ -47,18 +50,14 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    if (app.globalData.uname === app.globalData.admin) {
-      this.setData({
-        isAdmin: true
-      })
-    }
     let idx = app.globalData.current_act
     this.setData({
       id: idx
     })
     let _this = this
     let day = ["日", "一", "二", "三", "四", "五", "六"]
-    db.collection('activities').where({
+    let locale = app.globalData.location
+    db.collection('activities_'+locale).where({
       aid: idx
     }).get({
       success(res) {
@@ -92,7 +91,7 @@ When the user is an administrator, trigger the logic: search for name through un
 ******/
           // Define a function to search for name through uname
           function queryParticipants(skip) {
-            return db.collection('members')
+            return db.collection('members_'+locale)
               .where({
                 call: db.command.in(act.participants)
               })
@@ -148,7 +147,7 @@ When the user is an administrator, trigger the logic: search for name through un
           for (let i = 0; i < pa.length; i++) {
             if (pa[i] == "") continue
             let temp = []
-            db.collection('members').where({
+            db.collection('members_'+locale).where({
               call: pa[i]
             }).field({
               _id:false,
@@ -186,9 +185,10 @@ When the user is an administrator, trigger the logic: search for name through un
 
   upload(){
     let _this = this
+    let locale = app.globalData.location
     this.data.participants.push(app.globalData.uname)
     console.log(this.data.participants)
-    db.collection('activities').where({
+    db.collection('activities_'+locale).where({
       aid: _this.data.id
     }).update({
       data: {
@@ -210,7 +210,8 @@ When the user is an administrator, trigger the logic: search for name through un
 
   fillInfo(){
     let _this = this
-    db.collection('members').where({
+    let locale = app.globalData.location
+    db.collection('members_'+locale).where({
       call: app.globalData.uname
     }).update({
       data: _this.data.userInfo
@@ -232,7 +233,8 @@ When the user is an administrator, trigger the logic: search for name through un
   cancel(event) {
     let _this = this
     this.data.participants = this.data.participants.filter(item => item != app.globalData.uname)
-    db.collection('activities').where({
+    let locale = app.globalData.location
+    db.collection('activities_'+locale).where({
       aid: _this.data.id
     }).update({
       data: {
@@ -245,19 +247,20 @@ When the user is an administrator, trigger the logic: search for name through un
 
   delete() {
     let _this = this
+    let locale = app.globalData.location
     if(_this.data.pic != "/images/logo.jpg"){
       wx.cloud.deleteFile({
         fileList:[_this.data.pic]
       })
     }
-    db.collection('activities').where({
+    db.collection('activities_'+locale).where({
       aid:_this.data.id
     }).get().then(res => {
       wx.cloud.deleteFile({
         fileList:[res.data[0]['signInfo']]
       })
     }).then(res => {
-      db.collection('activities').where({
+      db.collection('activities_'+locale).where({
         aid: _this.data.id
       }).remove().then(res => {
         wx.switchTab({
@@ -275,6 +278,7 @@ When the user is an administrator, trigger the logic: search for name through un
 
   download: function (event) {
     let _this = this
+    let locale = app.globalData.location
     console.log(this.data.sign_data)
     var ws = XLSX.utils.aoa_to_sheet(this.data.sign_data);
     var wb = XLSX.utils.book_new();
@@ -297,7 +301,7 @@ When the user is an administrator, trigger the logic: search for name through un
           cloudPath: `infos/${_this.data.id}.xlsx`
         }).then(res => {
           fileID = res.fileID
-          db.collection('activities').where({
+          db.collection('activities_'+locale).where({
             aid:_this.data.id
           }).update({
             data:{

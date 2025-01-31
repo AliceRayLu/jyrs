@@ -37,7 +37,8 @@ Page({
     let year = this.data.yearArray[this.data.yearIndex]
     let title = type+year
     let total = 0
-    db.collection('call_record').count().then(res => {
+    let locale = app.globalData.location
+    db.collection('call_record_'+locale).count().then(res => {
       total = res.total
       if(total%20 == 0){
         total = total/20
@@ -47,7 +48,7 @@ Page({
       console.log(total)
       let lists = []
       for(var i = 0;i < total;i++){
-        db.collection('call_record').skip(i*20).field({
+        db.collection('call_record_'+locale).skip(i*20).field({
           call:true,
           [title]:true,
           man:true,

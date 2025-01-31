@@ -20,7 +20,14 @@ Page({
     due:"", //到期时间
     phone:"",
     certError: "",
-    phoneError: ""
+    phoneError: "",
+    locale: "", // 注册地区
+  },
+
+  setLocation(event){
+    this.setData({
+      locale: event.detail.location
+    })
   },
   
   bindDateChange(event){
@@ -250,6 +257,14 @@ Page({
     let uname = this.data.call
     console.log(this.data.call)
     let _this = this
+    let locale = this.data.locale
+    if(!locale){
+      wx.showToast({
+        title: '请选择地区',
+        icon: 'error'
+      })
+      return
+    }
     if(this.data.call === ""){
       wx.showToast({
         title: '请填写电台呼号',
@@ -257,7 +272,7 @@ Page({
       })
       return
     }
-    db.collection('members').where({
+    db.collection('members_'+locale).where({
       call: uname
     }).get().then(res => {
       if (res.data.length != 0){
@@ -322,7 +337,7 @@ Page({
         return
       }
     }
-    db.collection('members').add({
+    db.collection('members_'+locale).add({
       data:{
         passwd: _this.data.passwd,
         due: new Date(_this.data.due),
@@ -335,7 +350,7 @@ Page({
         phone: _this.data.phone
       }
     }).then(res =>{
-      db.collection('call_record').where({
+      db.collection('call_record_'+locale).where({
         call:_this.data.call
       }).update({
         data:{
@@ -343,7 +358,7 @@ Page({
         }
       }).then(res => {
         if(res['stats']['updated'] == 0){
-          db.collection('call_record').add({
+          db.collection('call_record_'+locale).add({
             data:{
               call:_this.data.call,
               man:_this.data.man

@@ -6,7 +6,8 @@ const db = wx.cloud.database()
 Page({
   data: {
     uname:'',
-    passwd:''
+    passwd:'',
+    location: '',
   },
   // 事件处理函数
   bindViewTap() {
@@ -31,24 +32,43 @@ Page({
     })
   },
 
+  setLocation(event){
+    this.setData({
+      location: event.detail.location
+    })
+  },
+
   login(){
     let uname = this.data.uname;
     let passwd = this.data.passwd;
+    let location = this.data.location;
+
+    if(!location){
+      wx.showToast({
+        title: '请选择地区',
+        icon: 'error'
+      })
+      return
+    }
 
     console.log(uname)
     console.log(passwd)
+    console.log(location)
 
-    //登陆
-    db.collection('members').where({
-      call:uname
-    }).get({
-      success(res) {
-        if (res.data.length != 0)
-        {
+    db.collection('admin').where({
+      call: uname
+    }).get().then(res => {
+        console.log("find from admin db", res)
+        if(res.data.length != 0){
           let user = res.data[0]
-          if (passwd == user.passwd) {                                                             
+          if(passwd == user.passwd){
             app.globalData.uname = uname
-            console.log(user.uname)
+            //设置地区
+            app.globalData.location = location
+            if(user.locale != location){
+              app.globalData.location = user.locale
+            }
+            app.globalData.isAdmin = true
             wx.switchTab({
               url: '/pages/mine/mine',
               success: function (e) {
@@ -69,15 +89,51 @@ Page({
               title: '账号或密码不正确',
             })
           }
-        }else{
-        wx.showToast({
-            title: '该用户不存在',
-            icon:"error"
-        })
-        }
+          console.log("setting up global state:", app.globalData)
+        } else {
+          db.collection('members_'+location).where({
+            call:uname
+          }).get({
+            success(res) {
+              if (res.data.length != 0)
+              {
+                let user = res.data[0]
+                if (passwd == user.passwd) {                                                             
+                  app.globalData.uname = uname
+                  // 设置地区
+                  app.globalData.location = location
+                  console.log(user.uname)
+                  wx.switchTab({
+                    url: '/pages/mine/mine',
+                    success: function (e) {
+       
+                      let page = getCurrentPages().pop();
+               
+                      if (page == undefined || page == null) return;
+               
+                          page.onLoad();
+               
+                    }
+                  })
+                  //保存用户登陆状态
+                  wx.setStorageSync('user', user)
+                } else {
+                  wx.showToast({
+                    icon: 'none',
+                    title: '账号或密码不正确',
+                  })
+                }
+              }else{
+              wx.showToast({
+                  title: '该用户不存在',
+                  icon:"error"
+              })
+              }
+            }
+          })
       }
     })
-  },
+  },  
 
   toRegister(){
     wx.navigateTo({

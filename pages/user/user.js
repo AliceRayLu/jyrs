@@ -21,6 +21,7 @@ Page({
     month:-1,
     date:-1,
     phone:"",
+    locale: "", // 会员地区
   },
 
   update(){
@@ -63,12 +64,13 @@ Page({
     this.data.uname = app.globalData.uname
     let uname = this.data.uname
     let _this = this
-    if(uname === app.globalData.admin){
-      _this.setData({
-        isAdmin: true
-      })
-    }
-    db.collection('members').where({
+    let locale = app.globalData.location
+    let isAdmin = app.globalData.isAdmin
+    _this.setData({
+      isAdmin: isAdmin,
+      locale: locale
+    })
+    db.collection('members_'+locale).where({
       call:uname
     }).get({
       success(res){

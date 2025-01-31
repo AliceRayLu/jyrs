@@ -8,6 +8,7 @@
     </view>
   </view>
 
+  <region-picker bind:setLocation="setLocation" />
   <view class="input-container">
     <input class="input" placeholder="设置密码" bind:input="getPasswd" password="true"/>
   </view>

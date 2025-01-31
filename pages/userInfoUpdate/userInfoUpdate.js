@@ -213,12 +213,13 @@ Page({
     let uname = this.data.uname
     let _this = this
     let updatedData = {}
+    let locale = app.globalData.location
     if(this.data.phone != ""){
       updatedData['phone'] = _this.data.phone
     }
     if(this.data.pic.length > 0){
       updatedData['license'] = _this.data.picPath
-      db.collection('members').where({
+      db.collection('members_'+locale).where({
         call:uname
       }).get().then(res => {
         let path = res.data[0]['license']
@@ -231,7 +232,7 @@ Page({
     }
     if(this.data.man != ""){
       updatedData['man'] = _this.data.man
-      db.collection('call_record').where({
+      db.collection('call_record_'+locale).where({
         call:uname
       }).update({
         data:{
@@ -263,7 +264,7 @@ Page({
       return;
     }
 
-    db.collection('members').where({
+    db.collection('members_'+locale).where({
       call: uname
     }).update({
       data:(updatedData)
@@ -296,7 +297,6 @@ Page({
         uname: uname
       })
     }
-    
   },
 
   /**

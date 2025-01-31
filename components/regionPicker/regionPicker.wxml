@@ -1,0 +1,12 @@
+<view>
+  <picker mode="selector" header-text="选择地区"  
+  value="{{location}}" bindchange="bindDataChange" 
+  range="{{places}}">
+    <view class="container">
+      <text class="label">选择地区</text>
+      <text class="label">{{location}}</text>
+      <text class="label">▼</text>
+    </view>
+  </picker>
+  <view class="hint">*请务必选择准确地区</view>
+</view>

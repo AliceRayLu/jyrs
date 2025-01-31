@@ -110,6 +110,7 @@ Page({
         return
       }
       let _this = this
+      let locale = app.globalData.location
       wx.showToast({
         title: '上传中',
         icon:'loading',
@@ -148,7 +149,7 @@ Page({
               let title = "call"+year
               let c = data[i]['呼号']
               console.log(c)
-              db.collection('call_record').where({
+              db.collection('call_record_'+locale).where({
                 call:c
               }).update({
                 data:{
@@ -162,14 +163,14 @@ Page({
                     "call":c,
                     [title]:[_this.data.due]
                   }
-                  _this.addToDB('call_record',d)
+                  _this.addToDB('call_record_'+locale,d)
                 }
               })
             }
 
             console.log(caller)
 
-            db.collection('call_file').add({
+            db.collection('call_file_'+locale).add({
               data:{
                 log: _this.data.callLogs,
                 file: _this.data.downloadPath,
@@ -182,7 +183,7 @@ Page({
               console.log(year)
                // 遍历主控人员列表，逐个更新数据库
            controlList.forEach((controlPerson) => {
-            db.collection("call_record")
+            db.collection("call_record_"+locale)
               .where({
                 call: controlPerson,
               })
@@ -197,7 +198,7 @@ Page({
                     call: controlPerson,
                     [head]: [_this.data.due],
                   };
-                  _this.addToDB("call_record", d);
+                  _this.addToDB("call_record_"+locale, d);
                 }
               });
           });

@@ -1,0 +1,15 @@
+.container{
+  display: flex;
+  justify-content: center;
+  margin-top: 2vh;
+}
+
+.label{
+  float: left;
+  display: inline;
+  padding: 1vh;
+}
+
+.hint{
+  color: red;
+}

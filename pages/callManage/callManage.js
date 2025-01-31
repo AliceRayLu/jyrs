@@ -41,6 +41,7 @@ Page({
       mask: true,
     })
     console.log("start.....................")
+    let locale = app.globalData.location
     new Promise((resolve) => {
       let index = event.currentTarget.dataset.id;
       let time = this.data.files[index]['time']
@@ -48,7 +49,7 @@ Page({
       let control = "control"+year
       let call = "call"+year
       let _this = this
-      db.collection('call_file').where({
+      db.collection('call_file_'+locale).where({
         time:time
       }).get().then(res => {
         let fileIDs = res.data
@@ -58,7 +59,7 @@ Page({
           })
         })
       }).then(res => {
-        db.collection('call_file').where({
+        db.collection('call_file_'+locale).where({
           time:time
         }).remove().then(res => {
           _this.onShow()
@@ -71,12 +72,12 @@ Page({
         controlList = [controlList];
       }
       controlList.forEach((controlPerson) => {
-        db.collection('call_record')
+        db.collection('call_record_'+locale)
           .where({ call: controlPerson })
           .get()
           .then(res => {
             let recordID = res.data[0]._id;
-            db.collection('call_record').doc(recordID).update({
+            db.collection('call_record_'+locale).doc(recordID).update({
               data: {
                 [control]: _.pull(time),
               },
@@ -86,11 +87,11 @@ Page({
 
       let caller = this.data.files[index]['caller']
       for(var c of caller){
-        db.collection('call_record').where({
+        db.collection('call_record_'+locale).where({
           call: c
         }).get().then(res => {
           let recordID = res.data[0]._id;
-          db.collection('call_record').doc(recordID).update({
+          db.collection('call_record_'+locale).doc(recordID).update({
             data:{
               [call]:_.pull(time)
             }
@@ -124,7 +125,8 @@ Page({
   onShow() {
     let _this = this
     let count = this.data.count
-    db.collection('call_file').orderBy("time",'desc').get().then(res => {
+    let locale = app.globalData.location
+    db.collection('call_file_'+locale).orderBy("time",'desc').get().then(res => {
       _this.setData({
         files:res.data
       })
@@ -163,6 +165,7 @@ Page({
   onReachBottom() {
     // 解构获取数据
     const { count, files, isFilter, startDate, endDate } = this.data;
+    let locale = app.globalData.location
   
     // 如果是筛选状态
     if (isFilter) {
@@ -179,7 +182,7 @@ Page({
       wx.showLoading({ title: '加载中...' });
   
       // 分页加载筛选后的数据
-      db.collection('call_file')
+      db.collection('call_file_'+locale)
         .where(dbQuery)
         .orderBy('time', 'desc')
         .skip(count)
@@ -215,7 +218,7 @@ Page({
       // 非筛选状态，加载全部数据
       wx.showLoading({ title: '加载中...' });
   
-      db.collection('call_file')
+      db.collection('call_file_'+locale)
         .orderBy('time', 'desc')
         .skip(count)
         .limit(20)
@@ -269,6 +272,7 @@ Page({
     // 日期范围筛选逻辑
     filterFilesByDateRange() {
       const { startDate, endDate } = this.data;
+      let locale = app.globalData.location
     
       // 如果没有选择日期范围，提示用户选择
       if (!startDate && !endDate) {
@@ -292,7 +296,7 @@ Page({
       wx.showLoading({ title: '查询中...' });
     
       // 初次筛选时重置分页计数和状态
-      db.collection('call_file')
+      db.collection('call_file_'+locale)
         .where(dbQuery)
         .orderBy('time', 'desc')
         .limit(20)
@@ -335,8 +339,8 @@ Page({
     // 清除筛选条件
     clearFilters() {
       wx.showLoading({ title: '加载中...' });
-    
-      db.collection('call_file')
+      let locale = app.globalData.location
+      db.collection('call_file_'+locale)
         .orderBy('time', 'desc')
         .limit(20)
         .get()

@@ -49,12 +49,13 @@ Page({
    */
   onShow() {
     let uname = app.globalData.uname
+    let locale = app.globalData.location
     let _this = this
     _this.setData({
       uname: uname
     })
   
-    db.collection('members').where({
+    db.collection('members_'+locale).where({
       call:uname
     }).get({
       success(res){
@@ -69,7 +70,7 @@ Page({
       }
     })
 
-    db.collection('call_record').where({
+    db.collection('call_record_'+locale).where({
       call:uname
     }).field({
       _id:false,

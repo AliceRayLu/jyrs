@@ -63,6 +63,10 @@ Page({
         url: '/pages/login/login',
       })
     }
+    let isAdmin = app.globalData.isAdmin
+    this.setData({
+      isAdmin: isAdmin
+    })
   },
 
   /**
@@ -76,13 +80,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    if(app.globalData.uname === app.globalData.admin){
-      this.setData({
-        isAdmin:true
-      })
-    }
     let _this = this
-    db.collection('activities').orderBy('time','desc').get().then(res => {
+    let locale = app.globalData.location
+    let uname = app.globalData.uname
+    db.collection('activities_'+locale).orderBy('time','desc').get().then(res => {
       _this.setData({
         activities: res.data
       })
@@ -90,10 +91,10 @@ Page({
       let copy = _this.data.activities
       let day = ["日","一","二","三","四","五","六"]
       for(var i = 0;i < copy.length;i++){
-        if(copy[i].time < (new Date()) || app.globalData.uname === app.globalData.admin){
+        if(copy[i].time < (new Date()) || _this.data.isAdmin){
           copy[i].status = 2
         }else{
-          if(copy[i].participants.includes(app.globalData.uname)){
+          if(copy[i].participants.includes(uname)){
             copy[i].status = 1
           }else{
             copy[i].status = 0
@@ -111,9 +112,10 @@ Page({
   sign(event){
     let index = event.currentTarget.dataset.index
     let _this = this
+    let locale = app.globalData.location
     this.data.activities[index].participants.push(app.globalData.uname)
     console.log(this.data.activities[index])
-    db.collection('activities').where({
+    db.collection('activities_'+locale).where({
       aid: _this.data.activities[index].aid
     }).update({
       data:{
@@ -127,8 +129,9 @@ Page({
   cancel(event){
     let index = event.currentTarget.dataset.index
     let _this = this
+    let locale = app.globalData.location
     this.data.activities[index].participants = this.data.activities[index].participants.filter(item => item != app.globalData.uname)
-    db.collection('activities').where({
+    db.collection('activities_'+locale).where({
       aid:_this.data.activities[index].aid
     }).update({
       data:{

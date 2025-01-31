@@ -83,7 +83,8 @@ Page({
     let index = event.currentTarget.dataset.id;
     console.log(index)
     let uname = this.data.members[index].call;
-    db.collection('members').where({
+    let locale = app.globalData.location
+    db.collection('members_'+locale).where({
       call:uname
     }).get().then(res => {
       let path = res.data[0]
@@ -93,7 +94,7 @@ Page({
         })
       }
     }).then(res => {
-      db.collection('members').where({
+      db.collection('members_'+locale).where({
         call: uname
       }).remove().then(res =>{
         wx.navigateTo({
@@ -143,7 +144,8 @@ Page({
       members:[]
     })
     let total = 0
-    db.collection('members').count().then(res => {
+    let locale = app.globalData.location
+    db.collection('members_'+locale).count().then(res => {
       total = res.total
       if(total%20 == 0){
         total = total/20
@@ -151,7 +153,7 @@ Page({
         total = Math.floor(total/20)+1
       }
       for(var i = 0;i < total;i++){
-        db.collection('members').skip(i*20).field({
+        db.collection('members_'+locale).skip(i*20).field({
           _id: false,
           call:true,
           due:true,

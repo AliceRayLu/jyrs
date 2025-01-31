@@ -54,9 +54,10 @@ App({
   globalData: {
     uname:"",
     current_act:-1,
-    admin:"BI4SSB",
+    isAdmin: false,
     openid: null ,
     expirationTime: null,
     helpee:"", //帮助他人修改
+    location: "JY", // 协会地区：JY-江阴，WX-无锡，ZJG-张家港，SZ-苏州
   },
 })

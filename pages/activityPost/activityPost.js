@@ -148,8 +148,9 @@ Page({
         info.push(infoMap[newItems[i].value])
       }
     }
+    let locale = app.globalData.location
     console.log(this.data.infoTexts)
-    db.collection('activities').add({
+    db.collection('activities_'+locale).add({
       data:{
         aid:_this.data.aid,
         detail:_this.data.detail,

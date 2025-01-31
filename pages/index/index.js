@@ -37,7 +37,7 @@ Page({
     //   })
     //   return
     // }
-    if(uname !== app.globalData.admin){
+    if(!app.globalData.isAdmin){
       wx.navigateTo({
         url: '/pages/callData/callData',
       })

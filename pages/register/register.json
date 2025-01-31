@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "l-album":"../../miniprogram_npm/lin-ui/album/index"
+    "l-album":"../../miniprogram_npm/lin-ui/album/index",
+    "region-picker": "../../components/regionPicker/regionPicker"
   }
 }
