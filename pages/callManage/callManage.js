@@ -1,6 +1,7 @@
 // pages/callManage.js
 const db = wx.cloud.database()
 const _ = db.command
+const app = getApp()
 Page({
 
   /**

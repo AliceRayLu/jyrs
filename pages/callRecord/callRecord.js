@@ -1,6 +1,7 @@
 // pages/callRecord/callRecord.js
 const db = wx.cloud.database()
 const _ = db.command
+const app = getApp()
 import XLSX from '../../xlsx.mini.min'
 
 Page({
