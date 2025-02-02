@@ -256,9 +256,11 @@ When the user is an administrator, trigger the logic: search for name through un
     db.collection('activities_'+locale).where({
       aid:_this.data.id
     }).get().then(res => {
-      wx.cloud.deleteFile({
-        fileList:[res.data[0]['signInfo']]
-      })
+      if("signInfo" in res.data[0]){
+        wx.cloud.deleteFile({
+          fileList:[res.data[0]['signInfo']]
+        })
+      }
     }).then(res => {
       db.collection('activities_'+locale).where({
         aid: _this.data.id
@@ -296,29 +298,40 @@ When the user is an administrator, trigger the logic: search for name through un
       bookSST: true,
       success(res) {
         let fileID = ""
-        wx.cloud.uploadFile({
-          filePath: filePath,
-          cloudPath: `infos/${_this.data.id}.xlsx`
-        }).then(res => {
-          fileID = res.fileID
-          db.collection('activities_'+locale).where({
-            aid:_this.data.id
-          }).update({
-            data:{
-              signInfo:fileID
-            }
-          })
-          wx.cloud.getTempFileURL({
-            fileList: [fileID],
-            success(res) {
-              _this.setData({
-                pop: true,
-                durl: res.fileList[0].tempFileURL + " 已复制到剪贴板"
-              })
-              wx.setClipboardData({
-                data: res.fileList[0].tempFileURL,
-              })
-            }
+        db.collection('activities_'+locale).where({
+          aid:_this.data.id
+        }).get().then(res => {
+          let act = res.data[0]
+          if("signInfo" in act){
+            wx.cloud.deleteFile({
+              fileList:[act['signInfo']]
+            })
+          }
+        }).then(tmp => {
+          wx.cloud.uploadFile({
+            filePath: filePath,
+            cloudPath: `infos/${_this.data.id}.xlsx`
+          }).then(res => {
+            fileID = res.fileID
+            db.collection('activities_'+locale).where({
+              aid:_this.data.id
+            }).update({
+              data:{
+                signInfo:fileID
+              }
+            })
+            wx.cloud.getTempFileURL({
+              fileList: [fileID],
+              success(res) {
+                _this.setData({
+                  pop: true,
+                  durl: res.fileList[0].tempFileURL + " 已复制到剪贴板"
+                })
+                wx.setClipboardData({
+                  data: res.fileList[0].tempFileURL,
+                })
+              }
+            })
           })
         })
       }

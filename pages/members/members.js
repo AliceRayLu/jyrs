@@ -109,6 +109,26 @@ Page({
           icon:'error'
         })
       })
+      
+      db.collection('call_record_'+locale).where({
+        call: uname
+      }).get().then(res => {
+        let deleteRecord = true
+        if(res.data.length > 0){
+          let usr = res.data[0]
+          for(let key in usr){
+            if((key.startsWith("control") || key.startsWith("call")) 
+            && Array.isArray(usr[key]) && usr[key].length > 0){
+              deleteRecord = false
+            }
+          }
+        }
+        if(deleteRecord){
+          db.collection('call_record_'+locale).where({
+            call: uname
+          }).remove()
+        }
+      })
     })
   },
 
