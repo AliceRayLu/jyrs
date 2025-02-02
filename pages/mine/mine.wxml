@@ -5,7 +5,7 @@
       <!-- <l-avatar size="150" src="/images/logo.jpg" /> -->
       <view class="head-text">
         <text style="font-size: 3.5vh">{{uname}}</text>
-        <text style="font-size: 2vh">{{man}}</text>
+        <text style="font-size: 2vh">{{man}} | {{locale}}</text>
       </view>
     </view>
     <view bind:tap="toDetail">

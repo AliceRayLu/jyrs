@@ -15,7 +15,8 @@ Page({
     month:-1,
     date:-1,
     emptyCall:"",
-    emptyControl:""
+    emptyControl:"",
+    locale: "",
   },
 
   /**
@@ -52,7 +53,8 @@ Page({
     let locale = app.globalData.location
     let _this = this
     _this.setData({
-      uname: uname
+      uname: uname,
+      locale: locale
     })
   
     db.collection('members_'+locale).where({
