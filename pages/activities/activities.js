@@ -63,10 +63,6 @@ Page({
         url: '/pages/login/login',
       })
     }
-    let isAdmin = app.globalData.isAdmin
-    this.setData({
-      isAdmin: isAdmin
-    })
   },
 
   /**
@@ -80,6 +76,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
+    let isAdmin = app.globalData.isAdmin
+    this.setData({
+      isAdmin: isAdmin
+    })
     let _this = this
     let locale = app.globalData.location
     let uname = app.globalData.uname

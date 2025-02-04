@@ -31,7 +31,7 @@ Page({
   },
 
   toLogin(){
-    app.globalData.uname = ""
+    app.globalData = app.defaultGlobalData
     wx.navigateTo({
       url: '/pages/login/login',
     })

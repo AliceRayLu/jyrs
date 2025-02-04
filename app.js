@@ -60,4 +60,13 @@ App({
     helpee:"", //帮助他人修改
     location: "JY", // 协会地区：JY-江阴，WX-无锡，ZJG-张家港，SZ-苏州
   },
+  defaultGlobalData: {
+    uname:"",
+    current_act:-1,
+    isAdmin: false,
+    openid: null ,
+    expirationTime: null,
+    helpee:"",
+    location: "JY", 
+  }
 })
