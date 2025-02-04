@@ -2,8 +2,8 @@ Component({
   properties: {},
   data:{
     location: "",
-    places: ["江阴","无锡","张家港","苏州"],
-    code: ["JY","WX","ZJG","SZ"],
+    places: ["江阴","无锡","张家港"],
+    code: ["JY","WX","ZJG"],
   },
   methods: {
     bindDataChange(event){
