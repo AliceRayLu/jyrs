@@ -139,12 +139,16 @@ Page({
               if(!Object.keys(data[i]).includes('呼号')){
                 wx.showToast({
                   title: '文件格式不对',
-                  icon:'error'
+                  icon:'error',
+                  duration: 5000
                 })
                 wx.cloud.deleteFile({
                   fileList:[_this.data.fileID]
                 })
                 return
+              }
+              if(caller.indexOf(data[i]['呼号']) != -1){
+                continue;
               }
               caller.push(data[i]['呼号'])
               let title = "call"+year
